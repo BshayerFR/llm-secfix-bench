@@ -1,0 +1,18 @@
+{
+  "case_id": "CONFTEST-006",
+  "scanner": "Conftest",
+  "rule_id": "DF004",
+  "rule_name": "Download piped into shell",
+  "rule_description": "RUN pipes a downloaded script straight into a shell",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 1,
+  "vulnerable_code": "# syntax=docker/dockerfile:1\n\nFROM --platform=$BUILDPLATFORM rust:1.64 AS buildbase\nWORKDIR /src\nRUN <<EOT bash\n    set -ex\n    apt-get update\n    apt-get install -y \\\n        git \\\n        clang\n    rustup target add wasm32-wasi\nEOT\n# This line installs WasmEdge including the AOT compiler\nRUN curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash\n\nFROM buildbase AS build\nCOPY Cargo.toml .\nCOPY src ./src \n# Build the Wasm binary\nRUN --mount=type=cache,target=/usr/local/cargo/git/db \\\n    --mount=type=cache,target=/usr/local/cargo/registry/cache \\\n    --mount=type=cache,target=/usr/local/cargo/registry/index \\\n    cargo build --target wasm32-wasi --release\n# This line builds the AOT Wasm binary\nRUN /root/.wasmedge/bin/wasmedgec target/wasm32-wasi/release/order_demo_service.wasm order_demo_service.wasm\n\nFROM scratch\nENTRYPOINT [ \"order_demo_service.wasm\" ]\nCOPY --link --from=build /src/order_demo_service.wasm /order_demo_service.wasm\n",
+  "source": {
+    "corpus": "awesome-compose",
+    "url": "https://github.com/docker/awesome-compose",
+    "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+    "path": "wasmedge-mysql-nginx/backend/Dockerfile",
+    "license": "CC0, see LICENSE"
+  }
+}

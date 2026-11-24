@@ -1,0 +1,18 @@
+{
+  "case_id": "CONFTEST-015",
+  "scanner": "Conftest",
+  "rule_id": "DF002",
+  "rule_name": "Base image without a fixed version",
+  "rule_description": "Base image \"gcr.io/google_appengine/python\" has no fixed version (tag or digest)",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 1,
+  "vulnerable_code": "# The Google App Engine python runtime is Debian Jessie with Python installed\n# and various os-level packages to allow installation of popular Python\n# libraries. The source is on github at:\n#   https://github.com/GoogleCloudPlatform/python-docker\nFROM gcr.io/google_appengine/python\n\nRUN apt-get update && \\\n    apt-get install -y python2.7 python-pip && \\\n    apt-get clean && \\\n    rm /var/lib/apt/lists/*_*\n\nADD . /app\nWORKDIR /app\n\nRUN pip install -r requirements.txt\nENTRYPOINT [\"gunicorn\", \"-b\", \":8080\", \"main:app\"]\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+    "path": "endpoints/getting-started/Dockerfile.custom",
+    "license": "Apache-2.0"
+  }
+}

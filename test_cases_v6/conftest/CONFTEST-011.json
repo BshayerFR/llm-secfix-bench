@@ -1,0 +1,18 @@
+{
+  "case_id": "CONFTEST-011",
+  "scanner": "Conftest",
+  "rule_id": "DF002",
+  "rule_name": "Base image without a fixed version",
+  "rule_description": "Base image \"alpine\" has no fixed version (tag or digest)",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 1,
+  "vulnerable_code": "FROM alpine\n\nRUN apk add curl\n\nCOPY smoke-test.sh smoke-test.sh\n\nCMD [\"sh\", \"smoke-test.sh\", \"http://app:3000\"]\n",
+  "source": {
+    "corpus": "juice-shop",
+    "url": "https://github.com/juice-shop/juice-shop",
+    "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+    "path": "test/smoke/Dockerfile",
+    "license": "MIT"
+  }
+}

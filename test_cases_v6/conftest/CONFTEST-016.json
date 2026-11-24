@@ -1,0 +1,18 @@
+{
+  "case_id": "CONFTEST-016",
+  "scanner": "Conftest",
+  "rule_id": "DF001",
+  "rule_name": "Container runs as root",
+  "rule_description": "No USER instruction: the container runs as root",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 1,
+  "vulnerable_code": "# syntax=docker/dockerfile:1.4\n\nFROM --platform=$BUILDPLATFORM maven:3.8.5-eclipse-temurin-17 AS build\nWORKDIR /workdir/server\nCOPY pom.xml /workdir/server/pom.xml\nRUN mvn dependency:go-offline\n\nCOPY src /workdir/server/src\n\nRUN mvn --batch-mode clean compile assembly:single\n\nFROM build AS dev-envs\nRUN <<EOF\napt-get update\napt-get install -y --no-install-recommends git\nEOF\n\nRUN <<EOF\nuseradd -s /bin/bash -m vscode\ngroupadd docker\nusermod -aG docker vscode\nEOF\n# install Docker tools (cli, buildx, compose)\nCOPY --from=gloursdocker/docker / /\nCMD [\"java\", \"-jar\", \"target/app.jar\" ]\n\nFROM eclipse-temurin:17-jre-focal\nARG DEPENDENCY=/workdir/server/target\nEXPOSE 8080\nCOPY --from=build ${DEPENDENCY}/app.jar /app.jar\nCMD java -jar /app.jar\n",
+  "source": {
+    "corpus": "awesome-compose",
+    "url": "https://github.com/docker/awesome-compose",
+    "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+    "path": "sparkjava-mysql/backend/Dockerfile",
+    "license": "CC0, see LICENSE"
+  }
+}

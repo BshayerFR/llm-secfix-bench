@@ -52,9 +52,9 @@
     "conftest": {
       "version": "Conftest: v0.71.1",
       "files_staged": 215,
-      "candidates": 0,
-      "selected": 0,
-      "distinct_rules": 0,
+      "candidates": 142,
+      "selected": 33,
+      "distinct_rules": 3,
       "corpus_commits": {
         "juice-shop": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
         "WebGoat": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
@@ -70,5 +70,270 @@
       }
     }
   },
-  "cases": []
+  "cases": [
+    {
+      "case_id": "CONFTEST-001",
+      "rule_id": "DF001",
+      "corpus": "python-docs-samples",
+      "path": "cloud-sql/mysql/sqlalchemy/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "75af6272627c73cf5c77556ef8a2829e32d5739aee8a16759c61d44a064833b3"
+    },
+    {
+      "case_id": "CONFTEST-002",
+      "rule_id": "DF002",
+      "corpus": "microservices-demo",
+      "path": "src/checkoutservice/Dockerfile",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "b19b2fce6c43e08e04cf4a5876c9a182dec6d7587b40e989a0561f69b54305e4"
+    },
+    {
+      "case_id": "CONFTEST-003",
+      "rule_id": "DF004",
+      "corpus": "python-docs-samples",
+      "path": "alm/ui-examples/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "21e8f38af20320f33d2ce410042ce7ccff1aa49322cbf2f2ac53f62f14f74f43"
+    },
+    {
+      "case_id": "CONFTEST-004",
+      "rule_id": "DF001",
+      "corpus": "awesome-compose",
+      "path": "nginx-golang-mysql/backend/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "5e0af300ab485265763ad4de0a773d1ffc5a62e2c2b73d5491b76f497a8212cf"
+    },
+    {
+      "case_id": "CONFTEST-005",
+      "rule_id": "DF002",
+      "corpus": "python-docs-samples",
+      "path": "endpoints/bookstore-grpc-transcoding/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "c7684e119b91c1237fbf2140717a18956df260f5ad3cc26dbe2d23e9d4d031e2"
+    },
+    {
+      "case_id": "CONFTEST-006",
+      "rule_id": "DF004",
+      "corpus": "awesome-compose",
+      "path": "wasmedge-mysql-nginx/backend/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "8ae85de63975067b452a38bbdca2f5da25c30f62bc9ecab03f0144c088ef0dcb"
+    },
+    {
+      "case_id": "CONFTEST-007",
+      "rule_id": "DF001",
+      "corpus": "awesome-compose",
+      "path": "apache-php/app/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "0a5c5899c06037a6fb512d26ff61e982bcb4987865beab19dd14f04e280d5b6e"
+    },
+    {
+      "case_id": "CONFTEST-008",
+      "rule_id": "DF002",
+      "corpus": "python-docs-samples",
+      "path": "dataflow/flex-templates/streaming_beam/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "8ae57ef7aece63454170ceb24017d9a9afdfc7239bd10b2fc78fd25e1bbcbc6b"
+    },
+    {
+      "case_id": "CONFTEST-009",
+      "rule_id": "DF004",
+      "corpus": "awesome-compose",
+      "path": "wasmedge-kafka-mysql/etl/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "1e80ff3db32c298c276e9332e033f149da6c63e36756f59d4dbba28044eb3cdf"
+    },
+    {
+      "case_id": "CONFTEST-010",
+      "rule_id": "DF001",
+      "corpus": "python-docs-samples",
+      "path": "dataflow/gpu-examples/tensorflow-landsat/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "1df9969c5c87a7839c679f429b076e1e5292e63913403330e37f3e94363cff14"
+    },
+    {
+      "case_id": "CONFTEST-011",
+      "rule_id": "DF002",
+      "corpus": "juice-shop",
+      "path": "test/smoke/Dockerfile",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "b86b90b5069eefaf20aeb6c3a4b1d8a3c5e0bfe2a3c6fb3928487df1f470ce97"
+    },
+    {
+      "case_id": "CONFTEST-012",
+      "rule_id": "DF001",
+      "corpus": "dvpwa",
+      "path": "Dockerfile.app",
+      "commit": "4a8f4a43fafcc1b304f1b97d0f0a8dea755a7756",
+      "sha256": "787bcce3e0fb7d35cbb58dd2ff6044e2dcf5ce7855909c6ca655033885d3d592"
+    },
+    {
+      "case_id": "CONFTEST-013",
+      "rule_id": "DF002",
+      "corpus": "juice-shop",
+      "path": "Dockerfile",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "115a928ccdb81898e82bb18211293326598980f6a70d52db867b8dbbbc2c8945"
+    },
+    {
+      "case_id": "CONFTEST-014",
+      "rule_id": "DF001",
+      "corpus": "awesome-compose",
+      "path": "traefik-golang/backend/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "8bc91efb93459272f5befd3463086bc86071b4fc8474327d627d9761d95e92c2"
+    },
+    {
+      "case_id": "CONFTEST-015",
+      "rule_id": "DF002",
+      "corpus": "python-docs-samples",
+      "path": "endpoints/getting-started/Dockerfile.custom",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "6901d8d98405ca4e01dc52d72b1f04c147d1a3f01f101282315061efaf1a8f5c"
+    },
+    {
+      "case_id": "CONFTEST-016",
+      "rule_id": "DF001",
+      "corpus": "awesome-compose",
+      "path": "sparkjava-mysql/backend/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "3f089b3e60770657c287da3b91eb9ec7c7189fe0dd2ae034aec07ffbd4f03149"
+    },
+    {
+      "case_id": "CONFTEST-017",
+      "rule_id": "DF002",
+      "corpus": "python-docs-samples",
+      "path": "service_extensions/callouts/add_header/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "fa6592d1fe0d3f1e198b4e2473d51ca2717b667f7446053c28df63008c638071"
+    },
+    {
+      "case_id": "CONFTEST-018",
+      "rule_id": "DF001",
+      "corpus": "awesome-compose",
+      "path": "nginx-nodejs-redis/nginx/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "7a7325fc3b820bc834f239a3d7dd3c95eb8bcaafc74c34243d10e7fa47609621"
+    },
+    {
+      "case_id": "CONFTEST-019",
+      "rule_id": "DF002",
+      "corpus": "python-docs-samples",
+      "path": "memorystore/redis/gke_deployment/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "5aaef1b817db2ffb1332025f98dc92f848b9cbb911b32d79fabceae6d5db4a14"
+    },
+    {
+      "case_id": "CONFTEST-020",
+      "rule_id": "DF001",
+      "corpus": "python-docs-samples",
+      "path": "run/system-package/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "ddc3e59827359e2d1e29ff407856e6827cf9a074b1f33545162892442063102f"
+    },
+    {
+      "case_id": "CONFTEST-021",
+      "rule_id": "DF002",
+      "corpus": "python-docs-samples",
+      "path": "dataflow/custom-containers/miniconda/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "6e8e36ce3c9256d7a64cf9ef88e301fe179263c71c4e140b13b946ca8c8a0214"
+    },
+    {
+      "case_id": "CONFTEST-022",
+      "rule_id": "DF001",
+      "corpus": "awesome-compose",
+      "path": "nginx-flask-mysql/proxy/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "548e3048d287503e638a9c096aec1368656798c15cedf714dd2bc431ea47d84a"
+    },
+    {
+      "case_id": "CONFTEST-023",
+      "rule_id": "DF002",
+      "corpus": "microservices-demo",
+      "path": "src/shippingservice/Dockerfile",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "9ba1bd22d507848c7dbee07b8c61146f2627656014a359ea67850c691e0ea948"
+    },
+    {
+      "case_id": "CONFTEST-024",
+      "rule_id": "DF001",
+      "corpus": "python-docs-samples",
+      "path": "dataflow/custom-containers/minimal/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "6340e1d3a11e711fe159101cd2ec1baf48db913bfc62b1cb357bdd3cbaf29dd6"
+    },
+    {
+      "case_id": "CONFTEST-025",
+      "rule_id": "DF002",
+      "corpus": "microservices-demo",
+      "path": "src/frontend/Dockerfile",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "28d4fee477bd1dd4eef45b3f0a44d8f84b9e53f5061279991a0712f845805210"
+    },
+    {
+      "case_id": "CONFTEST-026",
+      "rule_id": "DF001",
+      "corpus": "python-docs-samples",
+      "path": "run/logging-manual/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "95a3b68bd49837dd3b6655ff0bbb58c2580318825ad63119aefae3c1028e50fc"
+    },
+    {
+      "case_id": "CONFTEST-027",
+      "rule_id": "DF002",
+      "corpus": "python-docs-samples",
+      "path": "endpoints/getting-started-grpc/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "186a48b378f4636842a08dd8ce16ca010ba1a72417f4730efb5c86e9e64a35d7"
+    },
+    {
+      "case_id": "CONFTEST-028",
+      "rule_id": "DF001",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/package_injection_lab/Dockerfile",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "3b4b13c87a6f31314e0bf1a4f51e223cf4d89ff235d6305f8a4edf6e424001bf"
+    },
+    {
+      "case_id": "CONFTEST-029",
+      "rule_id": "DF002",
+      "corpus": "python-docs-samples",
+      "path": "endpoints/bookstore-grpc/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "5901fe640d15eb6ab539e24e2a93a52da120ded2f29e3556b6a3d0355a25462c"
+    },
+    {
+      "case_id": "CONFTEST-030",
+      "rule_id": "DF001",
+      "corpus": "awesome-compose",
+      "path": "nginx-flask-mongo/flask/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "3ecf27f24e918cbf5ed2f56d48e638d85382c9216f6efde1c5ca8da35ca98a89"
+    },
+    {
+      "case_id": "CONFTEST-031",
+      "rule_id": "DF002",
+      "corpus": "python-docs-samples",
+      "path": "kubernetes_engine/django_tutorial/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "ff228f5ccd4355c51c2287e0aef5692df5ab131a300ea9e69d912920d2e09ef7"
+    },
+    {
+      "case_id": "CONFTEST-032",
+      "rule_id": "DF001",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/ssrf_lab/Dockerfile",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "c16e7af8b2e47d5c832645664acd00e479ea946d98c4a2fff93c2b8d46b9d43f"
+    },
+    {
+      "case_id": "CONFTEST-033",
+      "rule_id": "DF002",
+      "corpus": "microservices-demo",
+      "path": "src/productcatalogservice/Dockerfile",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "35c69eb299e1d8ded328fffa77a6f398fe9032b680157e32a3ce51c13dacf91c"
+    }
+  ]
 }
