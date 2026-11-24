@@ -2,6 +2,7 @@ import json
 import os
 import shutil
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
 
@@ -12,6 +13,21 @@ CONFTEST_POLICY = os.environ.get("CONFTEST_POLICY", "policy")
 
 def sh(cmd):
     return subprocess.run(cmd, capture_output=True, text=True)
+
+
+WARNED = {}
+
+
+def warn(name, r):
+    n = WARNED.get(name, 0)
+    if n >= 3:
+        return
+    WARNED[name] = n + 1
+    print(
+        f"[{name}] exit code {r.returncode}\n{(r.stderr or '')[-1500:]}\n{(r.stdout or '')[-500:]}",
+        file=sys.stderr,
+        flush=True,
+    )
 
 
 def read_json(path):
@@ -130,21 +146,32 @@ def parse_conftest(doc):
 
 
 def run_conftest(root):
-    r = sh(
-        [
-            "conftest",
-            "test",
-            str(root),
-            "--policy",
-            CONFTEST_POLICY,
-            "--all-namespaces",
-            "--output",
-            "json",
-            "--no-color",
-        ]
-    )
-    text = r.stdout.strip()
-    return parse_conftest(json.loads(text) if text else [])
+    root = Path(root)
+    files = [root] if root.is_file() else sorted(p for p in root.rglob("*") if p.is_file())
+    out = []
+    for f in files:
+        r = sh(
+            [
+                "conftest",
+                "test",
+                str(f),
+                "--policy",
+                CONFTEST_POLICY,
+                "--all-namespaces",
+                "--output",
+                "json",
+                "--no-color",
+            ]
+        )
+        text = r.stdout.strip()
+        if not text:
+            warn("conftest", r)
+            continue
+        try:
+            out += parse_conftest(json.loads(text))
+        except json.JSONDecodeError:
+            warn("conftest", r)
+    return out
 
 
 BEARER_LEVELS = ("critical", "high", "medium", "low", "warning")
@@ -259,10 +286,12 @@ def parse_trivy(doc):
 def run_trivy(root):
     with tempfile.TemporaryDirectory() as out:
         target = Path(out) / "report.json"
-        sh(
-            ["trivy", "fs", "--scanners", "vuln", "--format", "json", "--quiet"]
+        r = sh(
+            ["trivy", "fs", "--scanners", "vuln", "--format", "json"]
             + ["--output", str(target), str(root)]
         )
+        if r.returncode != 0 or not target.exists():
+            warn("trivy", r)
         return parse_trivy(read_json(target))
 
 
@@ -448,13 +477,18 @@ def parse_sonar(issues, hotspots):
 
 def sonar_get(path):
     import base64
+    import urllib.error
     import urllib.request
 
     url = os.environ["SONAR_URL"].rstrip("/") + path
     token = base64.b64encode(f"{os.environ['SONAR_TOKEN']}:".encode()).decode()
     req = urllib.request.Request(url, headers={"Authorization": f"Basic {token}"})
-    with urllib.request.urlopen(req, timeout=120) as r:
-        return json.loads(r.read())
+    try:
+        with urllib.request.urlopen(req, timeout=120) as r:
+            return json.loads(r.read())
+    except urllib.error.HTTPError as e:
+        print(f"[sonarqube] HTTP {e.code} {url}\n{e.read()[-800:]}", file=sys.stderr, flush=True)
+        raise
 
 
 def run_sonarqube(root):
@@ -462,7 +496,7 @@ def run_sonarqube(root):
 
     key = f"case-{uuid.uuid4().hex[:12]}"
     url = os.environ["SONAR_URL"]
-    sh(
+    r = sh(
         [
             "docker",
             "run",
@@ -478,6 +512,8 @@ def run_sonarqube(root):
         + ["-Dsonar.working.directory=/tmp/scannerwork"]
         + ["-Dsonar.qualitygate.wait=true", "-Dsonar.qualitygate.timeout=300"]
     )
+    if r.returncode != 0:
+        warn("sonar-scanner", r)
     issues = sonar_get(f"/api/issues/search?componentKeys={key}&types=VULNERABILITY&ps=500")
     spots = sonar_get(f"/api/hotspots/search?projectKey={key}&ps=500")
     return parse_sonar(issues.get("issues"), spots.get("hotspots"))
