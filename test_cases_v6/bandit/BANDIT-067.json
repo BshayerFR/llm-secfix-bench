@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-067",
+  "scanner": "Bandit",
+  "rule_id": "B201",
+  "rule_name": "flask_debug_true",
+  "rule_description": "A Flask app appears to be run with debug=True, which exposes the Werkzeug debugger and allows the execution of arbitrary code.",
+  "language": "python",
+  "file": "app.py",
+  "line": 75,
+  "vulnerable_code": "# Copyright 2019 Google, LLC.\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#    http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n# [START cloudrun_broken_service]\nimport json\nimport os\n\nfrom flask import Flask\n\n\napp = Flask(__name__)\n\n\n@app.route(\"/\", methods=[\"GET\"])\ndef index():\n    \"\"\"Example route for testing local troubleshooting.\n\n    This route may raise an HTTP 5XX error due to missing environment variable.\n    \"\"\"\n    print(\"hello: received request.\")\n\n    # [START cloudrun_broken_service_problem]\n    NAME = os.getenv(\"NAME\")\n\n    if not NAME:\n        print(\"Environment validation failed.\")\n        raise Exception(\"Missing required service parameter.\")\n    # [END cloudrun_broken_service_problem]\n\n    return f\"Hello {NAME}\"\n\n\n# [END cloudrun_broken_service]\n\n\n@app.route(\"/improved\", methods=[\"GET\"])\ndef improved():\n    \"\"\"Example route showing improved error logs and default values for\n    improved troubleshooting.\n    \"\"\"\n    print(\"hello: received request.\")\n\n    # [START cloudrun_broken_service_upgrade]\n    NAME = os.getenv(\"NAME\")\n\n    if not NAME:\n        NAME = \"World\"\n        error_message = {\n            \"severity\": \"WARNING\",\n            \"message\": f\"NAME not set, default to {NAME}\",\n        }\n        print(json.dumps(error_message))\n    # [END cloudrun_broken_service_upgrade]\n\n    return f\"Hello {NAME}\"\n\n\n# [START cloudrun_broken_service]\nif __name__ == \"__main__\":\n    PORT = int(os.getenv(\"PORT\")) if os.getenv(\"PORT\") else 8080\n\n    # This is used when running locally. Gunicorn is used to run the\n    # application on Cloud Run. See entrypoint in Dockerfile.\n    app.run(host=\"127.0.0.1\", port=PORT, debug=True)\n# [END cloudrun_broken_service]\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+    "path": "run/hello-broken/main.py",
+    "license": "Apache-2.0"
+  }
+}

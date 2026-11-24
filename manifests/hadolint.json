@@ -1,0 +1,875 @@
+{
+  "seed": 42,
+  "max_lines": 200,
+  "per_rule_cap": 15,
+  "corpora": {
+    "juice-shop": {
+      "url": "https://github.com/juice-shop/juice-shop",
+      "license": "MIT"
+    },
+    "WebGoat": {
+      "url": "https://github.com/WebGoat/WebGoat",
+      "license": "GPL-2.0-or-later"
+    },
+    "microservices-demo": {
+      "url": "https://github.com/GoogleCloudPlatform/microservices-demo",
+      "license": "Apache-2.0"
+    },
+    "pygoat": {
+      "url": "https://github.com/adeyosemanputra/pygoat",
+      "license": "MIT"
+    },
+    "terragoat": {
+      "url": "https://github.com/bridgecrewio/terragoat",
+      "license": "Apache-2.0"
+    },
+    "vulpy": {
+      "url": "https://github.com/fportantier/vulpy",
+      "license": "MIT"
+    },
+    "VAmPI": {
+      "url": "https://github.com/erev0s/VAmPI",
+      "license": "MIT"
+    },
+    "dvpwa": {
+      "url": "https://github.com/anxolerd/dvpwa",
+      "license": "MIT-style, see LICENSE"
+    },
+    "awesome-compose": {
+      "url": "https://github.com/docker/awesome-compose",
+      "license": "CC0, see LICENSE"
+    },
+    "example-voting-app": {
+      "url": "https://github.com/dockersamples/example-voting-app",
+      "license": "Apache-2.0"
+    },
+    "python-docs-samples": {
+      "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+      "license": "Apache-2.0"
+    }
+  },
+  "scanners": {
+    "hadolint": {
+      "version": "Haskell Dockerfile Linter 2.15.1",
+      "files_staged": 131,
+      "candidates": 208,
+      "selected": 100,
+      "distinct_rules": 16,
+      "corpus_commits": {
+        "juice-shop": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+        "WebGoat": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+        "microservices-demo": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+        "pygoat": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+        "terragoat": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+        "vulpy": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+        "VAmPI": "f16052dce83f05847133ec98f01c5193a41de7d8",
+        "dvpwa": "4a8f4a43fafcc1b304f1b97d0f0a8dea755a7756",
+        "awesome-compose": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+        "example-voting-app": "63e9150ca17af4ed05880d4245e486481f73fcb4",
+        "python-docs-samples": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64"
+      }
+    }
+  },
+  "cases": [
+    {
+      "case_id": "HADOLINT-001",
+      "rule_id": "DL3064",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/sec_misconfig/Dockerfile",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "a4efe5991034b8cc6d817fcb1aa05f31896f99c26164bc2aaf3edfa0111935a4"
+    },
+    {
+      "case_id": "HADOLINT-002",
+      "rule_id": "DL3018",
+      "corpus": "awesome-compose",
+      "path": "nginx-wsgi-flask/flask/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "f1890cadb05cd82f8b68ecbe878d3f0bcae47d354ae6e59fbf3b39a17916ceb1"
+    },
+    {
+      "case_id": "HADOLINT-003",
+      "rule_id": "DL1000",
+      "corpus": "awesome-compose",
+      "path": "vuejs/vuejs/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "63407418ef4d2b373a3ea1164c1cbf708045af24d294ba8d56661eea26d7c011"
+    },
+    {
+      "case_id": "HADOLINT-004",
+      "rule_id": "DL3008",
+      "corpus": "python-docs-samples",
+      "path": "dataflow/flex-templates/streaming_beam/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "74f502f5d83d68d635690989d491f97f4fd0df3f07b4d67ae4192770ac8aa5c3"
+    },
+    {
+      "case_id": "HADOLINT-005",
+      "rule_id": "DL3016",
+      "corpus": "example-voting-app",
+      "path": "result/Dockerfile",
+      "commit": "63e9150ca17af4ed05880d4245e486481f73fcb4",
+      "sha256": "482fecc88e9851ab841906024d3fb65eb12ee0f72238d762d47e37945866e0d0"
+    },
+    {
+      "case_id": "HADOLINT-006",
+      "rule_id": "DL3013",
+      "corpus": "python-docs-samples",
+      "path": "appengine/flexible/tasks/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "7051ed477d88584b5baffcc33860f5be6447909b021483485ba381d70ea207a8"
+    },
+    {
+      "case_id": "HADOLINT-007",
+      "rule_id": "DL4006",
+      "corpus": "python-docs-samples",
+      "path": "alm/ui-examples/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "212044bc5a3d4cf651394815e98e05244062698472c5a71bf09f6c56df6f3626"
+    },
+    {
+      "case_id": "HADOLINT-008",
+      "rule_id": "DL3025",
+      "corpus": "microservices-demo",
+      "path": "src/loadgenerator/Dockerfile",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "66885869dd5164cf2e18087156207a1805b2b76abb2caab432c5ec1abaf90e75"
+    },
+    {
+      "case_id": "HADOLINT-009",
+      "rule_id": "DL3067",
+      "corpus": "awesome-compose",
+      "path": "nginx-flask-mongo/flask/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "bd578626984332af5bb5b5c5594a55d827a3d9f69a54a09f0b65a9992bb849ba"
+    },
+    {
+      "case_id": "HADOLINT-010",
+      "rule_id": "DL3042",
+      "corpus": "python-docs-samples",
+      "path": "run/logging-manual/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "ac8acae4163ec55b4c72b2a54d1ff9f0b9015e2efe0bbfc871e5b01bcd6a577c"
+    },
+    {
+      "case_id": "HADOLINT-011",
+      "rule_id": "SC3060",
+      "corpus": "WebGoat",
+      "path": "Dockerfile_desktop",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "4de42a4284bfaf55156203119b844f70578ac1cea2da79bdbb2d7da40610aaa3"
+    },
+    {
+      "case_id": "HADOLINT-012",
+      "rule_id": "DL3022",
+      "corpus": "awesome-compose",
+      "path": "nginx-golang-mysql/backend/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "f7b59bc777c88fd298dc6a49aca03c0bcc1e0e4c4470654473797bf362ae61ab"
+    },
+    {
+      "case_id": "HADOLINT-013",
+      "rule_id": "DL3006",
+      "corpus": "python-docs-samples",
+      "path": "kubernetes_engine/django_tutorial/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "24d9834765dccb1586642f38c43465befb75e1432304e18e028226293a9f97b1"
+    },
+    {
+      "case_id": "HADOLINT-014",
+      "rule_id": "DL3020",
+      "corpus": "python-docs-samples",
+      "path": "endpoints/getting-started/Dockerfile.custom",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "60af6e42a57b98a367e22651940c326ddfc0e2244d8594d29ba4e3d1ce4ca1c4"
+    },
+    {
+      "case_id": "HADOLINT-015",
+      "rule_id": "DL3045",
+      "corpus": "python-docs-samples",
+      "path": "cloud-sql/mysql/sqlalchemy/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "f9f8bd64b8cc62661267230ab8c8791c531c41e5f80a88f9d0cc6856dfdc0b93"
+    },
+    {
+      "case_id": "HADOLINT-016",
+      "rule_id": "DL3007",
+      "corpus": "python-docs-samples",
+      "path": "dataflow/custom-containers/miniconda/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "c98991422ca7bc08b2aaa68c709d387cc7b13f67ecc8e10a7256846b239dc95d"
+    },
+    {
+      "case_id": "HADOLINT-017",
+      "rule_id": "DL3064",
+      "corpus": "VAmPI",
+      "path": "Dockerfile",
+      "commit": "f16052dce83f05847133ec98f01c5193a41de7d8",
+      "sha256": "fcb04dc5d645d80c3537f5bdcd41fc1a81d62f1e50c61f881719e7ec011e6d22"
+    },
+    {
+      "case_id": "HADOLINT-018",
+      "rule_id": "DL3018",
+      "corpus": "awesome-compose",
+      "path": "nginx-flask-mysql/backend/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "1cb6db918912d2f62b97641c600baf0930f552f951d3054ccc2e7ac2afa5c8ec"
+    },
+    {
+      "case_id": "HADOLINT-019",
+      "rule_id": "DL1000",
+      "corpus": "awesome-compose",
+      "path": "fastapi/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "48abf32850bbd3cf7ab64249f6d332235386109dc32fe5c6ec61df9fb2bc74a3"
+    },
+    {
+      "case_id": "HADOLINT-020",
+      "rule_id": "DL3008",
+      "corpus": "python-docs-samples",
+      "path": "alm/ui-examples/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "b4e097fd8dc6318315b118e90fccd29c906972d74bdff9c7da74925eef1e97fd"
+    },
+    {
+      "case_id": "HADOLINT-021",
+      "rule_id": "DL3013",
+      "corpus": "python-docs-samples",
+      "path": "people-and-planet-ai/weather-forecasting/serving/Dockerfile.backup",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "7b4bd42d569fe58e9e53bb508544b54869c29a7a0fcb4a62b32f1651056f68aa"
+    },
+    {
+      "case_id": "HADOLINT-022",
+      "rule_id": "DL4006",
+      "corpus": "WebGoat",
+      "path": "Dockerfile_desktop",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "477f9587ef8f455218dc10d963152e94920273ec5b4a1a2fdfe56ff2e7630479"
+    },
+    {
+      "case_id": "HADOLINT-023",
+      "rule_id": "DL3025",
+      "corpus": "python-docs-samples",
+      "path": "eventarc/audit-storage/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "88db733dbd8a402da74a135961ad5d97006c8de61161ee01c25afdc6ddc386b5"
+    },
+    {
+      "case_id": "HADOLINT-024",
+      "rule_id": "DL3067",
+      "corpus": "awesome-compose",
+      "path": "nginx-golang/backend/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "6044990515753f20a23d68250a9d1ecd4ea305ea8f6f8382824b9f0524ca4582"
+    },
+    {
+      "case_id": "HADOLINT-025",
+      "rule_id": "DL3042",
+      "corpus": "python-docs-samples",
+      "path": "run/idp-sql/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "42cfd038c06fcb15d1740e9888a6afd1aa33bfff0371a56e8fc95b7415f76a25"
+    },
+    {
+      "case_id": "HADOLINT-026",
+      "rule_id": "DL3022",
+      "corpus": "awesome-compose",
+      "path": "nginx-flask-mysql/backend/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "3de439951dd7a2f47ae36cc37684e01814992c521d5aa8e2d28e1bee786322eb"
+    },
+    {
+      "case_id": "HADOLINT-027",
+      "rule_id": "DL3006",
+      "corpus": "python-docs-samples",
+      "path": "endpoints/getting-started/Dockerfile.custom",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "a4ab1101ef81820f1e4b51c9c1c19043d78f6512f6f488d03c00615ac6525a09"
+    },
+    {
+      "case_id": "HADOLINT-028",
+      "rule_id": "DL3020",
+      "corpus": "python-docs-samples",
+      "path": "kubernetes_engine/django_tutorial/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "7f0fb07b3d97a3c40a08fd4f81fb9cb7faaf6fb597aec723683125e6c3381294"
+    },
+    {
+      "case_id": "HADOLINT-029",
+      "rule_id": "DL3045",
+      "corpus": "python-docs-samples",
+      "path": "run/image-processing/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "8ca5cca273284a6efd251a01877eec1c7c4c48d2dc85b47560933fd061786e1f"
+    },
+    {
+      "case_id": "HADOLINT-030",
+      "rule_id": "DL3018",
+      "corpus": "awesome-compose",
+      "path": "nginx-golang/backend/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "7cae968d8ea278c9b1718181fea8eca5eca82df1a02d5d14fe8f5200e9ade1c3"
+    },
+    {
+      "case_id": "HADOLINT-031",
+      "rule_id": "DL1000",
+      "corpus": "awesome-compose",
+      "path": "angular/angular/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "d355e2e1c7318f25a1f5a3698eb09c95d344f882552a9ad65f57074a1babd481"
+    },
+    {
+      "case_id": "HADOLINT-032",
+      "rule_id": "DL3008",
+      "corpus": "example-voting-app",
+      "path": "vote/Dockerfile",
+      "commit": "63e9150ca17af4ed05880d4245e486481f73fcb4",
+      "sha256": "06bb715cecef1c667ff8190c8ece305293b765dec8e06dae18ced8a8957beb7f"
+    },
+    {
+      "case_id": "HADOLINT-033",
+      "rule_id": "DL3013",
+      "corpus": "python-docs-samples",
+      "path": "cloud-sql/sql-server/sqlalchemy/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "98c43715810359b70e091d8ece0eba7bfbd647dbf6237c96464574963290ad7e"
+    },
+    {
+      "case_id": "HADOLINT-034",
+      "rule_id": "DL4006",
+      "corpus": "python-docs-samples",
+      "path": "dataflow/gpu-examples/tensorflow-minimal/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "0f92b3d84c9d6b627d2c49983a5d42b3009b2ee38f712b5400d538ace90dc9f7"
+    },
+    {
+      "case_id": "HADOLINT-035",
+      "rule_id": "DL3025",
+      "corpus": "python-docs-samples",
+      "path": "trace/cloud-trace-demo-app-opentelemetry/app/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "7c437d6fe72f61566fe591e4c82e06983e49529862e0660791a587b774a97a58"
+    },
+    {
+      "case_id": "HADOLINT-036",
+      "rule_id": "DL3067",
+      "corpus": "awesome-compose",
+      "path": "nginx-flask-mysql/backend/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "428651dd13039ed0fd9f722460d47be14a8492999020d643ce3e812abf522c0b"
+    },
+    {
+      "case_id": "HADOLINT-037",
+      "rule_id": "DL3042",
+      "corpus": "python-docs-samples",
+      "path": "cloud-sql/postgres/sqlalchemy/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "9388ba32dd04dba31e089083f6952a9f58e0c2af604aa0b3b39d396f4ab4779c"
+    },
+    {
+      "case_id": "HADOLINT-038",
+      "rule_id": "DL3022",
+      "corpus": "awesome-compose",
+      "path": "nginx-golang/backend/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "58d4f31fe6843782566a211c59eb3e729128e7bfd06f86474573819e0d4aa091"
+    },
+    {
+      "case_id": "HADOLINT-039",
+      "rule_id": "DL3006",
+      "corpus": "python-docs-samples",
+      "path": "service_extensions/callouts/add_header/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "972ec4c9966650598d57592316729c2a9b141a3add43ba8b03d2715d8cd6f268"
+    },
+    {
+      "case_id": "HADOLINT-040",
+      "rule_id": "DL3020",
+      "corpus": "example-voting-app",
+      "path": "result/tests/Dockerfile",
+      "commit": "63e9150ca17af4ed05880d4245e486481f73fcb4",
+      "sha256": "6d14bc543abb6a4a948b171f331a530a26270801c30fb6fdea4eb17b07f4c0f6"
+    },
+    {
+      "case_id": "HADOLINT-041",
+      "rule_id": "DL3045",
+      "corpus": "juice-shop",
+      "path": "test/smoke/Dockerfile",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "b27c36a93fbde7301953f35a88bce08462935bb1626186020da15285b28cd483"
+    },
+    {
+      "case_id": "HADOLINT-042",
+      "rule_id": "DL3018",
+      "corpus": "awesome-compose",
+      "path": "nginx-golang-mysql/backend/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "c1e28111817b04a0e808daf3cd8cab4b7bf1a31213429a6046aae86ebc340ccd"
+    },
+    {
+      "case_id": "HADOLINT-043",
+      "rule_id": "DL1000",
+      "corpus": "awesome-compose",
+      "path": "react-express-mongodb/frontend/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "65e6b7be640246d9ff902d171874c7fecf346449498cdcb3353a87f2bfe4420d"
+    },
+    {
+      "case_id": "HADOLINT-044",
+      "rule_id": "DL3008",
+      "corpus": "example-voting-app",
+      "path": "seed-data/Dockerfile",
+      "commit": "63e9150ca17af4ed05880d4245e486481f73fcb4",
+      "sha256": "79838eea77dd940c1c7354fa2be3c7e264f569710bd95d14cf1ce2b918903628"
+    },
+    {
+      "case_id": "HADOLINT-045",
+      "rule_id": "DL3013",
+      "corpus": "example-voting-app",
+      "path": "vote/Dockerfile",
+      "commit": "63e9150ca17af4ed05880d4245e486481f73fcb4",
+      "sha256": "e8758e28c57e2763d10ac3392d59dad2e757a7214f7e42080fdd7765d0c90f45"
+    },
+    {
+      "case_id": "HADOLINT-046",
+      "rule_id": "DL4006",
+      "corpus": "python-docs-samples",
+      "path": "dataflow/custom-containers/ubuntu/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "01ba046cfdd7d76d9a74a4c8b9cbfc24d80361e548be468c420cefb6c8245269"
+    },
+    {
+      "case_id": "HADOLINT-047",
+      "rule_id": "DL3025",
+      "corpus": "python-docs-samples",
+      "path": "kubernetes_engine/django_tutorial/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "f47fd2ff5dc394109b7fcc79efe6fa9ac7cb57ee1326134b66d2d2705d700271"
+    },
+    {
+      "case_id": "HADOLINT-048",
+      "rule_id": "DL3067",
+      "corpus": "awesome-compose",
+      "path": "nginx-golang-mysql/backend/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "45736968cb343f9fd91d1a8b4e4fe3d8030568d121cb85fda4435a1eb68eaffc"
+    },
+    {
+      "case_id": "HADOLINT-049",
+      "rule_id": "DL3042",
+      "corpus": "microservices-demo",
+      "path": "src/shoppingassistantservice/Dockerfile",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "01803f61228e45ef076147f17c3359b12eba3dfcf5472e107d86a908382f5778"
+    },
+    {
+      "case_id": "HADOLINT-050",
+      "rule_id": "DL3022",
+      "corpus": "awesome-compose",
+      "path": "nginx-golang-postgres/backend/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "b4ba325dfbf40e98c852f3c9812c9eb71c7460cd6db6cfdc24cbdc1ae6b8ce52"
+    },
+    {
+      "case_id": "HADOLINT-051",
+      "rule_id": "DL3006",
+      "corpus": "python-docs-samples",
+      "path": "endpoints/bookstore-grpc/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "bae450e39d8f78aa3c1c64c3a6e8f54e97d5c606c915c30a4970a77f3c793669"
+    },
+    {
+      "case_id": "HADOLINT-052",
+      "rule_id": "DL3020",
+      "corpus": "python-docs-samples",
+      "path": "memorystore/redis/gke_deployment/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "dacc691beced2196bf1cef2c33559a3fdba6c6e1bf37c91f674bcbbd7b0f7164"
+    },
+    {
+      "case_id": "HADOLINT-053",
+      "rule_id": "DL3045",
+      "corpus": "python-docs-samples",
+      "path": "composer/blog/gcp-tech-blog/unit-test-dags-cloud-build/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "f92e17dcf3e8c749db23b5eb7629c00a7e92a33c7e26c1e64e259840f140c215"
+    },
+    {
+      "case_id": "HADOLINT-054",
+      "rule_id": "DL3018",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/command_injection_lab/Dockerfile",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "f613722e251316433990249fcf011af0531958860f08d61aa63fa2eab2911ec8"
+    },
+    {
+      "case_id": "HADOLINT-055",
+      "rule_id": "DL1000",
+      "corpus": "awesome-compose",
+      "path": "react-express-mongodb/backend/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "e94d2180560c25f91689e15ea00e820aa467ba34f38f07b0e0da54d85e918db1"
+    },
+    {
+      "case_id": "HADOLINT-056",
+      "rule_id": "DL3008",
+      "corpus": "python-docs-samples",
+      "path": "dataflow/gemma/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "c2baf01b83511d82b6f494370b6584b2dfb3c2678965532501af737a06478bca"
+    },
+    {
+      "case_id": "HADOLINT-057",
+      "rule_id": "DL3013",
+      "corpus": "python-docs-samples",
+      "path": "dataflow/flex-templates/streaming_beam/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "31321237f90c76bc4333d5684c87069dc38510b413c776b6cc873a1ef04e8772"
+    },
+    {
+      "case_id": "HADOLINT-058",
+      "rule_id": "DL4006",
+      "corpus": "python-docs-samples",
+      "path": "dataflow/gpu-examples/tensorflow-landsat/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "ce018fa51875a640a0bc225c2e34c3c0f8be7e43ba61fefde8b16db33c586386"
+    },
+    {
+      "case_id": "HADOLINT-059",
+      "rule_id": "DL3025",
+      "corpus": "python-docs-samples",
+      "path": "people-and-planet-ai/weather-forecasting/serving/Dockerfile.backup",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "0680e5b6679e7ebcbe3b8f266cf0f756b35c22b216d8ccf6bd675bd86c7bc9b0"
+    },
+    {
+      "case_id": "HADOLINT-060",
+      "rule_id": "DL3067",
+      "corpus": "awesome-compose",
+      "path": "nginx-golang-postgres/backend/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "f45ad6e67c065b8609fa24d433eaf06e69e135a5b53a87b223a2449a6119f7f4"
+    },
+    {
+      "case_id": "HADOLINT-061",
+      "rule_id": "DL3042",
+      "corpus": "microservices-demo",
+      "path": "src/emailservice/Dockerfile",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "f46f41c59c90054568a2d9777105f818eae6a0d5a746f352b628a439bb5b4dc4"
+    },
+    {
+      "case_id": "HADOLINT-062",
+      "rule_id": "DL3022",
+      "corpus": "awesome-compose",
+      "path": "nginx-flask-mongo/flask/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "0e6a3405d661775e6f3c9aee64baaa9d4494bf335c6f6eae2a8fe4ead6725ad2"
+    },
+    {
+      "case_id": "HADOLINT-063",
+      "rule_id": "DL3006",
+      "corpus": "python-docs-samples",
+      "path": "dataflow/flex-templates/streaming_beam/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "6b60159a5e3166def57c68cc45180c30cec9201698d7b3713e66075d51499dff"
+    },
+    {
+      "case_id": "HADOLINT-064",
+      "rule_id": "DL3020",
+      "corpus": "python-docs-samples",
+      "path": "endpoints/bookstore-grpc/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "57d29a96d803a76de39fa61f4274de5f8e25220e9745e6878c9f4d0783165ab8"
+    },
+    {
+      "case_id": "HADOLINT-065",
+      "rule_id": "DL3045",
+      "corpus": "python-docs-samples",
+      "path": "run/system-package/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "a3caf35fa3eeebf5ebdc561410b69739d03f3af52d5c97ba3e358c5906292d54"
+    },
+    {
+      "case_id": "HADOLINT-066",
+      "rule_id": "DL3018",
+      "corpus": "juice-shop",
+      "path": "test/smoke/Dockerfile",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "36d4dc1d996097e29e85d2ba6878cff692e271dd4edf0e36178d1e83ae3b2fda"
+    },
+    {
+      "case_id": "HADOLINT-067",
+      "rule_id": "DL1000",
+      "corpus": "awesome-compose",
+      "path": "spring-postgres/backend/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "168f11374079556ec456ab9777cc10ea32623b721659910137f51497c2ab6ea8"
+    },
+    {
+      "case_id": "HADOLINT-068",
+      "rule_id": "DL3008",
+      "corpus": "microservices-demo",
+      "path": "src/cartservice/src/Dockerfile.debug",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "d0d197b97919701740bee205b6324d222369eaba7e0d16ebebdf987f2c618548"
+    },
+    {
+      "case_id": "HADOLINT-069",
+      "rule_id": "DL3013",
+      "corpus": "python-docs-samples",
+      "path": "cloud-sql/mysql/sqlalchemy/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "6fa932e06429094ed3887976b226c3461f14e1b3299f7b5af9eee38a1c354858"
+    },
+    {
+      "case_id": "HADOLINT-070",
+      "rule_id": "DL4006",
+      "corpus": "python-docs-samples",
+      "path": "dataflow/gpu-examples/tensorflow-landsat-prime/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "8bc06096ae57cc5f0d2cd8f64d03b350c0e7bc05fe7ab75d4925c31852e0a829"
+    },
+    {
+      "case_id": "HADOLINT-071",
+      "rule_id": "DL3025",
+      "corpus": "python-docs-samples",
+      "path": "eventarc/generic/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "573107e3d56ec49e1d0f8c7760ed5afb875ed8565c33636f2a3f6162a1844dfe"
+    },
+    {
+      "case_id": "HADOLINT-072",
+      "rule_id": "DL3042",
+      "corpus": "python-docs-samples",
+      "path": "endpoints/getting-started-grpc/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "ea2bd14b56370df04c69a9cdd42ff41d71c9d950f3af95fa0b12be2eb3f3f5da"
+    },
+    {
+      "case_id": "HADOLINT-073",
+      "rule_id": "DL3006",
+      "corpus": "microservices-demo",
+      "path": "src/frontend/Dockerfile",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "a45e07a2c9cd190f8e725a7d05700529e9823b65bfd1e3879a16294112e24a24"
+    },
+    {
+      "case_id": "HADOLINT-074",
+      "rule_id": "DL3020",
+      "corpus": "python-docs-samples",
+      "path": "endpoints/bookstore-grpc-transcoding/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "dd7081a23e85b61dc5eaa8a3fdb66ac05a56d616641ca879beea08cea61ee0ac"
+    },
+    {
+      "case_id": "HADOLINT-075",
+      "rule_id": "DL3045",
+      "corpus": "python-docs-samples",
+      "path": "run/markdown-preview/editor/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "9919995cf2b84f7e07cddc4d7a110d8a2ef51a1f56293e038d8e35805848c4d4"
+    },
+    {
+      "case_id": "HADOLINT-076",
+      "rule_id": "DL3018",
+      "corpus": "awesome-compose",
+      "path": "nginx-golang-postgres/backend/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "97351d43fd0db646ed863be5f7de60b7ca235d5b91d756432dd7db4cffd880a5"
+    },
+    {
+      "case_id": "HADOLINT-077",
+      "rule_id": "DL1000",
+      "corpus": "awesome-compose",
+      "path": "flask-redis/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "3a7934b872e19aa0e73bbe1e4fc71970299389f5458ec6bf9fb43df515c7da18"
+    },
+    {
+      "case_id": "HADOLINT-078",
+      "rule_id": "DL3008",
+      "corpus": "example-voting-app",
+      "path": "result/Dockerfile",
+      "commit": "63e9150ca17af4ed05880d4245e486481f73fcb4",
+      "sha256": "eac31aa534e99ee67f5766cdffaee38872b816c3513b90d1028c6b78fa7ade0f"
+    },
+    {
+      "case_id": "HADOLINT-079",
+      "rule_id": "DL3013",
+      "corpus": "python-docs-samples",
+      "path": "dataflow/gemma-flex-template/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "6416b90aefedbe99b354a348d8b9f26374300b72b03d83cd8c841b44019de956"
+    },
+    {
+      "case_id": "HADOLINT-080",
+      "rule_id": "DL3025",
+      "corpus": "python-docs-samples",
+      "path": "alm/ui-examples/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "feb644aafd3e930397c90b6fc85d0fde9fdd21f59e018f3a7199ab0394c507ca"
+    },
+    {
+      "case_id": "HADOLINT-081",
+      "rule_id": "DL3042",
+      "corpus": "python-docs-samples",
+      "path": "endpoints/bookstore-grpc/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "66958c6939aec98f19c4a5eb8745ebb0bb121437de9b1c38b2ca783aea434811"
+    },
+    {
+      "case_id": "HADOLINT-082",
+      "rule_id": "DL3006",
+      "corpus": "python-docs-samples",
+      "path": "endpoints/bookstore-grpc-transcoding/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "1cd903d52c48cdae8f28f801744a739cce4c8ee7e02709ba5e21fa206b347677"
+    },
+    {
+      "case_id": "HADOLINT-083",
+      "rule_id": "DL3020",
+      "corpus": "dvpwa",
+      "path": "Dockerfile.app",
+      "commit": "4a8f4a43fafcc1b304f1b97d0f0a8dea755a7756",
+      "sha256": "5bf9b940a7f1df8e5c233dd06ccdfaa73f01a638c19966a55eea9d03911bb034"
+    },
+    {
+      "case_id": "HADOLINT-084",
+      "rule_id": "DL3045",
+      "corpus": "microservices-demo",
+      "path": "src/emailservice/Dockerfile",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "6eda91d555a93ede06167afa336a61687605d30041dabfcaaf5aceb740114c25"
+    },
+    {
+      "case_id": "HADOLINT-085",
+      "rule_id": "DL3018",
+      "corpus": "awesome-compose",
+      "path": "nginx-flask-mongo/flask/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "05b2356fa18cb33b83b543c632b8b11a8edd6a75b1aa8c87cb830af1699bce1f"
+    },
+    {
+      "case_id": "HADOLINT-086",
+      "rule_id": "DL1000",
+      "corpus": "awesome-compose",
+      "path": "wasmedge-kafka-mysql/etl/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "49128a90bc9c74662acec3c4a99181b640148f930ca88097e45e5daf500992e3"
+    },
+    {
+      "case_id": "HADOLINT-087",
+      "rule_id": "DL3008",
+      "corpus": "python-docs-samples",
+      "path": "dataflow/gemma-flex-template/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "9d878b0089149addd31cab102f7a6a0f42208a8fc8cb10b3aaa14e7f88723687"
+    },
+    {
+      "case_id": "HADOLINT-088",
+      "rule_id": "DL3013",
+      "corpus": "python-docs-samples",
+      "path": "cloud-sql/postgres/sqlalchemy/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "fbb5ff0ea9a5a315ad89756bb981c49ce01c64343d5ca212719d483b6b96dc20"
+    },
+    {
+      "case_id": "HADOLINT-089",
+      "rule_id": "DL3025",
+      "corpus": "python-docs-samples",
+      "path": "cloud-sql/sql-server/sqlalchemy/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "9de7ed0cd73c06071387207c2f77200f5502e0129d73ba3f53857393449c4a0c"
+    },
+    {
+      "case_id": "HADOLINT-090",
+      "rule_id": "DL3042",
+      "corpus": "dvpwa",
+      "path": "Dockerfile.app",
+      "commit": "4a8f4a43fafcc1b304f1b97d0f0a8dea755a7756",
+      "sha256": "408526c34ceca056d8aa18a31e8c819d69ca620444e5f9c990438fd4091a0cb2"
+    },
+    {
+      "case_id": "HADOLINT-091",
+      "rule_id": "DL3006",
+      "corpus": "microservices-demo",
+      "path": "src/productcatalogservice/Dockerfile",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "229fc931d26a03eb756fea820f032b6d9c24881e69a1a190f4da51c6c806b568"
+    },
+    {
+      "case_id": "HADOLINT-092",
+      "rule_id": "DL3045",
+      "corpus": "python-docs-samples",
+      "path": "eventarc/generic/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "e3f2367823e171a34309b78448246dcfe3ffa2b15da77fc1ee4f94db521b5a51"
+    },
+    {
+      "case_id": "HADOLINT-093",
+      "rule_id": "DL3018",
+      "corpus": "microservices-demo",
+      "path": "src/currencyservice/Dockerfile",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "b983c0b54bfa419aac2abdd740ace0a4a38ccc16eaee80a1bb76dbd7fd66a52a"
+    },
+    {
+      "case_id": "HADOLINT-094",
+      "rule_id": "DL1000",
+      "corpus": "awesome-compose",
+      "path": "react-express-mysql/frontend/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "4ef2e3b475d20a46ba99b90eb9243e3be974b055af1846f1061422945b97aebd"
+    },
+    {
+      "case_id": "HADOLINT-095",
+      "rule_id": "DL3008",
+      "corpus": "microservices-demo",
+      "path": "src/shoppingassistantservice/Dockerfile",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "06be57f11e5f6135a67ba9af8aaaa19b470df7ad228c2eb780fe81b2e2186d66"
+    },
+    {
+      "case_id": "HADOLINT-096",
+      "rule_id": "DL3013",
+      "corpus": "python-docs-samples",
+      "path": "trace/cloud-trace-demo-app-opentelemetry/app/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "59749c6dff9e05c628260ccb9199cb7d5ea65728dab5d2948208db580108f11b"
+    },
+    {
+      "case_id": "HADOLINT-097",
+      "rule_id": "DL3025",
+      "corpus": "python-docs-samples",
+      "path": "run/helloworld/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "41fd32dee4cdf71e6a986f1a6455c9a49bed08c93317f0ac01caf3bc86e94585"
+    },
+    {
+      "case_id": "HADOLINT-098",
+      "rule_id": "DL3042",
+      "corpus": "python-docs-samples",
+      "path": "run/hello-broken/Dockerfile",
+      "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+      "sha256": "0c827cc6f4b278c91f51be6824ea84466ace455bc5191218f652569ceb587fd6"
+    },
+    {
+      "case_id": "HADOLINT-099",
+      "rule_id": "DL3006",
+      "corpus": "microservices-demo",
+      "path": "src/checkoutservice/Dockerfile",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "7e1649b19d43b5b6a91284ead30b763b4a24c6cad7bad042c75e4721f5c8993e"
+    },
+    {
+      "case_id": "HADOLINT-100",
+      "rule_id": "DL3045",
+      "corpus": "microservices-demo",
+      "path": "src/shoppingassistantservice/Dockerfile",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "804865bc536d76ea72deea9676de85c6180220cec46fce97b9c8203bec9de7c9"
+    }
+  ]
+}

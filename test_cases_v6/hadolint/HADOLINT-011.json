@@ -1,0 +1,18 @@
+{
+  "case_id": "HADOLINT-011",
+  "scanner": "Hadolint",
+  "rule_id": "SC3060",
+  "rule_name": "SC3060",
+  "rule_description": "In POSIX sh, string replacement is undefined.",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 16,
+  "vulnerable_code": "# Builder stage to download OWASP ZAP once per version\nFROM alpine:3.24.3 AS zap\nARG ZAP_VERSION=2.17.0\nRUN apk add --no-cache curl tar \\\n  && set -eux; \\\n     curl -sSL \"https://github.com/zaproxy/zaproxy/releases/download/v${ZAP_VERSION}/ZAP_${ZAP_VERSION}_Linux.tar.gz\" -o /tmp/zap.tgz; \\\n     mkdir -p /zap; \\\n     tar -xzf /tmp/zap.tgz -C /zap --strip-components=1; \\\n     rm -f /tmp/zap.tgz\n\n# Builder stage to fetch a JRE suited for the target architecture\nFROM alpine:3.24.3 AS jre\nARG JAVA_MAJOR=25\nARG JAVA_FULL=25.0.3.0\nARG TARGETARCH\nRUN apk add --no-cache curl tar \\\n  && set -eux; \\\n     case \"${TARGETARCH}\" in \\\n       amd64) ARCH=x64 ;; \\\n       arm64) ARCH=aarch64 ;; \\\n       *) echo \"Unsupported architecture: ${TARGETARCH}\" >&2; exit 1 ;; \\\n     esac; \\\n     JAVA_ENC=\"${JAVA_FULL//+/%2B}\"; \\\n     JAVA_FILE=\"${JAVA_FULL//+/_}\"; \\\n     curl -sSL \"https://github.com/AdoptOpenJDK/semeru${JAVA_MAJOR}-binaries/releases/download/jdk-${JAVA_ENC}/ibm-semeru-open-jre_${ARCH}_linux_${JAVA_ENC}.tar.gz\" -o /tmp/java.tgz; \\\n     mkdir -p /jre; \\\n     tar -xzf /tmp/java.tgz -C /jre --strip-components=1; \\\n     rm -f /tmp/java.tgz\n\n# Final runtime image\nFROM lscr.io/linuxserver/webtop:ubuntu-kde\nLABEL name=\"WebGoat: A deliberately insecure Web Application\"\nLABEL maintainer=\"WebGoat team\"\n\nARG ZAP_VERSION=2.17.0\nENV ZAP_VERSION=${ZAP_VERSION} \\\n    JAVA_HOME=/config/java-jdk \\\n    PATH=\"${PATH}:/config/java-jdk/bin\" \\\n    ZAP_HOME=/config/zap \\\n    ZAP_PROXY_PORT=8090\n\nWORKDIR /config\n\n# Install Firefox, editors, and gzip support\nRUN apt-get update \\\n  && apt-get --yes install --no-install-recommends ca-certificates curl gnupg vim nano gzip \\\n  && install -d -m 0755 /etc/apt/keyrings \\\n  && curl -fsSL https://packages.mozilla.org/apt/repo-signing-key.gpg -o /etc/apt/keyrings/packages.mozilla.org.asc \\\n  && test \"$(gpg --show-keys --with-colons /etc/apt/keyrings/packages.mozilla.org.asc | awk -F: '$1 == \"fpr\" { print $10; exit }')\" = \"35BAA0B33E9EB396F59CA838C0BA5CE6DC6315A3\" \\\n  && echo \"deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main\" > /etc/apt/sources.list.d/mozilla.list \\\n  && printf '%s\\n' 'Package: *' 'Pin: origin packages.mozilla.org' 'Pin-Priority: 1000' '' 'Package: firefox' 'Pin: release o=Ubuntu' 'Pin-Priority: -1' > /etc/apt/preferences.d/mozilla \\\n  && apt-get update \\\n  && apt-get --yes install --no-install-recommends firefox \\\n  && rm -rf /var/lib/apt/lists/*\n\n# Application artifacts\nCOPY target/webgoat-*.jar /config/webgoat.jar\nCOPY config/desktop/start_webgoat.sh /config/start_webgoat.sh\nCOPY config/desktop/start_zap.sh /config/start_zap.sh\nCOPY config/desktop/WebGoat.txt /config/Desktop/\nCOPY config/desktop/firefox-policies.json /usr/lib/firefox/distribution/policies.json\n\n# Runtime dependencies produced in the builder stages\nCOPY --from=zap /zap ${ZAP_HOME}\nCOPY --from=jre /jre ${JAVA_HOME}\n\nRUN chmod +x /config/start_webgoat.sh /config/start_zap.sh\n\nWORKDIR /config/Desktop\n",
+  "source": {
+    "corpus": "WebGoat",
+    "url": "https://github.com/WebGoat/WebGoat",
+    "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+    "path": "Dockerfile_desktop",
+    "license": "GPL-2.0-or-later"
+  }
+}

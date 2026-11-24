@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-035",
+  "scanner": "Bandit",
+  "rule_id": "B324",
+  "rule_name": "hashlib",
+  "rule_description": "Use of weak MD5 hash for security. Consider usedforsecurity=False",
+  "language": "python",
+  "file": "app.py",
+  "line": 41,
+  "vulnerable_code": "from hashlib import md5\nfrom typing import NamedTuple, Optional\n\nfrom aiopg import Connection\n\n\nclass User(NamedTuple):\n    id: int\n    first_name: str\n    middle_name: Optional[str]\n    last_name: str\n    username: str\n    pwd_hash: str\n    is_admin: bool\n\n    @classmethod\n    def from_raw(cls, raw: tuple):\n        return cls(*raw) if raw else None\n\n    @staticmethod\n    async def get(conn: Connection, id_: int):\n        async with conn.cursor() as cur:\n            await cur.execute(\n                'SELECT id, first_name, middle_name, last_name, '\n                'username, pwd_hash, is_admin FROM users WHERE id = %s',\n                (id_,),\n            )\n            return User.from_raw(await cur.fetchone())\n\n    @staticmethod\n    async def get_by_username(conn: Connection, username: str):\n        async with conn.cursor() as cur:\n            await cur.execute(\n                'SELECT id, first_name, middle_name, last_name, '\n                'username, pwd_hash, is_admin FROM users WHERE username = %s',\n                (username,),\n            )\n            return User.from_raw(await cur.fetchone())\n\n    def check_password(self, password: str):\n        return self.pwd_hash == md5(password.encode('utf-8')).hexdigest()\n",
+  "source": {
+    "corpus": "dvpwa",
+    "url": "https://github.com/anxolerd/dvpwa",
+    "commit": "4a8f4a43fafcc1b304f1b97d0f0a8dea755a7756",
+    "path": "sqli/dao/user.py",
+    "license": "MIT-style, see LICENSE"
+  }
+}

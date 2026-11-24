@@ -1,0 +1,18 @@
+{
+  "case_id": "HADOLINT-077",
+  "scanner": "Hadolint",
+  "rule_id": "DL1000",
+  "rule_name": "DL1000",
+  "rule_description": "unexpected '#'\nexpecting a new line followed by the next instruction",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 26,
+  "vulnerable_code": "# syntax=docker/dockerfile:1.4\nFROM --platform=$BUILDPLATFORM python:3.10-alpine AS builder\n\nWORKDIR /code\n\nCOPY requirements.txt /code\nRUN --mount=type=cache,target=/root/.cache/pip \\\n    pip3 install -r requirements.txt\n\nCOPY . /code\n\nENTRYPOINT [\"python3\"]\nCMD [\"app.py\"]\n\nFROM builder as dev-envs\n\nRUN <<EOF\napk update\napk add git bash\nEOF\n\nRUN <<EOF\naddgroup -S docker\nadduser -S --shell /bin/bash --ingroup docker vscode\nEOF\n# install Docker tools (cli, buildx, compose)\nCOPY --from=gloursdocker/docker / /\n",
+  "source": {
+    "corpus": "awesome-compose",
+    "url": "https://github.com/docker/awesome-compose",
+    "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+    "path": "flask-redis/Dockerfile",
+    "license": "CC0, see LICENSE"
+  }
+}

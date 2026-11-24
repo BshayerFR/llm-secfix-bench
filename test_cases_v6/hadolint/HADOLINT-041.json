@@ -1,0 +1,18 @@
+{
+  "case_id": "HADOLINT-041",
+  "scanner": "Hadolint",
+  "rule_id": "DL3045",
+  "rule_name": "DL3045",
+  "rule_description": "`COPY` to a relative destination without `WORKDIR` set.",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 5,
+  "vulnerable_code": "FROM alpine\n\nRUN apk add curl\n\nCOPY smoke-test.sh smoke-test.sh\n\nCMD [\"sh\", \"smoke-test.sh\", \"http://app:3000\"]\n",
+  "source": {
+    "corpus": "juice-shop",
+    "url": "https://github.com/juice-shop/juice-shop",
+    "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+    "path": "test/smoke/Dockerfile",
+    "license": "MIT"
+  }
+}

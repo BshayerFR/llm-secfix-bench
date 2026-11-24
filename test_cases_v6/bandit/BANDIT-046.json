@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-046",
+  "scanner": "Bandit",
+  "rule_id": "B201",
+  "rule_name": "flask_debug_true",
+  "rule_description": "A Flask app appears to be run with debug=True, which exposes the Werkzeug debugger and allows the execution of arbitrary code.",
+  "language": "python",
+  "file": "app.py",
+  "line": 76,
+  "vulnerable_code": "# Copyright 2015 Google Inc.\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#     http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\nfrom flask import Flask, redirect, render_template, request\nfrom google.cloud import ndb\n\ntry:\n    from urllib import urlencode\nexcept Exception:\n    from urllib.parse import urlencode\n\napp = Flask(__name__)\nclient = ndb.Client()\n\n\nclass Greeting(ndb.Model):\n    \"\"\"Models an individual Guestbook entry with content and date.\"\"\"\n\n    content = ndb.StringProperty()\n    date = ndb.DateTimeProperty(auto_now_add=True)\n\n    with client.context():\n\n        @classmethod\n        def query_book(cls, ancestor_key):\n            return cls.query(ancestor=ancestor_key).order(-cls.date)\n\n\n@app.route(\"/\", methods=[\"GET\"])\ndef display_guestbook():\n    guestbook_name = request.args.get(\"guestbook_name\", \"\")\n    print(\"GET guestbook name is {}\".format(guestbook_name))\n    with client.context():\n        ancestor_key = ndb.Key(\"Book\", guestbook_name or \"*notitle*\")\n        greetings = Greeting.query_book(ancestor_key).fetch(20)\n\n    greeting_blockquotes = [greeting.content for greeting in greetings]\n    return render_template(\n        \"index.html\",\n        greeting_blockquotes=greeting_blockquotes,\n        guestbook_name=guestbook_name,\n    )\n\n\n@app.route(\"/sign\", methods=[\"POST\"])\ndef update_guestbook():\n    # We set the parent key on each 'Greeting' to ensure each guestbook's\n    # greetings are in the same entity group.\n    guestbook_name = request.form.get(\"guestbook_name\", \"\")\n    print(\"Guestbook name from the form: {}\".format(guestbook_name))\n\n    with client.context():\n        print(\"Guestbook name from the URL: {}\".format(guestbook_name))\n        greeting = Greeting(\n            parent=ndb.Key(\"Book\", guestbook_name or \"*notitle*\"),\n            content=request.form.get(\"content\", None),\n        )\n        greeting.put()\n\n    return redirect(\"/?\" + urlencode({\"guestbook_name\": guestbook_name}))\n\n\nif __name__ == \"__main__\":\n    # This is used when running locally.\n    app.run(host=\"127.0.0.1\", port=8080, debug=True)\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+    "path": "appengine/standard/migration/ndb/overview/main.py",
+    "license": "Apache-2.0"
+  }
+}

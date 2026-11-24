@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-020",
+  "scanner": "Bandit",
+  "rule_id": "B104",
+  "rule_name": "hardcoded_bind_all_interfaces",
+  "rule_description": "Possible binding to all interfaces.",
+  "language": "python",
+  "file": "app.py",
+  "line": 14,
+  "vulnerable_code": "from flask import Flask\nfrom redis import Redis\n\napp = Flask(__name__)\nredis = Redis(host='redis', port=6379)\n\n@app.route('/')\ndef hello():\n    redis.incr('hits')\n    counter = str(redis.get('hits'),'utf-8')\n    return \"This webpage has been viewed \"+counter+\" time(s)\"\n\nif __name__ == \"__main__\":\n    app.run(host=\"0.0.0.0\", port=8000, debug=True)\n",
+  "source": {
+    "corpus": "awesome-compose",
+    "url": "https://github.com/docker/awesome-compose",
+    "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+    "path": "flask-redis/app.py",
+    "license": "CC0, see LICENSE"
+  }
+}

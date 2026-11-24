@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-019",
+  "scanner": "Bandit",
+  "rule_id": "B201",
+  "rule_name": "flask_debug_true",
+  "rule_description": "A Flask app appears to be run with debug=True, which exposes the Werkzeug debugger and allows the execution of arbitrary code.",
+  "language": "python",
+  "file": "app.py",
+  "line": 55,
+  "vulnerable_code": "#!/usr/bin/env python3\n\nfrom pathlib import Path\n\nfrom flask import Flask, g, redirect, request\n\nimport libsession\nfrom mod_api import mod_api\nfrom mod_csp import mod_csp\nfrom mod_hello import mod_hello\nfrom mod_mfa import mod_mfa\nfrom mod_posts import mod_posts\nfrom mod_user import mod_user\n\napp = Flask('vulpy')\napp.config['SECRET_KEY'] = 'aaaaaaa'\n\napp.register_blueprint(mod_hello, url_prefix='/hello')\napp.register_blueprint(mod_user, url_prefix='/user')\napp.register_blueprint(mod_posts, url_prefix='/posts')\napp.register_blueprint(mod_mfa, url_prefix='/mfa')\napp.register_blueprint(mod_csp, url_prefix='/csp')\napp.register_blueprint(mod_api, url_prefix='/api')\n\ncsp_file = Path('csp.txt')\ncsp = ''\n\nif csp_file.is_file():\n    with csp_file.open() as f:\n        for line in f.readlines():\n            if line.startswith('#'):\n                continue\n            line = line.replace('\\n', '')\n            if line:\n                csp += line\nif csp:\n    print('CSP:', csp)\n\n\n@app.route('/')\ndef do_home():\n    return redirect('/posts')\n\n@app.before_request\ndef before_request():\n    g.session = libsession.load(request)\n\n@app.after_request\ndef add_csp_headers(response):\n    if csp:\n        response.headers['Content-Security-Policy'] = csp\n    return response\n\n\napp.run(debug=True, host='127.0.1.1', port=5000, extra_files='csp.txt')\n",
+  "source": {
+    "corpus": "vulpy",
+    "url": "https://github.com/fportantier/vulpy",
+    "commit": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+    "path": "bad/vulpy.py",
+    "license": "MIT"
+  }
+}

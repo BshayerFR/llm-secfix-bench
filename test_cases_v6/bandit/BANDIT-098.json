@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-098",
+  "scanner": "Bandit",
+  "rule_id": "B113",
+  "rule_name": "request_without_timeout",
+  "rule_description": "Call to requests without timeout",
+  "language": "python",
+  "file": "app.py",
+  "line": 39,
+  "vulnerable_code": "# Copyright 2021 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#     https://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\nimport time\n\nfrom google.auth import jwt\nimport pytest\nimport requests\n\nimport vm_identity\n\n\nAUDIENCE = \"http://www.testing.com\"\n\n\ndef wait_for_token(token):\n    \"\"\"\n    This function will wait if the Issued At value of the token is in the future.\n    It will not validate the token in any way.\n    \"\"\"\n    decoded = jwt.decode(token, verify=False)\n    time.sleep(max(0, int(decoded[\"iat\"]) - int(time.time())))\n    return\n\n\ndef test_vm_identity():\n    try:\n        # Check if we're running in a GCP VM:\n        r = requests.get(\n            \"http://metadata.google.internal/computeMetadata/v1/project/project-id\",\n            headers={\"Metadata-Flavor\": \"Google\"},\n        )\n        project_id = r.text\n    except requests.exceptions.ConnectionError:\n        # Guess we're not running in a GCP VM, we need to skip this test\n        pytest.skip(\"Test can only be run inside GCE VM.\")\n        return\n\n    token = vm_identity.acquire_token(AUDIENCE, \"full\", True)\n    assert isinstance(token, str) and token\n\n    # Because new GCE instances can have their clocks skewed by a lot, we want\n    # to make sure we don't try to verify token too soon.\n    # https://github.com/GoogleCloudPlatform/python-docs-samples/issues/6156\n    wait_for_token(token)\n\n    # Proceed with verification of the received token.\n    verification = vm_identity.verify_token(token, AUDIENCE)\n    assert isinstance(verification, dict) and verification\n    assert verification[\"aud\"] == AUDIENCE\n    assert verification[\"email_verified\"]\n    assert verification[\"iss\"] == \"https://accounts.google.com\"\n    assert verification[\"google\"][\"compute_engine\"][\"project_id\"] == project_id\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+    "path": "compute/metadata/vm_identity_test.py",
+    "license": "Apache-2.0"
+  }
+}

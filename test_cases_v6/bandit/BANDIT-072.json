@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-072",
+  "scanner": "Bandit",
+  "rule_id": "B113",
+  "rule_name": "request_without_timeout",
+  "rule_description": "Call to requests without timeout",
+  "language": "python",
+  "file": "app.py",
+  "line": 25,
+  "vulnerable_code": "#!/usr/bin/env python3\n\nimport click\nimport requests\nimport logging\n\n\n@click.command()\n@click.argument('url')\n@click.argument('username')\n@click.argument('password_file', type=click.File())\n@click.argument('success_string')\n@click.option('-v', 'verbose', is_flag=True, default=False, help='Verbose output')\ndef http_brute(url, username, password_file, success_string, verbose):\n\n    if verbose:\n        logging.basicConfig(level=logging.INFO)\n    else:\n        logging.basicConfig(level=logging.ERROR)\n\n    passwords = password_file.read().split('\\n')\n    password_file.close()\n\n    for password in passwords:\n        response = requests.post(url, data = {'username': username, 'password': password})\n        logging.info('{} {} {}'.format(username, password, response.status_code))\n        if success_string in response.text:\n            print('cracked!', username, password)\n            break\n\n\nif __name__ == '__main__':\n    http_brute()\n",
+  "source": {
+    "corpus": "vulpy",
+    "url": "https://github.com/fportantier/vulpy",
+    "commit": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+    "path": "utils/httpbrute.py",
+    "license": "MIT"
+  }
+}

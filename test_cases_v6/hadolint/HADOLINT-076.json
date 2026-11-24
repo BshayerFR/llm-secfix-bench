@@ -1,0 +1,18 @@
+{
+  "case_id": "HADOLINT-076",
+  "scanner": "Hadolint",
+  "rule_id": "DL3018",
+  "rule_name": "DL3018",
+  "rule_description": "Pin versions in apk add. Instead of `apk add <package>` use `apk add <package>=<version>`",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 24,
+  "vulnerable_code": "# syntax=docker/dockerfile:1.4\nFROM --platform=$BUILDPLATFORM golang:1.18-alpine AS builder\n\nWORKDIR /code\n\nENV CGO_ENABLED 0\nENV GOPATH /go\nENV GOCACHE /go-build\n\nCOPY go.mod go.sum ./\nRUN --mount=type=cache,target=/go/pkg/mod/cache \\\n    go mod download\n\nCOPY . .\n\nRUN --mount=type=cache,target=/go/pkg/mod/cache \\\n    --mount=type=cache,target=/go-build \\\n    go build -o bin/backend main.go\n\nCMD [\"/code/bin/backend\"]\n\nFROM builder as dev-envs\n\nRUN <<EOF\napk update\napk add git\nEOF\n\nRUN <<EOF\naddgroup -S docker\nadduser -S --shell /bin/bash --ingroup docker vscode\nEOF\n\n# install Docker tools (cli, buildx, compose)\nCOPY --from=gloursdocker/docker / /\n\nCMD [\"go\", \"run\", \"main.go\"]\n\nFROM scratch\nCOPY --from=builder /code/bin/backend /usr/local/bin/backend\nCMD [\"/usr/local/bin/backend\"]\n",
+  "source": {
+    "corpus": "awesome-compose",
+    "url": "https://github.com/docker/awesome-compose",
+    "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+    "path": "nginx-golang-postgres/backend/Dockerfile",
+    "license": "CC0, see LICENSE"
+  }
+}

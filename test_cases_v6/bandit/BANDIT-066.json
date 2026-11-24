@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-066",
+  "scanner": "Bandit",
+  "rule_id": "B108",
+  "rule_name": "hardcoded_tmp_directory",
+  "rule_description": "Probable insecure usage of temp file/directory.",
+  "language": "python",
+  "file": "app.py",
+  "line": 3,
+  "vulnerable_code": "import re\n\nwith open('/tmp/darkweb2017-top10000.txt') as f:\n    for password in f.readlines():\n\n        password = password.strip()\n\n        if len(password) < 12:\n            continue\n\n        if len(re.findall(r'[a-z]', password)) < 1:\n            continue\n\n        if len(re.findall(r'[A-Z]', password)) < 1:\n            continue\n\n        if len(re.findall(r'[0-9]', password)) < 1:\n            continue\n\n        print(password)\n",
+  "source": {
+    "corpus": "vulpy",
+    "url": "https://github.com/fportantier/vulpy",
+    "commit": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+    "path": "good/cutpasswd.py",
+    "license": "MIT"
+  }
+}

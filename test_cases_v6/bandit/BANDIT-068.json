@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-068",
+  "scanner": "Bandit",
+  "rule_id": "B104",
+  "rule_name": "hardcoded_bind_all_interfaces",
+  "rule_description": "Possible binding to all interfaces.",
+  "language": "python",
+  "file": "app.py",
+  "line": 51,
+  "vulnerable_code": "from flask import Flask, render_template, request, make_response, g\nfrom redis import Redis\nimport os\nimport socket\nimport random\nimport json\nimport logging\n\noption_a = os.getenv('OPTION_A', \"Cats\")\noption_b = os.getenv('OPTION_B', \"Dogs\")\nhostname = socket.gethostname()\n\napp = Flask(__name__)\n\ngunicorn_error_logger = logging.getLogger('gunicorn.error')\napp.logger.handlers.extend(gunicorn_error_logger.handlers)\napp.logger.setLevel(logging.INFO)\n\ndef get_redis():\n    if not hasattr(g, 'redis'):\n        g.redis = Redis(host=\"redis\", db=0, socket_timeout=5)\n    return g.redis\n\n@app.route(\"/\", methods=['POST','GET'])\ndef hello():\n    voter_id = request.cookies.get('voter_id')\n    if not voter_id:\n        voter_id = hex(random.getrandbits(64))[2:-1]\n\n    vote = None\n\n    if request.method == 'POST':\n        redis = get_redis()\n        vote = request.form['vote']\n        app.logger.info('Received vote for %s', vote)\n        data = json.dumps({'voter_id': voter_id, 'vote': vote})\n        redis.rpush('votes', data)\n\n    resp = make_response(render_template(\n        'index.html',\n        option_a=option_a,\n        option_b=option_b,\n        hostname=hostname,\n        vote=vote,\n    ))\n    resp.set_cookie('voter_id', voter_id)\n    return resp\n\n\nif __name__ == \"__main__\":\n    app.run(host='0.0.0.0', port=80, debug=True, threaded=True)\n",
+  "source": {
+    "corpus": "example-voting-app",
+    "url": "https://github.com/dockersamples/example-voting-app",
+    "commit": "63e9150ca17af4ed05880d4245e486481f73fcb4",
+    "path": "vote/app.py",
+    "license": "Apache-2.0"
+  }
+}

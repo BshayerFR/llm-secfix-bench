@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-036",
+  "scanner": "Bandit",
+  "rule_id": "B602",
+  "rule_name": "subprocess_popen_with_shell_equals_true",
+  "rule_description": "subprocess call with shell=True identified, security issue.",
+  "language": "python",
+  "file": "app.py",
+  "line": 44,
+  "vulnerable_code": "# Copyright 2022 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#      http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\nimport re\nimport subprocess\n\nfrom google.api_core.retry import Retry\n\nfrom setup_product.setup_cleanup import (\n    create_bq_dataset,\n    create_bq_table,\n    delete_bq_table,\n    upload_data_to_bq_table,\n)\n\n\n@Retry()\ndef test_import_products_bq(table_id_prefix):\n    dataset = \"products\"\n    valid_products_table = f\"{table_id_prefix}products\"\n    product_schema = \"../resources/product_schema.json\"\n    valid_products_source_file = \"../resources/products.json\"\n\n    create_bq_dataset(dataset)\n    create_bq_table(dataset, valid_products_table, product_schema)\n    upload_data_to_bq_table(\n        dataset, valid_products_table, valid_products_source_file, product_schema\n    )\n\n    output = str(\n        subprocess.check_output(\n            f\"python import_products_big_query_table.py {dataset} {valid_products_table}\",\n            shell=True,\n        )\n    )\n\n    delete_bq_table(dataset, valid_products_table)\n\n    assert re.match(\".*import products from big query table request.*\", output)\n    assert re.match(\".*the operation was started.*\", output)\n    assert re.match(\n        \".*projects/.*/locations/global/catalogs/default_catalog/branches/0/operations/import-products.*\",\n        output,\n    )\n\n    assert re.match(\".*number of successfully imported products.*?316.*\", output)\n    assert re.match(\".*number of failures during the importing.*?0.*\", output)\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+    "path": "retail/interactive-tutorials/product/import_products_bq_test.py",
+    "license": "Apache-2.0"
+  }
+}

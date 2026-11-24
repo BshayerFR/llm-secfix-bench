@@ -1,0 +1,18 @@
+{
+  "case_id": "CHECKOV-010",
+  "scanner": "Checkov",
+  "rule_id": "CKV_AZURE_189",
+  "rule_name": "Ensure that Azure Key Vault disables public network access",
+  "rule_description": "Ensure that Azure Key Vault disables public network access",
+  "language": "terraform",
+  "file": "main.tf",
+  "line": 1,
+  "vulnerable_code": "resource \"azurerm_key_vault\" \"example\" {\n  name                = \"terragoat-key-${var.environment}${random_integer.rnd_int.result}\"\n  location            = azurerm_resource_group.example.location\n  resource_group_name = azurerm_resource_group.example.name\n  tenant_id           = data.azurerm_client_config.current.tenant_id\n  sku_name            = \"premium\"\n  access_policy {\n    tenant_id = data.azurerm_client_config.current.tenant_id\n    object_id = data.azurerm_client_config.current.object_id\n    key_permissions = [\n      \"create\",\n      \"get\",\n    ]\n    secret_permissions = [\n      \"set\",\n    ]\n  }\n  tags = merge({\n    environment = var.environment\n    terragoat   = true\n    }, {\n    git_commit           = \"81738b80d571fa3034633690d13ffb460e1e7dea\"\n    git_file             = \"terraform/azure/key_vault.tf\"\n    git_last_modified_at = \"2020-06-19 21:14:50\"\n    git_last_modified_by = \"Adin.Ermie@outlook.com\"\n    git_modifiers        = \"Adin.Ermie/nimrodkor\"\n    git_org              = \"bridgecrewio\"\n    git_repo             = \"terragoat\"\n    yor_trace            = \"79afeacc-248a-4015-a4fa-76a6a57f06e2\"\n  })\n}\n\nresource \"azurerm_key_vault_key\" \"generated\" {\n  name         = \"terragoat-generated-certificate-${var.environment}\"\n  key_vault_id = azurerm_key_vault.example.id\n  key_type     = \"RSA\"\n  key_size     = 2048\n  key_opts = [\n    \"decrypt\",\n    \"encrypt\",\n    \"sign\",\n    \"unwrapKey\",\n    \"verify\",\n    \"wrapKey\",\n  ]\n  tags = {\n    git_commit           = \"898d5beaec7ffdef6df0d7abecff407362e2a74e\"\n    git_file             = \"terraform/azure/key_vault.tf\"\n    git_last_modified_at = \"2020-06-17 12:59:55\"\n    git_last_modified_by = \"nimrodkor@gmail.com\"\n    git_modifiers        = \"nimrodkor\"\n    git_org              = \"bridgecrewio\"\n    git_repo             = \"terragoat\"\n    yor_trace            = \"afbc6e13-63d9-4e6c-8914-d58b7744b5dd\"\n  }\n}\n\nresource \"azurerm_key_vault_secret\" \"secret\" {\n  key_vault_id = azurerm_key_vault.example.id\n  name         = \"terragoat-secret-${var.environment}\"\n  value        = random_string.password.result\n  tags = {\n    git_commit           = \"f8ff847bb69370bbe03b3d2b70db586ff6c867fc\"\n    git_file             = \"terraform/azure/key_vault.tf\"\n    git_last_modified_at = \"2020-06-19 21:16:08\"\n    git_last_modified_by = \"Adin.Ermie@outlook.com\"\n    git_modifiers        = \"Adin.Ermie/nimrodkor\"\n    git_org              = \"bridgecrewio\"\n    git_repo             = \"terragoat\"\n    yor_trace            = \"40517524-f05d-485b-bfbe-3fa0dbee511e\"\n  }\n}\n",
+  "source": {
+    "corpus": "terragoat",
+    "url": "https://github.com/bridgecrewio/terragoat",
+    "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+    "path": "terraform/azure/key_vault.tf",
+    "license": "Apache-2.0"
+  }
+}

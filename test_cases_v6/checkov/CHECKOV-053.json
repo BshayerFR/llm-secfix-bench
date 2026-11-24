@@ -1,0 +1,18 @@
+{
+  "case_id": "CHECKOV-053",
+  "scanner": "Checkov",
+  "rule_id": "CKV_K8S_29",
+  "rule_name": "Apply security context to your pods and containers",
+  "rule_description": "Apply security context to your pods and containers",
+  "language": "yaml",
+  "file": "manifest.yaml",
+  "line": 1,
+  "vulnerable_code": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: loadgenerator\n$patch: delete\n",
+  "source": {
+    "corpus": "microservices-demo",
+    "url": "https://github.com/GoogleCloudPlatform/microservices-demo",
+    "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+    "path": "kustomize/components/without-loadgenerator/delete-loadgenerator.patch.yaml",
+    "license": "Apache-2.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-060",
+  "scanner": "Bandit",
+  "rule_id": "B201",
+  "rule_name": "flask_debug_true",
+  "rule_description": "A Flask app appears to be run with debug=True, which exposes the Werkzeug debugger and allows the execution of arbitrary code.",
+  "language": "python",
+  "file": "app.py",
+  "line": 81,
+  "vulnerable_code": "# Copyright 2016 Google Inc.\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#     http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\nimport logging\nimport os\n\nfrom flask import Flask\nimport requests\nimport requests_toolbelt.adapters.appengine\n\n# Use the App Engine Requests adapter. This makes sure that Requests uses\n# URLFetch.\nrequests_toolbelt.adapters.appengine.monkeypatch()\n\napp = Flask(__name__)\n\n# Environment variables are defined in app.yaml.\nGA_TRACKING_ID = os.environ[\"GA_TRACKING_ID\"]\n\n\n# [START gae_analytics_track_event]\ndef track_event(category, action, label=None, value=0):\n    data = {\n        \"v\": \"1\",  # API Version.\n        \"tid\": GA_TRACKING_ID,  # Tracking ID / Property ID.\n        # Anonymous Client Identifier. Ideally, this should be a UUID that\n        # is associated with particular user, device, or browser instance.\n        \"cid\": \"555\",\n        \"t\": \"event\",  # Event hit type.\n        \"ec\": category,  # Event category.\n        \"ea\": action,  # Event action.\n        \"el\": label,  # Event label.\n        \"ev\": value,  # Event value, must be an integer\n    }\n\n    response = requests.post(\"https://www.google-analytics.com/collect\", data=data)\n\n    # If the request fails, this will raise a RequestException. Depending\n    # on your application's needs, this may be a non-error and can be caught\n    # by the caller.\n    response.raise_for_status()\n\n\n@app.route(\"/\")\ndef track_example():\n    track_event(category=\"Example\", action=\"test action\")\n    return \"Event tracked.\"\n\n\n# [END gae_analytics_track_event]\n\n\n@app.errorhandler(500)\ndef server_error(e):\n    logging.exception(\"An error occurred during a request.\")\n    return (\n        \"\"\"\n    An internal error occurred: <pre>{}</pre>\n    See logs for full stacktrace.\n    \"\"\".format(\n            e\n        ),\n        500,\n    )\n\n\nif __name__ == \"__main__\":\n    # This is used when running locally. Gunicorn is used to run the\n    # application on Google App Engine. See entrypoint in app.yaml.\n    app.run(host=\"127.0.0.1\", port=8080, debug=True)\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+    "path": "appengine/standard/analytics/main.py",
+    "license": "Apache-2.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "CHECKOV-023",
+  "scanner": "Checkov",
+  "rule_id": "CKV_OCI_9",
+  "rule_name": "Ensure OCI Object Storage is encrypted with Customer Managed Key",
+  "rule_description": "Ensure OCI Object Storage is encrypted with Customer Managed Key",
+  "language": "terraform",
+  "file": "main.tf",
+  "line": 1,
+  "vulnerable_code": "resource \"oci_objectstorage_bucket\" \"secretsquirrel\" {\n  # bucket can't emit object events\n  # Storage hasn't versioning enabled\n  # Storage isn't encrypted with Customer Managed Key\n  # Object Storage is Public\"\n  compartment_id        = oci_identity_compartment.tf-compartment.id\n  name                  = \"myreallysecretstore\"\n  namespace             = data.oci_objectstorage_namespace.example.namespace\n  object_events_enabled = false\n  access_type           = \"ObjectRead\"\n  metadata              = { \"data\" = \"Blockofdata\" }\n  storage_tier          = \"Standard\"\n  freeform_tags = {\n    git_commit           = \"7a7b957091945f77ecef712a92ac719c8d9a6498\"\n    git_file             = \"terraform/oracle/bucket.tf\"\n    git_last_modified_at = \"2022-04-06 10:43:57\"\n    git_last_modified_by = \"james.woolfenden@gmail.com\"\n    git_modifiers        = \"james.woolfenden\"\n    git_org              = \"bridgecrewio\"\n    git_repo             = \"terragoat\"\n    yor_trace            = \"a854aa89-5141-4518-a5dc-0ffe3075f209\"\n  }\n}\n",
+  "source": {
+    "corpus": "terragoat",
+    "url": "https://github.com/bridgecrewio/terragoat",
+    "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+    "path": "terraform/oracle/bucket.tf",
+    "license": "Apache-2.0"
+  }
+}

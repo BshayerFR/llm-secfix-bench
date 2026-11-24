@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-087",
+  "scanner": "Bandit",
+  "rule_id": "B108",
+  "rule_name": "hardcoded_tmp_directory",
+  "rule_description": "Probable insecure usage of temp file/directory.",
+  "language": "python",
+  "file": "app.py",
+  "line": 29,
+  "vulnerable_code": "#!/usr/bin/env python3\n\nfrom flask import Flask, g, redirect, request\n\nfrom mod_hello import mod_hello\nfrom mod_user import mod_user\nfrom mod_posts import mod_posts\nfrom mod_mfa import mod_mfa\n\nimport libsession\n\napp = Flask('vulpy')\napp.config['SECRET_KEY'] = 'aaaaaaa'\n\napp.register_blueprint(mod_hello, url_prefix='/hello')\napp.register_blueprint(mod_user, url_prefix='/user')\napp.register_blueprint(mod_posts, url_prefix='/posts')\napp.register_blueprint(mod_mfa, url_prefix='/mfa')\n\n\n@app.route('/')\ndef do_home():\n    return redirect('/posts')\n\n@app.before_request\ndef before_request():\n    g.session = libsession.load(request)\n\napp.run(debug=True, host='127.0.1.1', ssl_context=('/tmp/acme.cert', '/tmp/acme.key'))\n",
+  "source": {
+    "corpus": "vulpy",
+    "url": "https://github.com/fportantier/vulpy",
+    "commit": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+    "path": "bad/vulpy-ssl.py",
+    "license": "MIT"
+  }
+}

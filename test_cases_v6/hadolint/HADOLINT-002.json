@@ -1,0 +1,18 @@
+{
+  "case_id": "HADOLINT-002",
+  "scanner": "Hadolint",
+  "rule_id": "DL3018",
+  "rule_name": "DL3018",
+  "rule_description": "Pin versions in apk add. Instead of `apk add <package>` use `apk add <package>=<version>`",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 7,
+  "vulnerable_code": "FROM python:3.9.2-alpine\n\n# upgrade pip\nRUN pip install --upgrade pip\n\n# get curl for healthchecks\nRUN apk add curl\n\n# permissions and nonroot user for tightened security\nRUN adduser -D nonroot\nRUN mkdir /home/app/ && chown -R nonroot:nonroot /home/app\nRUN mkdir -p /var/log/flask-app && touch /var/log/flask-app/flask-app.err.log && touch /var/log/flask-app/flask-app.out.log\nRUN chown -R nonroot:nonroot /var/log/flask-app\nWORKDIR /home/app\nUSER nonroot\n\n# copy all the files to the container\nCOPY --chown=nonroot:nonroot . .\n\n# venv\nENV VIRTUAL_ENV=/home/app/venv\n\n# python setup\nRUN python -m venv $VIRTUAL_ENV\nENV PATH=\"$VIRTUAL_ENV/bin:$PATH\"\nRUN export FLASK_APP=app.py\nRUN pip install -r requirements.txt\n\n# define the port number the container should expose\nEXPOSE 5000\n\nCMD [\"python\", \"app.py\"]\n",
+  "source": {
+    "corpus": "awesome-compose",
+    "url": "https://github.com/docker/awesome-compose",
+    "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+    "path": "nginx-wsgi-flask/flask/Dockerfile",
+    "license": "CC0, see LICENSE"
+  }
+}

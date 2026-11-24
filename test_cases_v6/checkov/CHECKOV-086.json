@@ -1,0 +1,18 @@
+{
+  "case_id": "CHECKOV-086",
+  "scanner": "Checkov",
+  "rule_id": "CKV_K8S_22",
+  "rule_name": "Use read-only filesystem for containers where possible",
+  "rule_description": "Use read-only filesystem for containers where possible",
+  "language": "yaml",
+  "file": "manifest.yaml",
+  "line": 15,
+  "vulnerable_code": "# Copyright 2024 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#      https://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\napiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: shoppingassistantservice\n  labels:\n    app: shoppingassistantservice\nspec:\n  selector:\n    matchLabels:\n      app: shoppingassistantservice\n  template:\n    metadata:\n      labels:\n        app: shoppingassistantservice\n    spec:\n      serviceAccountName: shoppingassistantservice\n      terminationGracePeriodSeconds: 5\n      securityContext:\n        fsGroup: 1000\n        runAsGroup: 1000\n        runAsNonRoot: true\n        runAsUser: 1000\n      containers:\n      - name: server\n        securityContext:\n          allowPrivilegeEscalation: false\n          capabilities:\n            drop:\n              - ALL\n          privileged: false\n          readOnlyRootFilesystem: false\n        image: shoppingassistantservice\n        ports:\n        - name: http\n          containerPort: 8080\n        env:\n        - name: GOOGLE_API_KEY\n          value: GOOGLE_API_KEY_VAL\n        - name: ALLOYDB_CLUSTER_NAME\n          value: ALLOYDB_CLUSTER_NAME_VAL\n        - name: ALLOYDB_INSTANCE_NAME\n          value: ALLOYDB_INSTANCE_NAME_VAL\n        - name: ALLOYDB_DATABASE_NAME\n          value: ALLOYDB_DATABASE_NAME_VAL\n        - name: ALLOYDB_TABLE_NAME\n          value: ALLOYDB_TABLE_NAME_VAL\n        - name: ALLOYDB_SECRET_NAME\n          value: ALLOYDB_SECRET_NAME_VAL\n        - name: PROJECT_ID\n          value: PROJECT_ID_VAL\n        - name: REGION\n          value: REGION_VAL\n        resources:\n          requests:\n            cpu: 100m\n            memory: 64Mi\n          limits:\n            cpu: 200m\n            memory: 128Mi\n---\napiVersion: v1\nkind: Service\nmetadata:\n  name: shoppingassistantservice\n  labels:\n    app: shoppingassistantservice\nspec:\n  type: ClusterIP\n  selector:\n    app: shoppingassistantservice\n  ports:\n  - name: http\n    port: 80\n    targetPort: 8080\n---\napiVersion: v1\nkind: ServiceAccount\nmetadata:\n  name: shoppingassistantservice\n  annotations:\n    iam.gke.io/gcp-service-account: ALLOYDB_USER_GSA_ID\n",
+  "source": {
+    "corpus": "microservices-demo",
+    "url": "https://github.com/GoogleCloudPlatform/microservices-demo",
+    "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+    "path": "kustomize/components/shopping-assistant/shoppingassistantservice.yaml",
+    "license": "Apache-2.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "CHECKOV-062",
+  "scanner": "Checkov",
+  "rule_id": "CKV_AWS_7",
+  "rule_name": "Ensure rotation for customer created CMKs is enabled",
+  "rule_description": "Ensure rotation for customer created CMKs is enabled",
+  "language": "terraform",
+  "file": "main.tf",
+  "line": 1,
+  "vulnerable_code": "resource \"aws_kms_key\" \"logs_key\" {\n  # key does not have rotation enabled\n  description = \"${local.resource_prefix.value}-logs bucket key\"\n\n  deletion_window_in_days = 7\n  tags = {\n    git_commit           = \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\"\n    git_file             = \"terraform/aws/kms.tf\"\n    git_last_modified_at = \"2020-06-16 14:46:24\"\n    git_last_modified_by = \"nimrodkor@gmail.com\"\n    git_modifiers        = \"nimrodkor\"\n    git_org              = \"bridgecrewio\"\n    git_repo             = \"terragoat\"\n    yor_trace            = \"cd8fa2a7-4868-4cd1-993d-da4644808ce5\"\n  }\n}\n\nresource \"aws_kms_alias\" \"logs_key_alias\" {\n  name          = \"alias/${local.resource_prefix.value}-logs-bucket-key\"\n  target_key_id = \"${aws_kms_key.logs_key.key_id}\"\n}\n",
+  "source": {
+    "corpus": "terragoat",
+    "url": "https://github.com/bridgecrewio/terragoat",
+    "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+    "path": "terraform/aws/kms.tf",
+    "license": "Apache-2.0"
+  }
+}

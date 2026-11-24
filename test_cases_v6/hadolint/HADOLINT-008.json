@@ -1,0 +1,18 @@
+{
+  "case_id": "HADOLINT-008",
+  "scanner": "Hadolint",
+  "rule_id": "DL3025",
+  "rule_name": "DL3025",
+  "rule_description": "Use arguments JSON notation for CMD and ENTRYPOINT arguments",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 52,
+  "vulnerable_code": "# Copyright 2020 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#      http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n# Define a default value so it's not empty if the builder fails to provide it\nARG BUILDPLATFORM=linux/amd64\n\nFROM --platform=$BUILDPLATFORM python:3.14.7-alpine@sha256:05b2b8b732ecd268fee8727a369f936f022d1321b59befd13c30ede22769dcdc AS base\n\nFROM base AS builder\n\nENV PYTHONDONTWRITEBYTECODE=1\nENV PYTHONUNBUFFERED=1\n\nRUN apk update \\\n    && apk add --no-cache g++ linux-headers \\\n    && rm -rf /var/cache/apk/*\n\nCOPY requirements.txt .\n\nRUN pip install --prefix=\"/install\" -r requirements.txt\n\nFROM base\n\nENV PYTHONDONTWRITEBYTECODE=1\nENV PYTHONUNBUFFERED=1\n\nRUN apk update \\\n    && apk add --no-cache libstdc++ \\\n    && rm -rf /var/cache/apk/*\n\nWORKDIR /loadgen\n\nCOPY --from=builder /install /usr/local\n\n# Add application code.\nCOPY locustfile.py .\n\n# enable gevent support in debugger\nENV GEVENT_SUPPORT=True\n\nENTRYPOINT locust --host=\"http://${FRONTEND_ADDR}\" --headless -u \"${USERS:-10}\" -r \"${RATE:-1}\" 2>&1\n",
+  "source": {
+    "corpus": "microservices-demo",
+    "url": "https://github.com/GoogleCloudPlatform/microservices-demo",
+    "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+    "path": "src/loadgenerator/Dockerfile",
+    "license": "Apache-2.0"
+  }
+}

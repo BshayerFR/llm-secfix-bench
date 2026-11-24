@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-031",
+  "scanner": "Bandit",
+  "rule_id": "B201",
+  "rule_name": "flask_debug_true",
+  "rule_description": "A Flask app appears to be run with debug=True, which exposes the Werkzeug debugger and allows the execution of arbitrary code.",
+  "language": "python",
+  "file": "app.py",
+  "line": 25,
+  "vulnerable_code": "# Copyright 2023 Google LLC.\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#    http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n# [START eventarc_audit_iam_server]\nimport json\nimport os\n\nfrom cloudevents.http import from_http\nfrom flask import Flask, request\nfrom google.events.cloud.audit import LogEntryData\n\napp = Flask(__name__)\nif __name__ == \"__main__\":\n    app.run(debug=True, host=\"0.0.0.0\", port=int(os.environ.get(\"PORT\", 8080)))\n\n# [END eventarc_audit_iam_server]\n\n\n# [START eventarc_audit_iam_handler]\n@app.route(\"/\", methods=[\"POST\"])\ndef index():\n    # Transform the HTTP request into a CloudEvent\n    event = from_http(request.headers, request.get_data())\n\n    # Extract the LogEntryData from the CloudEvent\n    # The LogEntryData type is described at https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry\n    # re-serialize to json, to convert the json-style 'lowerCamelCase' names to the protobuf-style 'snake_case' equivalents.\n    # ignore_unknown_fields is needed to skip the '@type' fields.\n    log_entry = LogEntryData.from_json(\n        json.dumps(event.get_data()), ignore_unknown_fields=True\n    )\n\n    # Ensure that this event is for service accout key creation, and succeeded.\n    if log_entry.proto_payload.service_name != \"iam.googleapis.com\":\n        return (\"Received event was not from IAM.\", 400)\n    if log_entry.proto_payload.status.code != 0:\n        return (\"Key creation failed, not reporting.\", 204)\n\n    # Extract relevant fields from the audit log entry.\n    # Identify the user that requested key creation\n    user = log_entry.proto_payload.authentication_info.principal_email\n\n    # Extract the resource name from the CreateServiceAccountKey request\n    # For details of this type, see https://cloud.google.com/iam/docs/reference/rpc/google.iam.admin.v1#createserviceaccountkeyrequest\n    service_account = log_entry.proto_payload.request[\"name\"]\n\n    # The response is of type google.iam.admin.v1.ServiceAccountKey,\n    # which is described at https://cloud.google.com/iam/docs/reference/rpc/google.iam.admin.v1#google.iam.admin.v1.ServiceAccountKey\n    # This key path can be used with gcloud to disable/delete the key:\n    # e.g. gcloud iam service-accounts keys disable ${keypath}\n    keypath = log_entry.proto_payload.response[\"name\"]\n\n    print(f\"New Service Account Key created for {service_account} by {user}: {keypath}\")\n    return (\n        f\"New Service Account Key created for {service_account} by {user}: {keypath}\",\n        200,\n    )\n\n\n# [END eventarc_audit_iam_handler]\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+    "path": "eventarc/audit_iam/main.py",
+    "license": "Apache-2.0"
+  }
+}

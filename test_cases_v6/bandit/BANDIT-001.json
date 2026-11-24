@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-001",
+  "scanner": "Bandit",
+  "rule_id": "B413",
+  "rule_name": "blacklist",
+  "rule_description": "The pyCrypto library and its module SHA256 are no longer actively maintained and have been deprecated. Consider using pyca/cryptography library.",
+  "language": "python",
+  "file": "app.py",
+  "line": 26,
+  "vulnerable_code": "# Copyright 2015 Google Inc.\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#     http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n\"\"\"\nSample Google App Engine application that demonstrates usage of the app\nidentity API to sign bytes and verify signatures.\n\nFor more information about App Engine, see README.md under /appengine.\n\"\"\"\n\n# [START gae_python_app_identity_signing]\n\nimport base64\n\nfrom Crypto.Hash import SHA256\nfrom Crypto.PublicKey import RSA\nfrom Crypto.Signature import PKCS1_v1_5\nfrom Crypto.Util.asn1 import DerSequence\nfrom google.appengine.api import app_identity\nimport webapp2\n\n\ndef verify_signature(data, signature, x509_certificate):\n    \"\"\"Verifies a signature using the given x.509 public key certificate.\"\"\"\n\n    # PyCrypto 2.6 doesn't support x.509 certificates directly, so we'll need\n    # to extract the public key from it manually.\n    # This code is based on https://github.com/google/oauth2client/blob/master\n    # /oauth2client/_pycrypto_crypt.py\n    pem_lines = x509_certificate.replace(b\" \", b\"\").split()\n    cert_der = base64.urlsafe_b64decode(b\"\".join(pem_lines[1:-1]))\n    cert_seq = DerSequence()\n    cert_seq.decode(cert_der)\n    tbs_seq = DerSequence()\n    tbs_seq.decode(cert_seq[0])\n    public_key = RSA.importKey(tbs_seq[6])\n\n    signer = PKCS1_v1_5.new(public_key)\n    digest = SHA256.new(data)\n\n    return signer.verify(digest, signature)\n\n\ndef verify_signed_by_app(data, signature):\n    \"\"\"Checks the signature and data against all currently valid certificates\n    for the application.\"\"\"\n    public_certificates = app_identity.get_public_certificates()\n\n    for cert in public_certificates:\n        if verify_signature(data, signature, cert.x509_certificate_pem):\n            return True\n\n    return False\n\n\nclass MainPage(webapp2.RequestHandler):\n    def get(self):\n        message = \"Hello, world!\"\n        signing_key_name, signature = app_identity.sign_blob(message)\n        verified = verify_signed_by_app(message, signature)\n\n        self.response.content_type = \"text/plain\"\n        self.response.write(\"Message: {}\\n\".format(message))\n        self.response.write(\"Signature: {}\\n\".format(base64.b64encode(signature)))\n        self.response.write(\"Verified: {}\\n\".format(verified))\n\n\napp = webapp2.WSGIApplication([(\"/\", MainPage)], debug=True)\n\n# [END gae_python_app_identity_signing]\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+    "path": "appengine/standard/app_identity/signing/main.py",
+    "license": "Apache-2.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-081",
+  "scanner": "Bandit",
+  "rule_id": "B201",
+  "rule_name": "flask_debug_true",
+  "rule_description": "A Flask app appears to be run with debug=True, which exposes the Werkzeug debugger and allows the execution of arbitrary code.",
+  "language": "python",
+  "file": "app.py",
+  "line": 92,
+  "vulnerable_code": "# Copyright 2020 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#     https://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n\"\"\"\nA sample app demonstrating CloudTraceSpanExporter\n\"\"\"\n\nimport os\nimport random\nimport time\n\nfrom typing import Tuple, Union\n\nimport flask\n\n# [START trace_demo_imports]\nfrom opentelemetry import trace\nfrom opentelemetry.exporter.cloud_trace import CloudTraceSpanExporter\nfrom opentelemetry.instrumentation.flask import FlaskInstrumentor\nfrom opentelemetry.instrumentation.requests import RequestsInstrumentor\nfrom opentelemetry.propagate import set_global_textmap\nfrom opentelemetry.propagators.cloud_trace_propagator import CloudTraceFormatPropagator\nfrom opentelemetry.sdk.trace import TracerProvider\nfrom opentelemetry.sdk.trace.export import BatchSpanProcessor\n\n# [END trace_demo_imports]\nimport requests\n\n\n# [START trace_demo_create_exporter]\ndef configure_exporter(exporter):\n    \"\"\"Configures OpenTelemetry context propagation to use Cloud Trace context\n\n    Args:\n        exporter: exporter instance to be configured in the OpenTelemetry tracer provider\n    \"\"\"\n    set_global_textmap(CloudTraceFormatPropagator())\n    tracer_provider = TracerProvider()\n    tracer_provider.add_span_processor(BatchSpanProcessor(exporter))\n    trace.set_tracer_provider(tracer_provider)\n\n\nconfigure_exporter(CloudTraceSpanExporter())\ntracer = trace.get_tracer(__name__)\n# [END trace_demo_create_exporter]\n\n\n# [START trace_demo_middleware]\napp = flask.Flask(__name__)\nFlaskInstrumentor().instrument_app(app)\nRequestsInstrumentor().instrument()\n# [END trace_demo_middleware]\n\n\n@app.route(\"/\")\ndef template_test() -> Union[str, Tuple[str, int]]:\n    # Sleep for a random time to imitate a random processing time\n    time.sleep(random.uniform(0, 0.5))\n\n    # If there is an endpoint, send keyword to next service.\n    # Return received input with the keyword\n    keyword = os.getenv(\"KEYWORD\")\n    endpoint = os.getenv(\"ENDPOINT\")\n    # [START trace_context_header]\n    if endpoint is not None and endpoint != \"\":\n        data = {\"body\": keyword}\n        response = requests.get(\n            endpoint,\n            params=data,\n        )\n        return keyword + \"\\n\" + response.text\n    else:\n        return keyword, 200\n\n\n# [END trace_context_header]\n\n\nif __name__ == \"__main__\":\n    port = os.getenv(\"PORT\")\n    app.run(debug=True, host=\"0.0.0.0\", port=port)\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+    "path": "trace/cloud-trace-demo-app-opentelemetry/app/app.py",
+    "license": "Apache-2.0"
+  }
+}

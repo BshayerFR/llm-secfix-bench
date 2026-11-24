@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-074",
+  "scanner": "Bandit",
+  "rule_id": "B201",
+  "rule_name": "flask_debug_true",
+  "rule_description": "A Flask app appears to be run with debug=True, which exposes the Werkzeug debugger and allows the execution of arbitrary code.",
+  "language": "python",
+  "file": "app.py",
+  "line": 46,
+  "vulnerable_code": "# Copyright 2019 Google Inc.\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#     http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\"\"\"An example of using https://cloud.google.com/profiler on GAE flex.\"\"\"\n\nfrom flask import Flask\n\n# [START profiler_python_appengine_flex]\nimport googlecloudprofiler\n\n# Profiler initialization. It starts a daemon thread which continuously\n# collects and uploads profiles. Best done as early as possible.\ntry:\n    # service and service_version can be automatically inferred when\n    # running on App Engine. project_id must be set if not running\n    # on GCP.\n    googlecloudprofiler.start(verbose=3)\nexcept (ValueError, NotImplementedError) as exc:\n    print(exc)  # Handle errors here\n\n# [END profiler_python_appengine_flex]\n\n\napp = Flask(__name__)\n\n\n@app.route(\"/\")\ndef hello():\n    \"\"\"Return a friendly HTTP greeting.\"\"\"\n    return \"Hello World!\"\n\n\nif __name__ == \"__main__\":\n    # This is used when running locally. Gunicorn is used to run the\n    # application on Google App Engine. See entrypoint in app.yaml.\n    app.run(host=\"127.0.0.1\", port=8080, debug=True)\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+    "path": "profiler/appengine/flexible/main.py",
+    "license": "Apache-2.0"
+  }
+}

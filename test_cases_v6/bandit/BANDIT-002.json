@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-002",
+  "scanner": "Bandit",
+  "rule_id": "B201",
+  "rule_name": "flask_debug_true",
+  "rule_description": "A Flask app appears to be run with debug=True, which exposes the Werkzeug debugger and allows the execution of arbitrary code.",
+  "language": "python",
+  "file": "app.py",
+  "line": 48,
+  "vulnerable_code": "# Copyright 2018 Google LLC.\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#     http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\nimport os\n\nfrom flask import Flask\nimport redis\n\n\napp = Flask(__name__)\n\n\n# [START gae_py37_redis_client]\nredis_host = os.environ.get(\"REDIS_HOST\", \"localhost\")\nredis_port = int(os.environ.get(\"REDIS_PORT\", 6379))\nredis_password = os.environ.get(\"REDIS_PASSWORD\", None)\nredis_client = redis.StrictRedis(\n    host=redis_host, port=redis_port, password=redis_password\n)\n# [END gae_py37_redis_client]\n\n\n# [START gae_py37_redis_example]\n@app.route(\"/\")\ndef index():\n    value = redis_client.incr(\"counter\", 1)\n    return f\"Value is {value}\"\n\n\n# [END gae_py37_redis_example]\n\n\nif __name__ == \"__main__\":\n    # This is used when running locally only. When deploying to Google App\n    # Engine, a webserver process such as Gunicorn will serve the app. This\n    # can be configured by adding an `entrypoint` to app.yaml.\n    app.run(host=\"127.0.0.1\", port=8080, debug=True)\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+    "path": "appengine/standard_python3/redis/main.py",
+    "license": "Apache-2.0"
+  }
+}

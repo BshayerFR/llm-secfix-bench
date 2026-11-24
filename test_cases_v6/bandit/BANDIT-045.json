@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-045",
+  "scanner": "Bandit",
+  "rule_id": "B108",
+  "rule_name": "hardcoded_tmp_directory",
+  "rule_description": "Probable insecure usage of temp file/directory.",
+  "language": "python",
+  "file": "app.py",
+  "line": 6,
+  "vulnerable_code": "from pathlib import Path\n\nimport click\nimport requests\n\napi_key_file = Path('/tmp/supersecret.txt')\n\n@click.command()\n@click.argument('message')\ndef cmd_api_client(message):\n    if not api_key_file.exists():\n\n        username = click.prompt('Username')\n        password = click.prompt('Password', hide_input=True)\n\n        r = requests.post('http://127.0.1.1:5000/api/key', json={'username':username, 'password':password})\n\n        if r.status_code != 200:\n            click.echo('Invalid authentication or other error ocurred. Status code: {}'.format(r.status_code))\n            return False\n\n\n        api_key = r.json()['key']\n        print('Received key:', api_key)\n\n        with api_key_file.open('w') as outfile:\n            outfile.write(api_key)\n\n    api_key = api_key_file.open().read()\n    r = requests.post('http://127.0.1.1:5000/api/post', json={'text':message}, headers={'X-APIKEY': api_key})\n    print(r.text)\n\n\nif __name__ == '__main__':\n    cmd_api_client()\n",
+  "source": {
+    "corpus": "vulpy",
+    "url": "https://github.com/fportantier/vulpy",
+    "commit": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+    "path": "bad/api_post.py",
+    "license": "MIT"
+  }
+}

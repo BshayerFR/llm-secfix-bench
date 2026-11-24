@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-037",
+  "scanner": "Bandit",
+  "rule_id": "B113",
+  "rule_name": "request_without_timeout",
+  "rule_description": "Call to requests without timeout",
+  "language": "python",
+  "file": "app.py",
+  "line": 27,
+  "vulnerable_code": "# Copyright 2016 Google LLC.\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#     http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\nfrom flask import Flask\nimport requests\n\nimport services_config\n\napp = Flask(__name__)\nservices_config.init_app(app)\n\n\n@app.route(\"/\")\ndef root():\n    \"\"\"Gets index.html from the static file server\"\"\"\n    res = requests.get(app.config[\"SERVICE_MAP\"][\"static\"])\n    return res.content\n\n\n@app.route(\"/hello/<service>\")\ndef say_hello(service):\n    \"\"\"Recieves requests from buttons on the front end and resopnds\n    or sends request to the static file server\"\"\"\n    # If 'gateway' is specified return immediate\n    if service == \"gateway\":\n        return \"Gateway says hello\"\n\n    # Otherwise send request to service indicated by URL param\n    responses = []\n    url = app.config[\"SERVICE_MAP\"][service]\n    res = requests.get(url + \"/hello\")\n    responses.append(res.content)\n    return b\"\\n\".join(responses)\n\n\n@app.route(\"/<path>\")\ndef static_file(path):\n    \"\"\"Gets static files required by index.html to static file server\"\"\"\n    url = app.config[\"SERVICE_MAP\"][\"static\"]\n    res = requests.get(url + \"/\" + path)\n    return res.content, 200, {\"Content-Type\": res.headers[\"Content-Type\"]}\n\n\nif __name__ == \"__main__\":\n    # This is used when running locally. Gunicorn is used to run the\n    # application on Google App Engine. See entrypoint in app.yaml.\n    app.run(host=\"127.0.0.1\", port=8000, debug=True)\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+    "path": "appengine/flexible/multiple_services/gateway-service/main.py",
+    "license": "Apache-2.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "HADOLINT-056",
+  "scanner": "Hadolint",
+  "rule_id": "DL3008",
+  "rule_name": "DL3008",
+  "rule_description": "Pin versions in apt get install. Instead of `apt-get install <package>` use `apt-get install <package>=<version>`",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 24,
+  "vulnerable_code": "#  Copyright 2024 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#     http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n# This uses Ubuntu with Python 3.11\n# You can check the Python version for a given tensorflow\n# container at https://hub.docker.com/r/tensorflow/tensorflow/tags\nARG SERVING_BUILD_IMAGE=tensorflow/tensorflow:2.20.0-gpu\n\nFROM ${SERVING_BUILD_IMAGE}\n\nWORKDIR /workspace\n\nRUN apt-get update -y && apt-get install -y \\\n    cmake\n\nCOPY requirements.txt requirements.txt\nRUN pip install --upgrade --no-cache-dir pip \\\n    && pip install --no-cache-dir -r requirements.txt\n\n# Copy files from official SDK image, including script/dependencies.\nCOPY --from=apache/beam_python3.11_sdk:2.74.0 /opt/apache/beam /opt/apache/beam\n\n# Copy the model directory downloaded from Kaggle and the pipeline code.\nCOPY gemma_2b gemma_2B\nCOPY custom_model_gemma.py custom_model_gemma.py\n\nENV KERAS_BACKEND=\"tensorflow\"\n\n# Set the entrypoint to Apache Beam SDK launcher.\nENTRYPOINT [\"/opt/apache/beam/boot\"]\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+    "path": "dataflow/gemma/Dockerfile",
+    "license": "Apache-2.0"
+  }
+}

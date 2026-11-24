@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-076",
+  "scanner": "Bandit",
+  "rule_id": "B608",
+  "rule_name": "hardcoded_sql_expressions",
+  "rule_description": "Possible SQL injection vector through string-based query construction.",
+  "language": "python",
+  "file": "app.py",
+  "line": 19,
+  "vulnerable_code": "\nimport sqlite3\nfrom passlib.hash import pbkdf2_sha256\n\ndef db_init():\n\n    users = [\n        ('admin', pbkdf2_sha256.encrypt('123456')),\n        ('john', pbkdf2_sha256.encrypt('Password')),\n        ('tim', pbkdf2_sha256.encrypt('Vaider2'))\n    ]\n\n    conn = sqlite3.connect('users.sqlite')\n    c = conn.cursor()\n    c.execute(\"DROP TABLE users\")\n    c.execute(\"CREATE TABLE users (user text, password text, failures int)\")\n\n    for u,p in users:\n        c.execute(\"INSERT INTO users (user, password, failures) VALUES ('%s', '%s', '%d')\" %(u, p, 0))\n\n    conn.commit()\n    conn.close()\n\n\nif __name__ == '__main__':\n    db_init()\n",
+  "source": {
+    "corpus": "vulpy",
+    "url": "https://github.com/fportantier/vulpy",
+    "commit": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+    "path": "bad/db.py",
+    "license": "MIT"
+  }
+}

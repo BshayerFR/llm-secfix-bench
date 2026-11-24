@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-069",
+  "scanner": "Bandit",
+  "rule_id": "B608",
+  "rule_name": "hardcoded_sql_expressions",
+  "rule_description": "Possible SQL injection vector through string-based query construction.",
+  "language": "python",
+  "file": "app.py",
+  "line": 12,
+  "vulnerable_code": "import sqlite3\nimport libuser\n\n\ndef login(username, password):\n\n    conn = sqlite3.connect('db_users.sqlite')\n    conn.set_trace_callback(print)\n    conn.row_factory = sqlite3.Row\n    c = conn.cursor()\n\n    user = c.execute(\"SELECT * FROM users WHERE username = '{}' and password = '{}'\".format(username, password)).fetchone()\n\n    if user:\n        return user['username']\n    else:\n        return False\n\n\ndef create(username, password):\n\n    conn = sqlite3.connect('db_users.sqlite')\n    c = conn.cursor()\n\n    c.execute(\"INSERT INTO users (username, password, failures, mfa_enabled, mfa_secret) VALUES ('%s', '%s', '%d', '%d', '%s')\" %(username, password, 0, 0, ''))\n\n    conn.commit()\n    conn.close()\n\n\ndef userlist():\n\n    conn = sqlite3.connect('db_users.sqlite')\n    conn.set_trace_callback(print)\n    conn.row_factory = sqlite3.Row\n    c = conn.cursor()\n\n    users = c.execute(\"SELECT * FROM users\").fetchall()\n\n    if not users:\n        return []\n    else:\n        return [ user['username'] for user in users ]\n\n\ndef password_change(username, password):\n\n    conn = sqlite3.connect('db_users.sqlite')\n    conn.set_trace_callback(print)\n    conn.row_factory = sqlite3.Row\n    c = conn.cursor()\n\n    c.execute(\"UPDATE users SET password = '{}' WHERE username = '{}'\".format(password, username))\n    conn.commit()\n\n    return True\n\n\ndef password_complexity(password):\n    return True\n",
+  "source": {
+    "corpus": "vulpy",
+    "url": "https://github.com/fportantier/vulpy",
+    "commit": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+    "path": "bad/libuser.py",
+    "license": "MIT"
+  }
+}

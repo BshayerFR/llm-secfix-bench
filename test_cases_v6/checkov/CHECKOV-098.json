@@ -1,0 +1,18 @@
+{
+  "case_id": "CHECKOV-098",
+  "scanner": "Checkov",
+  "rule_id": "CKV_ALI_5",
+  "rule_name": "Ensure Action Trail Logging for all events",
+  "rule_description": "Ensure Action Trail Logging for all events",
+  "language": "terraform",
+  "file": "main.tf",
+  "line": 1,
+  "vulnerable_code": "resource \"alicloud_actiontrail_trail\" \"fail\" {\n  # Action Trail not Logging for all regions\n  # Action Trail not Logging for all events\n  trail_name         = \"action-trail\"\n  oss_write_role_arn = alicloud_ram_role.trail.arn\n  oss_bucket_name    = alicloud_oss_bucket.trail.bucket\n  event_rw           = \"Read\"\n  trail_region       = \"cn-hangzhou\"\n}\n\nresource \"alicloud_oss_bucket\" \"trail\" {\n\n  tags = {\n    git_commit           = \"c2ff052009d49c65e6af551eb1506abc73b5976c\"\n    git_file             = \"terraform/alicloud/trail.tf\"\n    git_last_modified_at = \"2022-04-05 15:14:28\"\n    git_last_modified_by = \"james.woolfenden@gmail.com\"\n    git_modifiers        = \"james.woolfenden\"\n    git_org              = \"bridgecrewio\"\n    git_repo             = \"terragoat\"\n    yor_trace            = \"9ce7077b-8195-4e71-aec6-ed1f769555dc\"\n  }\n}\n\nresource \"alicloud_ram_role\" \"trail\" {\n  name     = \"trail\"\n  document = <<EOF\n  {\n    \"Statement\": [\n      {\n        \"Action\": \"sts:AssumeRole\",\n        \"Effect\": \"Allow\",\n        \"Principal\": {\n          \"Service\": [\n            \"actiontrail.aliyuncs.com\"\n          ]\n        }\n      }\n    ],\n    \"Version\": \"1\"\n  }\n  EOF\n  force    = true\n}\n",
+  "source": {
+    "corpus": "terragoat",
+    "url": "https://github.com/bridgecrewio/terragoat",
+    "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+    "path": "terraform/alicloud/trail.tf",
+    "license": "Apache-2.0"
+  }
+}

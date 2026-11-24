@@ -1,0 +1,18 @@
+{
+  "case_id": "CHECKOV-028",
+  "scanner": "Checkov",
+  "rule_id": "CKV_GCP_114",
+  "rule_name": "Ensure public access prevention is enforced on Cloud Storage bucket",
+  "rule_description": "Ensure public access prevention is enforced on Cloud Storage bucket",
+  "language": "terraform",
+  "file": "main.tf",
+  "line": 1,
+  "vulnerable_code": "resource \"google_storage_bucket\" \"terragoat_website\" {\n  name          = \"terragot-${var.environment}\"\n  location      = var.location\n  force_destroy = true\n  labels = {\n    git_commit           = \"2bdc0871a5f4505be58244029cc6485d45d7bb8e\"\n    git_file             = \"terraform__gcp__gcs_tf\"\n    git_last_modified_at = \"2022-01-19-17-02-27\"\n    git_last_modified_by = \"jameswoolfenden\"\n    git_modifiers        = \"jameswoolfenden__nimrodkor\"\n    git_org              = \"bridgecrewio\"\n    git_repo             = \"terragoat\"\n    yor_trace            = \"bd00cd2e-f53f-4daf-8d4d-74c47846c1cc\"\n  }\n}\n\nresource \"google_storage_bucket_iam_binding\" \"allow_public_read\" {\n  bucket  = google_storage_bucket.terragoat_website.id\n  members = [\"allUsers\"]\n  role    = \"roles/storage.objectViewer\"\n}\n",
+  "source": {
+    "corpus": "terragoat",
+    "url": "https://github.com/bridgecrewio/terragoat",
+    "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+    "path": "terraform/gcp/gcs.tf",
+    "license": "Apache-2.0"
+  }
+}

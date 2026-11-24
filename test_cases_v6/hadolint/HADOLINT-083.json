@@ -1,0 +1,18 @@
+{
+  "case_id": "HADOLINT-083",
+  "scanner": "Hadolint",
+  "rule_id": "DL3020",
+  "rule_name": "DL3020",
+  "rule_description": "Use COPY instead of ADD for files and folders",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 18,
+  "vulnerable_code": "FROM docker.io/python:3.15-alpine\n\nRUN apk add --no-cache wget \\\n    && wget -O /usr/bin/wait-for https://raw.githubusercontent.com/eficode/wait-for/master/wait-for \\\n    && chmod +x /usr/bin/wait-for \\\n    && apk del wget\n\nCOPY requirements.txt /tmp\n\nRUN apk add --no-cache --virtual build-deps gcc python3-dev musl-dev \\\n    && apk add --no-cache postgresql-dev \\\n    && pip install -r /tmp/requirements.txt \\\n    && apk del build-deps\n\nRUN rm -rf /tmp/requirements.txt\n\nWORKDIR /app\nADD ./run.py /app\nADD ./sqli /app/sqli\nADD ./config /app/config\n",
+  "source": {
+    "corpus": "dvpwa",
+    "url": "https://github.com/anxolerd/dvpwa",
+    "commit": "4a8f4a43fafcc1b304f1b97d0f0a8dea755a7756",
+    "path": "Dockerfile.app",
+    "license": "MIT-style, see LICENSE"
+  }
+}

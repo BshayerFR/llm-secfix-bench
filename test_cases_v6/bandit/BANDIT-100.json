@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-100",
+  "scanner": "Bandit",
+  "rule_id": "B201",
+  "rule_name": "flask_debug_true",
+  "rule_description": "A Flask app appears to be run with debug=True, which exposes the Werkzeug debugger and allows the execution of arbitrary code.",
+  "language": "python",
+  "file": "app.py",
+  "line": 49,
+  "vulnerable_code": "# Copyright 2018 Google LLC.\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#     http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n# [START gae_python38_warmup_app]\n# [START gae_python3_warmup_app]\nfrom flask import Flask\n\n\napp = Flask(__name__)\n\n\n@app.route(\"/\")\ndef main():\n    \"\"\"Serves a predefined placeholder string.\n\n    Returns:\n        A predefined string saying 'Hello World!'\n    \"\"\"\n    return \"Hello World!\"\n\n\n@app.route(\"/_ah/warmup\")\ndef warmup():\n    \"\"\"Served stub function returning no content.\n\n    Your warmup logic can be implemented here (e.g. set up a database connection pool)\n\n    Returns:\n        An empty string, an HTTP code 200, and an empty object.\n    \"\"\"\n    return \"\", 200, {}\n\n\nif __name__ == \"__main__\":\n    # This is used when running locally only. When deploying to Google App\n    # Engine, a webserver process such as Gunicorn will serve the app. This\n    # can be configured by adding an `entrypoint` to app.yaml.\n    app.run(host=\"127.0.0.1\", port=8080, debug=True)\n# [END gae_python3_warmup_app]\n# [END gae_python38_warmup_app]\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+    "path": "appengine/standard_python3/warmup/main.py",
+    "license": "Apache-2.0"
+  }
+}

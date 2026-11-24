@@ -1,0 +1,18 @@
+{
+  "case_id": "HADOLINT-044",
+  "scanner": "Hadolint",
+  "rule_id": "DL3008",
+  "rule_name": "DL3008",
+  "rule_description": "Pin versions in apt get install. Instead of `apt-get install <package>` use `apt-get install <package>=<version>`",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 4,
+  "vulnerable_code": "FROM python:3.9-slim\n\n# add apache bench (ab) tool\nRUN apt-get update \\\n    && apt-get install -y --no-install-recommends \\\n    apache2-utils \\\n    && rm -rf /var/lib/apt/lists/*\n\nWORKDIR /seed\n\nCOPY . .\n\n# create POST data files with ab friendly formats\nRUN python make-data.py\n\nCMD [\"/seed/generate-votes.sh\"]\n",
+  "source": {
+    "corpus": "example-voting-app",
+    "url": "https://github.com/dockersamples/example-voting-app",
+    "commit": "63e9150ca17af4ed05880d4245e486481f73fcb4",
+    "path": "seed-data/Dockerfile",
+    "license": "Apache-2.0"
+  }
+}

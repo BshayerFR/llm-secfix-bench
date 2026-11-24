@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-044",
+  "scanner": "Bandit",
+  "rule_id": "B113",
+  "rule_name": "request_without_timeout",
+  "rule_description": "Call to requests without timeout",
+  "language": "python",
+  "file": "app.py",
+  "line": 43,
+  "vulnerable_code": "# Copyright 2018 Google, Inc.\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#    http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\nimport os\n\nfrom google.cloud import storage\nimport pytest\nimport requests\n\nimport generate_signed_urls\n\nBUCKET = os.environ[\"CLOUD_STORAGE_BUCKET\"]\nGOOGLE_APPLICATION_CREDENTIALS = os.environ[\"GOOGLE_APPLICATION_CREDENTIALS\"]\n\n\n@pytest.fixture\ndef test_blob():\n    \"\"\"Provides a pre-existing blob in the test bucket.\"\"\"\n    bucket = storage.Client().bucket(BUCKET)\n    blob = bucket.blob(\"storage_snippets_test_sigil\")\n    blob.upload_from_string(\"Hello, is it me you're looking for?\")\n    return blob\n\n\ndef test_generate_get_signed_url(test_blob, capsys):\n    get_signed_url = generate_signed_urls.generate_signed_url(\n        service_account_file=GOOGLE_APPLICATION_CREDENTIALS,\n        bucket_name=BUCKET,\n        object_name=test_blob.name,\n        expiration=60,\n    )\n    response = requests.get(get_signed_url)\n    assert response.ok\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+    "path": "storage/signed_urls/generate_signed_urls_test.py",
+    "license": "Apache-2.0"
+  }
+}

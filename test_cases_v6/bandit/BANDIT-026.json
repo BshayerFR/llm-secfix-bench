@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-026",
+  "scanner": "Bandit",
+  "rule_id": "B113",
+  "rule_name": "request_without_timeout",
+  "rule_description": "Call to requests without timeout",
+  "language": "python",
+  "file": "app.py",
+  "line": 51,
+  "vulnerable_code": "# Copyright 2018 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#     http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\nimport socket\nimport subprocess\n\nimport pytest\nimport requests\nfrom retrying import retry\nimport websocket\n\n\n@pytest.fixture(scope=\"module\")\ndef server():\n    \"\"\"Provides the address of a test HTTP/websocket server.\n    The test server is automatically created before\n    a test and destroyed at the end.\n    \"\"\"\n    # Ask the OS to allocate a port.\n    sock = socket.socket()\n    sock.bind((\"127.0.0.1\", 0))\n    port = sock.getsockname()[1]\n\n    # Free the port and pass it to a subprocess.\n    sock.close()\n\n    bind_to = f\"127.0.0.1:{port}\"\n    server = subprocess.Popen(\n        [\"gunicorn\", \"-b\", bind_to, \"-k\" \"flask_sockets.worker\", \"main:app\"],\n        stdout=subprocess.PIPE,\n        stderr=subprocess.PIPE,\n    )\n\n    # With btlr, there can be many processes are spawned and the\n    # server might be in a tight memory situation, so let's wait for 2\n    # mins.\n    # Wait until the server responds before proceeding.\n    @retry(wait_fixed=50, stop_max_delay=120000)\n    def check_server(url):\n        requests.get(url)\n\n    check_server(f\"http://{bind_to}/\")\n\n    yield bind_to\n\n    server.kill()\n\n    # Dump the logs for debugging\n    out, err = server.communicate()\n    print(f\"gunicorn stdout: {out}\")\n    print(f\"gunicorn stderr: {err}\")\n\n\ndef test_http(server):\n    result = requests.get(f\"http://{server}/\")\n    assert \"Python Websockets Chat\" in result.text\n\n\ndef test_websocket(server):\n    url = f\"ws://{server}/chat\"\n    ws_one = websocket.WebSocket()\n    ws_one.connect(url)\n\n    ws_two = websocket.WebSocket()\n    ws_two.connect(url)\n\n    message = \"Hello, World\"\n    ws_one.send(message)\n\n    assert ws_one.recv() == message\n    assert ws_two.recv() == message\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+    "path": "appengine/flexible/websockets/main_test.py",
+    "license": "Apache-2.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-089",
+  "scanner": "Bandit",
+  "rule_id": "B104",
+  "rule_name": "hardcoded_bind_all_interfaces",
+  "rule_description": "Possible binding to all interfaces.",
+  "language": "python",
+  "file": "app.py",
+  "line": 17,
+  "vulnerable_code": "from config import vuln_app\nimport os\n\n'''\n Decide if you want to server a vulnerable version or not!\n DO NOTE: some functionalities will still be vulnerable even if the value is set to 0\n          as it is a matter of bad practice. Such an example is the debug endpoint.\n'''\nvuln = int(os.getenv('vulnerable', 1))\n# vuln=1\n# token alive for how many seconds?\nalive = int(os.getenv('tokentimetolive', 60))\n\n\n# start the app with port 5000 and debug on!\nif __name__ == '__main__':\n    vuln_app.run(host='0.0.0.0', port=5000, debug=True)\n",
+  "source": {
+    "corpus": "VAmPI",
+    "url": "https://github.com/erev0s/VAmPI",
+    "commit": "f16052dce83f05847133ec98f01c5193a41de7d8",
+    "path": "app.py",
+    "license": "MIT"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "CHECKOV-090",
+  "scanner": "Checkov",
+  "rule_id": "CKV_AZURE_19",
+  "rule_name": "Ensure that standard pricing tier is selected",
+  "rule_description": "Ensure that standard pricing tier is selected",
+  "language": "terraform",
+  "file": "main.tf",
+  "line": 1,
+  "vulnerable_code": "resource azurerm_security_center_subscription_pricing \"pricing\" {\n  tier = \"Free\"\n}\n\nresource azurerm_security_center_contact \"contact\" {\n  alert_notifications = false\n  alerts_to_admins    = false\n  email               = \"some@email.com\"\n}\n",
+  "source": {
+    "corpus": "terragoat",
+    "url": "https://github.com/bridgecrewio/terragoat",
+    "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+    "path": "terraform/azure/security_center.tf",
+    "license": "Apache-2.0"
+  }
+}

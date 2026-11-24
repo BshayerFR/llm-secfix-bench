@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-009",
+  "scanner": "Bandit",
+  "rule_id": "B701",
+  "rule_name": "jinja2_autoescape_false",
+  "rule_description": "By default, jinja2 sets autoescape to False. Consider using autoescape=True or use the select_autoescape function to mitigate XSS vulnerabilities.",
+  "language": "python",
+  "file": "app.py",
+  "line": 28,
+  "vulnerable_code": "# Copyright 2016 Google Inc.\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#     http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n\"\"\"A simple counter with App Engine pull queue.\"\"\"\n\nimport logging\nimport os\nimport time\n\nfrom google.appengine.api import taskqueue\nfrom google.appengine.ext import ndb\nfrom google.appengine.runtime import apiproxy_errors\nimport jinja2\nimport webapp2\n\n\nJINJA_ENV = jinja2.Environment(\n    loader=jinja2.FileSystemLoader(os.path.dirname(__file__))\n)\n\n\nclass Counter(ndb.Model):\n    count = ndb.IntegerProperty(indexed=False)\n\n\nclass CounterHandler(webapp2.RequestHandler):\n    def get(self):\n        template_values = {\"counters\": Counter.query()}\n        counter_template = JINJA_ENV.get_template(\"counter.html\")\n        self.response.out.write(counter_template.render(template_values))\n\n    def post(self):\n        key = self.request.get(\"key\")\n        if key:\n            queue = taskqueue.Queue(\"pullq\")\n            queue.add(taskqueue.Task(payload=\"\", method=\"PULL\", tag=key))\n        self.redirect(\"/\")\n\n\n@ndb.transactional\ndef update_counter(key, tasks):\n    counter = Counter.get_or_insert(key, count=0)\n    counter.count += len(tasks)\n    counter.put()\n\n\nclass CounterWorker(webapp2.RequestHandler):\n    def get(self):\n        \"\"\"Indefinitely fetch tasks and update the datastore.\"\"\"\n        queue = taskqueue.Queue(\"pullq\")\n        while True:\n            try:\n                tasks = queue.lease_tasks_by_tag(3600, 1000, deadline=60)\n            except (\n                taskqueue.TransientError,\n                apiproxy_errors.DeadlineExceededError,\n            ) as e:\n                logging.exception(e)\n                time.sleep(1)\n                continue\n\n            if tasks:\n                key = tasks[0].tag\n\n                try:\n                    update_counter(key, tasks)\n                except Exception as e:\n                    logging.exception(e)\n                    raise\n                finally:\n                    queue.delete_tasks(tasks)\n\n            time.sleep(1)\n\n\napp = webapp2.WSGIApplication(\n    [(\"/\", CounterHandler), (\"/_ah/start\", CounterWorker)], debug=True\n)\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+    "path": "appengine/standard/taskqueue/pull-counter/main.py",
+    "license": "Apache-2.0"
+  }
+}

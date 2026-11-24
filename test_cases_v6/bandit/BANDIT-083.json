@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-083",
+  "scanner": "Bandit",
+  "rule_id": "B608",
+  "rule_name": "hardcoded_sql_expressions",
+  "rule_description": "Possible SQL injection vector through string-based query construction.",
+  "language": "python",
+  "file": "app.py",
+  "line": 32,
+  "vulnerable_code": "# Copyright 2024 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#     https://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\nimport json\n\ntable_name = \"catalog_items\"\nfields = [\n    'id', 'name', 'description', 'picture', \n    'price_usd_currency_code', 'price_usd_units', 'price_usd_nanos', \n    'categories'\n]\n\n# Load the produts JSON\nwith open(\"products.json\", 'r') as f:\n    data = json.load(f)\n\n# Generate SQL INSERT statements\nfor product in data['products']:\n    columns = ', '.join(fields)\n    placeholders = ', '.join(['{}'] * len(fields))\n    sql = f\"INSERT INTO {table_name} ({columns}) VALUES ({placeholders});\"\n\n    # Escape single quotes within product data \n    product['name'] = product['name'].replace(\"'\", \"\")\n    product['description'] = product['description'].replace(\"'\", \"\")\n\n    escaped_values = (\n        f\"'{product['id']}'\",\n        f\"'{product['name']}'\",\n        f\"'{product['description']}'\",\n        f\"'{product['picture']}'\",\n        f\"'{product['priceUsd']['currencyCode']}'\",\n        product['priceUsd']['units'],\n        product['priceUsd']['nanos'],\n        f\"'{','.join(product['categories'])}'\"\n    )\n\n    # Render the formatted SQL query\n    print(sql.format(*escaped_values))\n",
+  "source": {
+    "corpus": "microservices-demo",
+    "url": "https://github.com/GoogleCloudPlatform/microservices-demo",
+    "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+    "path": "kustomize/components/shopping-assistant/scripts/generate_sql_from_products.py",
+    "license": "Apache-2.0"
+  }
+}

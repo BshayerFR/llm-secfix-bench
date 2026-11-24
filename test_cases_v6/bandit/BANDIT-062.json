@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-062",
+  "scanner": "Bandit",
+  "rule_id": "B608",
+  "rule_name": "hardcoded_sql_expressions",
+  "rule_description": "Possible SQL injection vector through string-based query construction.",
+  "language": "python",
+  "file": "app.py",
+  "line": 51,
+  "vulnerable_code": "from flask import Flask, render_template, request\nimport sqlite3\nimport os\nfrom pathlib import Path\n\napp = Flask(__name__)\napp.config[\"SECRET_KEY\"] = \"your-secret-key-here\"\n\n\ndef init_db():\n    db_path = Path(\"./database.db\")\n    if not db_path.exists():\n        conn = sqlite3.connect(\"database.db\")\n        c = conn.cursor()\n        # Create users table\n        c.execute(\n            \"\"\"\n            CREATE TABLE IF NOT EXISTS users (\n                username TEXT PRIMARY KEY,\n                password TEXT NOT NULL\n            )\n        \"\"\"\n        )\n        # Insert admin user\n        c.execute(\n            \"INSERT OR REPLACE INTO users (username, password) VALUES (?, ?)\",\n            (\"admin\", \"65079b006e85a7e798abecb99e47c154\"),\n        )  # Original lab's admin password\n        conn.commit()\n        conn.close()\n\n\n@app.route(\"/\")\ndef index():\n    \"\"\"Main page with SQL injection lab description\"\"\"\n    return render_template(\"index.html\")\n\n@app.route(\"/health\")\ndef health_check():\n    return \"OK\", 200\n\n@app.route('/lab', methods=['GET', 'POST'])\ndef lab():\n    \"\"\"Lab page with the vulnerable login form\"\"\"\n    if request.method == \"POST\":\n        username = request.form.get(\"username\", \"\")\n        password = request.form.get(\"password\", \"\")\n\n        # Vulnerable SQL query construction (intentional)\n        sql_query = (\n            f\"SELECT * FROM users WHERE username='{username}' AND password='{password}'\"\n        )\n\n        try:\n            conn = sqlite3.connect(\"database.db\")\n            c = conn.cursor()\n            result = c.execute(sql_query).fetchone()\n            conn.close()\n\n            if result:\n                return render_template(\"lab.html\", logged_in_user=result[0])\n            else:\n                return render_template(\n                    \"lab.html\",\n                    error=\"Invalid username or password\",\n                    sql_query=sql_query,\n                )\n        except sqlite3.Error as e:\n            return render_template(\"lab.html\", error=str(e), sql_query=sql_query)\n\n    return render_template(\"lab.html\")\n\n\nif __name__ == \"__main__\":\n    # Initialize database\n    init_db()\n\n    app.run(host=\"0.0.0.0\", port=5012, debug=True)\n",
+  "source": {
+    "corpus": "pygoat",
+    "url": "https://github.com/adeyosemanputra/pygoat",
+    "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+    "path": "dockerized_labs/sql_injection_lab/app.py",
+    "license": "MIT"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-090",
+  "scanner": "Bandit",
+  "rule_id": "B608",
+  "rule_name": "hardcoded_sql_expressions",
+  "rule_description": "Possible SQL injection vector through string-based query construction.",
+  "language": "python",
+  "file": "app.py",
+  "line": 39,
+  "vulnerable_code": "# Copyright 2026 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#     https://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n# [START bigquery_search_exclude_columns]\nfrom google.cloud import bigquery\n\n\ndef search_exclude_columns(\n    project_id: str,\n) -> None:\n    \"\"\"Searches a BigQuery table while excluding specific columns using EXCEPT.\n\n    Args:\n        project_id: Google Cloud project ID used to bill the query job\n            (for example, 'example-project').\n    \"\"\"\n    client = bigquery.Client(project=project_id)\n    # Query the public theLook eCommerce dataset in bigquery-public-data\n    # (https://cloud.google.com/bigquery/public-data).\n    table_ref = \"bigquery-public-data.thelook_ecommerce.users\"\n    # Exclude street_address, city, state, and country from the searched fields using SELECT AS STRUCT ... EXCEPT.\n    search_query = \"Nelson Apt\"\n    job_config = bigquery.QueryJobConfig(\n        query_parameters=[\n            bigquery.ScalarQueryParameter(\"search_query\", \"STRING\", search_query),\n        ]\n    )\n    sql = f\"\"\"\n        SELECT\n          u.id,\n          u.first_name,\n          u.last_name,\n          u.email\n        FROM `{table_ref}` AS u\n        WHERE SEARCH(\n          (SELECT AS STRUCT u.* EXCEPT (street_address, city, state, country)),\n          @search_query\n        )\n        ORDER BY u.id ASC\n        LIMIT 10;\n    \"\"\"\n\n    print(f\"Searching {table_ref} excluding address columns for term: {search_query}\")\n    query_job = client.query(sql, job_config=job_config)\n    rows = list(query_job.result())\n\n    print(f\"Resource ID: {table_ref}\")\n    print(f\"Job ID: {query_job.job_id}\")\n    print(f\"Matching Rows: {len(rows)}\")\n    print(f\"Search Term: {search_query}\")\n\n\n# [END bigquery_search_exclude_columns]\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+    "path": "bigquery/search/bigquery_search_exclude_columns.py",
+    "license": "Apache-2.0"
+  }
+}

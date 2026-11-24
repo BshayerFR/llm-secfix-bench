@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-058",
+  "scanner": "Bandit",
+  "rule_id": "B113",
+  "rule_name": "request_without_timeout",
+  "rule_description": "Call to requests without timeout",
+  "language": "python",
+  "file": "app.py",
+  "line": 33,
+  "vulnerable_code": "# Copyright 2020 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#     http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\nfrom flask import Flask, render_template, request\nfrom google.auth.transport import requests as reqs\nfrom google.oauth2 import id_token\nimport requests\n\napp = Flask(__name__)\n\n\n@app.route(\"/\", methods=[\"GET\"])\ndef index():\n    return render_template(\"index.html\")\n\n\n@app.route(\"/\", methods=[\"POST\"])\ndef make_request():\n    url = request.form[\"url\"]\n    token = id_token.fetch_id_token(reqs.Request(), url)\n\n    resp = requests.get(url, headers={\"Authorization\": f\"Bearer {token}\"})\n\n    message = f\"Response when calling {url}:\\n\\n\"\n    message += resp.text\n\n    return message, 200, {\"Content-type\": \"text/plain\"}\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+    "path": "appengine/standard_python3/migration/urlfetch/main.py",
+    "license": "Apache-2.0"
+  }
+}

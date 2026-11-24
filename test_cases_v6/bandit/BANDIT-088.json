@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-088",
+  "scanner": "Bandit",
+  "rule_id": "B201",
+  "rule_name": "flask_debug_true",
+  "rule_description": "A Flask app appears to be run with debug=True, which exposes the Werkzeug debugger and allows the execution of arbitrary code.",
+  "language": "python",
+  "file": "app.py",
+  "line": 84,
+  "vulnerable_code": "# Copyright 2019 Google, LLC.\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#    http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n# [START cloudrun_imageproc_controller]\nimport base64\nimport json\nimport os\n\nfrom flask import Flask, request\n\nimport image\n\n\napp = Flask(__name__)\n\n\n@app.route(\"/\", methods=[\"POST\"])\ndef index():\n    \"\"\"Receive and parse Pub/Sub messages containing Cloud Storage event data.\"\"\"\n    envelope = request.get_json()\n    if not envelope:\n        msg = \"no Pub/Sub message received\"\n        print(f\"error: {msg}\")\n        return f\"Bad Request: {msg}\", 400\n\n    if not isinstance(envelope, dict) or \"message\" not in envelope:\n        msg = \"invalid Pub/Sub message format\"\n        print(f\"error: {msg}\")\n        return f\"Bad Request: {msg}\", 400\n\n    # Decode the Pub/Sub message.\n    pubsub_message = envelope[\"message\"]\n\n    if isinstance(pubsub_message, dict) and \"data\" in pubsub_message:\n        try:\n            data = json.loads(base64.b64decode(pubsub_message[\"data\"]).decode())\n\n        except Exception as e:\n            msg = (\n                \"Invalid Pub/Sub message: \"\n                \"data property is not valid base64 encoded JSON\"\n            )\n            print(f\"error: {e}\")\n            return f\"Bad Request: {msg}\", 400\n\n        # Validate the message is a Cloud Storage event.\n        if not data[\"name\"] or not data[\"bucket\"]:\n            msg = (\n                \"Invalid Cloud Storage notification: \"\n                \"expected name and bucket properties\"\n            )\n            print(f\"error: {msg}\")\n            return f\"Bad Request: {msg}\", 400\n\n        try:\n            image.blur_offensive_images(data)\n            return (\"\", 204)\n\n        except Exception as e:\n            print(f\"error: {e}\")\n            return (\"\", 500)\n\n    return (\"\", 500)\n\n    # [END cloudrun_imageproc_controller]\n\n\nif __name__ == \"__main__\":\n    PORT = int(os.getenv(\"PORT\")) if os.getenv(\"PORT\") else 8080\n\n    # This is used when running locally. Gunicorn is used to run the\n    # application on Cloud Run. See entrypoint in Dockerfile.\n    app.run(host=\"127.0.0.1\", port=PORT, debug=True)\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+    "path": "run/image-processing/main.py",
+    "license": "Apache-2.0"
+  }
+}

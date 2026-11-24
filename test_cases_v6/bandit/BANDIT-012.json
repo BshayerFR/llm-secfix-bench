@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-012",
+  "scanner": "Bandit",
+  "rule_id": "B113",
+  "rule_name": "request_without_timeout",
+  "rule_description": "Call to requests without timeout",
+  "language": "python",
+  "file": "app.py",
+  "line": 10,
+  "vulnerable_code": "from pathlib import Path\n\nimport click\nimport requests\n\n@click.command()\n@click.argument('username')\ndef cmd_api_client(username):\n\n    r = requests.get('http://127.0.1.1:5000/api/post/{}'.format(username))\n    if r.status_code != 200:\n        click.echo('Some error ocurred. Status Code: {}'.format(r.status_code))\n        print(r.text)\n        return False\n\n    print(r.text)\n\n\nif __name__ == '__main__':\n    cmd_api_client()\n",
+  "source": {
+    "corpus": "vulpy",
+    "url": "https://github.com/fportantier/vulpy",
+    "commit": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+    "path": "bad/api_list.py",
+    "license": "MIT"
+  }
+}
