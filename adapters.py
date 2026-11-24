@@ -519,7 +519,7 @@ def run_sonarqube(root):
     if r.returncode != 0:
         warn("sonar-scanner", r)
     issues = sonar_get(f"/api/issues/search?componentKeys={key}&types=VULNERABILITY&ps=500")
-    spots = sonar_get(f"/api/hotspots/search?projectKey={key}&ps=500")
+    spots = sonar_get(f"/api/hotspots/search?project={key}&ps=500")
     return parse_sonar(issues.get("issues"), spots.get("hotspots"))
 
 
