@@ -1,0 +1,18 @@
+{
+  "case_id": "SONARQUBE-034",
+  "scanner": "SonarQube",
+  "rule_id": "java:S2245",
+  "rule_name": "Make sure that using this pseudorandom number generator is safe here.",
+  "rule_description": "Make sure that using this pseudorandom number generator is safe here.",
+  "language": "java",
+  "file": "Main.java",
+  "line": 20,
+  "vulnerable_code": "/*\n * SPDX-FileCopyrightText: Copyright © 2026 WebGoat authors\n * SPDX-License-Identifier: GPL-2.0-or-later\n */\npackage org.owasp.webgoat.lessons.cryptography.timing;\n\nimport java.util.concurrent.ThreadLocalRandom;\nimport java.util.concurrent.TimeUnit;\nimport java.util.concurrent.locks.LockSupport;\nimport java.util.function.IntUnaryOperator;\nimport java.util.function.LongConsumer;\n\n/** Intentionally insecure code used only to demonstrate a timing side channel. */\nfinal class InsecureHmacValidator {\n\n  private final LongConsumer delay;\n  private final IntUnaryOperator randomDelay;\n\n  InsecureHmacValidator() {\n    this(LockSupport::parkNanos, bound -> ThreadLocalRandom.current().nextInt(bound));\n  }\n\n  InsecureHmacValidator(LongConsumer delay, IntUnaryOperator randomDelay) {\n    this.delay = delay;\n    this.randomDelay = randomDelay;\n  }\n\n  boolean matches(\n      byte[] expected,\n      byte[] supplied,\n      long matchingByteDelayMillis,\n      int maximumJitterMillis) {\n    if (maximumJitterMillis > 0) {\n      pause(randomDelay.applyAsInt(maximumJitterMillis + 1));\n    }\n\n    if (expected.length != supplied.length) {\n      return false;\n    }\n\n    for (int i = 0; i < expected.length; i++) {\n      if (expected[i] != supplied[i]) {\n        return false;\n      }\n      pause(matchingByteDelayMillis);\n    }\n    return true;\n  }\n\n  private void pause(long milliseconds) {\n    if (milliseconds > 0) {\n      delay.accept(TimeUnit.MILLISECONDS.toNanos(milliseconds));\n    }\n  }\n}\n",
+  "source": {
+    "corpus": "WebGoat",
+    "url": "https://github.com/WebGoat/WebGoat",
+    "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+    "path": "src/main/java/org/owasp/webgoat/lessons/cryptography/timing/InsecureHmacValidator.java",
+    "license": "GPL-2.0-or-later"
+  }
+}

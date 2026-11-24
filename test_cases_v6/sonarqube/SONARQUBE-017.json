@@ -1,0 +1,18 @@
+{
+  "case_id": "SONARQUBE-017",
+  "scanner": "SonarQube",
+  "rule_id": "typescript:S1523",
+  "rule_name": "Make sure that this dynamic injection or execution of code is safe.",
+  "rule_description": "Make sure that this dynamic injection or execution of code is safe.",
+  "language": "typescript",
+  "file": "app.ts",
+  "line": 23,
+  "vulnerable_code": "/*\n * Copyright (c) 2014-2026 Bjoern Kimminich & the OWASP Juice Shop contributors.\n * SPDX-License-Identifier: MIT\n */\n\nimport vm from 'node:vm'\nimport { type Request, type Response, type NextFunction } from 'express'\n// @ts-expect-error FIXME due to non-existing type definitions for notevil\nimport { eval as safeEval } from 'notevil'\n\nimport * as challengeUtils from '../lib/challengeUtils'\nimport { challenges } from '../data/datacache'\nimport * as security from '../lib/insecurity'\nimport * as utils from '../lib/utils'\n\nexport function b2bOrder () {\n  return ({ body }: Request, res: Response, next: NextFunction) => {\n    if (utils.isChallengeEnabled(challenges.rceChallenge) || utils.isChallengeEnabled(challenges.rceOccupyChallenge)) {\n      const orderLinesData = body.orderLinesData || ''\n      try {\n        const sandbox = { safeEval, orderLinesData }\n        vm.createContext(sandbox)\n        vm.runInContext('safeEval(orderLinesData)', sandbox, { timeout: 2000 })\n        res.json({ cid: body.cid, orderNo: uniqueOrderNumber(), paymentDue: dateTwoWeeksFromNow() })\n      } catch (err) {\n        if (utils.getErrorMessage(err).match(/Script execution timed out.*/) != null) {\n          challengeUtils.solveIf(challenges.rceOccupyChallenge, () => { return true })\n          res.status(503)\n          next(new Error('Sorry, we are temporarily not available! Please try again later.'))\n        } else {\n          challengeUtils.solveIf(challenges.rceChallenge, () => { return utils.getErrorMessage(err) === 'Infinite loop detected - reached max iterations' })\n          next(err)\n        }\n      }\n    } else {\n      res.json({ cid: body.cid, orderNo: uniqueOrderNumber(), paymentDue: dateTwoWeeksFromNow() })\n    }\n  }\n\n  function uniqueOrderNumber () {\n    return security.hash(`${(new Date()).toString()}_B2B`)\n  }\n\n  function dateTwoWeeksFromNow () {\n    return new Date(new Date().getTime() + (14 * 24 * 60 * 60 * 1000)).toISOString()\n  }\n}\n",
+  "source": {
+    "corpus": "juice-shop",
+    "url": "https://github.com/juice-shop/juice-shop",
+    "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+    "path": "routes/b2bOrder.ts",
+    "license": "MIT"
+  }
+}

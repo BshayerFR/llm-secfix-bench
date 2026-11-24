@@ -1,0 +1,18 @@
+{
+  "case_id": "SONARQUBE-057",
+  "scanner": "SonarQube",
+  "rule_id": "python:S4502",
+  "rule_name": "Make sure disabling CSRF protection is safe here.",
+  "rule_description": "Make sure disabling CSRF protection is safe here.",
+  "language": "python",
+  "file": "app.py",
+  "line": 3,
+  "vulnerable_code": "from flask import Flask, render_template\n\napp = Flask(__name__)\n\n# Sensitive config data\napp.config[\"SECRET_KEY\"] = \"your-secret-key-here-not-very-secure\"\napp.config[\"DEBUG\"] = True\napp.config[\"DATABASE_URI\"] = (\n    \"postgresql://admin:password123@localhost:5432/sensitive_db\"\n)\napp.config[\"API_KEY\"] = \"sk-1234567890abcdef\"\napp.config[\"PRIVATE_KEY\"] = \"private-key-content-here\"\napp.config[\"TOKEN\"] = \"access-token-xyz789\"\napp.config[\"SIGNATURE\"] = \"signature-secret-key\"\napp.config[\"PASS\"] = \"admin-password-123\"\n\nSENSITIVE_DATA = \"FLAGTHATNEEDSTOBEFOUND\"\n\n\n@app.route(\"/\")\ndef index():\n    return render_template(\"index.html\")\n\n\n@app.route(\"/lab\")\ndef lab():\n    return render_template(\"lab.html\")\n\n\n@app.route(\"/500error\")\ndef trigger_error():\n    # Intentional crash\n    undefined_variable = some_undefined_variable  # noqa: F821\n    return \"This won't be reached\"\n\n\n@app.errorhandler(404)\ndef handle_404(e):\n    # Dump the entire Flask config (including sensitive values)\n    sensitive_dump = \"\\n\".join(f\"{k} = {v}\" for k, v in app.config.items())\n    sensitive_dump += f\"\\nFLAG = {SENSITIVE_DATA}\"\n    raise RuntimeError(f\"Invalid Route \\n\\n{sensitive_dump}\")\n\n@app.route(\"/health\")\ndef health_check():\n    return \"OK\", 200\n\nif __name__ == \"__main__\":\n    app.run(host=\"0.0.0.0\", port=5100, debug=True)\n",
+  "source": {
+    "corpus": "pygoat",
+    "url": "https://github.com/adeyosemanputra/pygoat",
+    "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+    "path": "dockerized_labs/sde/app.py",
+    "license": "MIT"
+  }
+}

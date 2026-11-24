@@ -1,0 +1,18 @@
+{
+  "case_id": "SONARQUBE-048",
+  "scanner": "SonarQube",
+  "rule_id": "typescript:S1523",
+  "rule_name": "Make sure that this dynamic injection or execution of code is safe.",
+  "rule_description": "Make sure that this dynamic injection or execution of code is safe.",
+  "language": "typescript",
+  "file": "app.ts",
+  "line": 22,
+  "vulnerable_code": "/*\n * Copyright (c) 2014-2026 Bjoern Kimminich & the OWASP Juice Shop contributors.\n * SPDX-License-Identifier: MIT\n */\n\nimport { type Request, type Response, type NextFunction } from 'express'\nimport { CaptchaModel } from '../models/captcha'\n\nexport function captchas () {\n  return async (req: Request, res: Response) => {\n    const captchaId = req.app.locals.captchaId++\n    const operators = ['*', '+', '-']\n\n    const firstTerm = Math.floor((Math.random() * 10) + 1)\n    const secondTerm = Math.floor((Math.random() * 10) + 1)\n    const thirdTerm = Math.floor((Math.random() * 10) + 1)\n\n    const firstOperator = operators[Math.floor((Math.random() * 3))]\n    const secondOperator = operators[Math.floor((Math.random() * 3))]\n\n    const expression = firstTerm.toString() + firstOperator + secondTerm.toString() + secondOperator + thirdTerm.toString()\n    const answer = eval(expression).toString() // eslint-disable-line no-eval\n\n    const captcha = {\n      captchaId,\n      captcha: expression,\n      answer\n    }\n    const captchaInstance = CaptchaModel.build(captcha)\n    await captchaInstance.save()\n    res.json(captcha)\n  }\n}\n\nexport const verifyCaptcha = () => async (req: Request, res: Response, next: NextFunction) => {\n  try {\n    const captcha = await CaptchaModel.findOne({ where: { captchaId: req.body.captchaId } })\n    if ((captcha != null) && req.body.captcha === captcha.answer) {\n      next()\n    } else {\n      res.status(401).send(res.__('Wrong answer to CAPTCHA. Please try again.'))\n    }\n  } catch (error) {\n    next(error)\n  }\n}\n",
+  "source": {
+    "corpus": "juice-shop",
+    "url": "https://github.com/juice-shop/juice-shop",
+    "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+    "path": "routes/captcha.ts",
+    "license": "MIT"
+  }
+}
