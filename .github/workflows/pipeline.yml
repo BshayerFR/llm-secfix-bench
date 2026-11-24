@@ -4,18 +4,23 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: build creates the test cases, judge checks the models' fixes
+        description: build creates the test cases, judge checks the models' fixes, collect commits the artifacts of an earlier run
         type: choice
         options:
           - build
           - judge
+          - collect
         default: build
       scanners:
         description: JSON list of scanners to run
         default: '["bandit","semgrep","bearer","codeql","sonarqube","checkov","kics","kubescape","conftest","hadolint","trivy","osv-scanner","grype","dependency-check"]'
+      run_id:
+        description: collect mode only, the id of the run whose artifacts to commit
+        default: ""
 
 permissions:
   contents: write
+  actions: read
 
 jobs:
   guard:
@@ -34,7 +39,7 @@ jobs:
 
   run:
     needs: guard
-    if: ${{ !cancelled() && (needs.guard.result == 'success' || needs.guard.result == 'skipped') }}
+    if: ${{ !cancelled() && inputs.mode != 'collect' && (needs.guard.result == 'success' || needs.guard.result == 'skipped') }}
     runs-on: ubuntu-latest
     timeout-minutes: 360
     strategy:
@@ -111,6 +116,11 @@ jobs:
             mkdir -p dc-data
             sudo chmod -R a+rwX dc-data
             extra="-v $GITHUB_WORKSPACE/dc-data:/usr/share/dependency-check/data"
+          fi
+          if [ "${{ matrix.scanner }}" = "grype" ]; then
+            mkdir -p grype-cache
+            sudo chmod -R a+rwX grype-cache
+            extra="-v $GITHUB_WORKSPACE/grype-cache:/grype-cache -e GRYPE_DB_CACHE_DIR=/grype-cache"
           fi
           docker pull -q "$image"
           sudo tee "/usr/local/bin/$name" > /dev/null <<EOF
@@ -189,10 +199,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/download-artifact@v4
+      - name: Download artifacts of this run
+        if: ${{ inputs.mode != 'collect' }}
+        uses: actions/download-artifact@v4
         with:
           path: collected
           merge-multiple: true
+
+      - name: Download artifacts of an earlier run
+        if: ${{ inputs.mode == 'collect' }}
+        uses: actions/download-artifact@v4
+        with:
+          path: collected
+          merge-multiple: true
+          run-id: ${{ inputs.run_id }}
+          github-token: ${{ github.token }}
 
       - name: Commit results
         run: |
