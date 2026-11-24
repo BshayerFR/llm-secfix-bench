@@ -360,7 +360,12 @@ def select(scanner, cands, target, cap, seed, file_cap=3):
 
 
 def tool_version(scanner):
-    r = sh([scanner, "--version"])
+    if scanner == "sonarqube":
+        return "SonarQube Community (sonarqube:community docker image)"
+    try:
+        r = sh([scanner, "--version"])
+    except Exception:
+        return "unknown"
     text = (r.stdout or r.stderr).strip()
     return text.splitlines()[0] if text else "unknown"
 
