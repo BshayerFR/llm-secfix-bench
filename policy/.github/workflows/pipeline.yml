@@ -1,0 +1,210 @@
+name: Pipeline
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: build creates the test cases, judge checks the models' fixes
+        type: choice
+        options:
+          - build
+          - judge
+        default: build
+      scanners:
+        description: JSON list of scanners to run
+        default: '["bandit","semgrep","bearer","codeql","sonarqube","checkov","kics","kubescape","conftest","hadolint","trivy","osv-scanner","grype","dependency-check"]'
+
+permissions:
+  contents: write
+
+jobs:
+  guard:
+    if: ${{ inputs.mode == 'build' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Refuse to rebuild frozen cases
+        run: |
+          for s in $(echo '${{ inputs.scanners }}' | python3 -c "import sys,json; print(' '.join(json.load(sys.stdin)))"); do
+            if [ -d "test_cases_v6/$s" ]; then
+              echo "test_cases_v6/$s already exists and is frozen"
+              exit 1
+            fi
+          done
+
+  run:
+    needs: guard
+    if: ${{ !cancelled() && (needs.guard.result == 'success' || needs.guard.result == 'skipped') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        scanner: ${{ fromJSON(inputs.scanners) }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+      CONFTEST_POLICY: policy
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Bandit
+        if: matrix.scanner == 'bandit'
+        run: pip install bandit
+
+      - name: Install Semgrep
+        if: matrix.scanner == 'semgrep'
+        run: pip install semgrep
+
+      - name: Install Checkov
+        if: matrix.scanner == 'checkov'
+        run: pip install checkov
+
+      - name: Install Hadolint
+        if: matrix.scanner == 'hadolint'
+        run: |
+          sudo curl -sSfL -o /usr/local/bin/hadolint https://github.com/hadolint/hadolint/releases/latest/download/hadolint-linux-x86_64
+          sudo chmod +x /usr/local/bin/hadolint
+
+      - name: Install Kubescape
+        if: matrix.scanner == 'kubescape'
+        run: |
+          v=$(git ls-remote --tags --refs https://github.com/kubescape/kubescape | awk -F/ '{print $3}' | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -1)
+          sudo curl -sSfL -o /usr/local/bin/kubescape "https://github.com/kubescape/kubescape/releases/download/$v/kubescape_${v#v}_linux_amd64"
+          sudo chmod +x /usr/local/bin/kubescape
+
+      - name: Install Bearer
+        if: matrix.scanner == 'bearer'
+        run: |
+          v=$(git ls-remote --tags --refs https://github.com/Bearer/bearer | awk -F/ '{print $3}' | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -1)
+          curl -sSfL "https://github.com/Bearer/bearer/releases/download/$v/bearer_${v#v}_linux_amd64.tar.gz" | sudo tar xz -C /usr/local/bin bearer
+
+      - name: Install OSV-Scanner
+        if: matrix.scanner == 'osv-scanner'
+        run: |
+          sudo curl -sSfL -o /usr/local/bin/osv-scanner https://github.com/google/osv-scanner/releases/latest/download/osv-scanner_linux_amd64
+          sudo chmod +x /usr/local/bin/osv-scanner
+
+      - name: Restore the Dependency-Check database
+        if: matrix.scanner == 'dependency-check'
+        uses: actions/cache@v4
+        with:
+          path: dc-data
+          key: dependency-check-data
+
+      - name: Use the scanner's Docker image
+        if: contains(fromJSON('["trivy","grype","kics","conftest","dependency-check"]'), matrix.scanner)
+        run: |
+          case "${{ matrix.scanner }}" in
+            trivy) image=aquasec/trivy:latest; name=trivy ;;
+            grype) image=anchore/grype:latest; name=grype ;;
+            kics) image=checkmarx/kics:latest; name=kics ;;
+            conftest) image=openpolicyagent/conftest:latest; name=conftest ;;
+            dependency-check) image=owasp/dependency-check:latest; name=dependency-check.sh ;;
+          esac
+          extra=""
+          if [ "${{ matrix.scanner }}" = "dependency-check" ]; then
+            mkdir -p dc-data
+            sudo chmod -R a+rwX dc-data
+            extra="-v $GITHUB_WORKSPACE/dc-data:/usr/share/dependency-check/data"
+          fi
+          docker pull -q "$image"
+          sudo tee "/usr/local/bin/$name" > /dev/null <<EOF
+          #!/bin/sh
+          exec docker run --rm -v /tmp:/tmp -v "$RUNNER_TEMP:$RUNNER_TEMP" -v "$GITHUB_WORKSPACE:$GITHUB_WORKSPACE" $extra -w "$GITHUB_WORKSPACE" $image "\$@"
+          EOF
+          sudo chmod +x "/usr/local/bin/$name"
+
+      - name: Install CodeQL
+        id: codeql
+        if: matrix.scanner == 'codeql'
+        uses: github/codeql-action/init@v3
+        with:
+          languages: python
+          build-mode: none
+
+      - name: Put CodeQL on the path
+        if: matrix.scanner == 'codeql'
+        run: echo "$(dirname "${{ steps.codeql.outputs.codeql-path }}")" >> "$GITHUB_PATH"
+
+      - name: Start SonarQube
+        if: matrix.scanner == 'sonarqube'
+        run: |
+          sudo sysctl -w vm.max_map_count=262144
+          docker run -d --name sonarqube --network host -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true sonarqube:community
+          for i in $(seq 1 60); do
+            curl -s http://localhost:9000/api/system/status | grep -q '"UP"' && break
+            sleep 5
+          done
+          curl -s http://localhost:9000/api/system/status | grep -q '"UP"' || { docker logs sonarqube | tail -50; exit 1; }
+          PW="Pw-$(openssl rand -hex 16)"
+          echo "::add-mask::$PW"
+          curl -sf -u admin:admin -X POST http://localhost:9000/api/users/change_password --data-urlencode login=admin --data-urlencode previousPassword=admin --data-urlencode "password=$PW"
+          TOKEN=$(curl -sf -u "admin:$PW" -X POST http://localhost:9000/api/user_tokens/generate -d name=cases -d type=USER_TOKEN | python3 -c 'import json,sys; print(json.load(sys.stdin)["token"])')
+          echo "::add-mask::$TOKEN"
+          echo "SONAR_TOKEN=$TOKEN" >> "$GITHUB_ENV"
+          echo "SONAR_URL=http://localhost:9000" >> "$GITHUB_ENV"
+
+      - name: Print tool versions
+        run: |
+          which ${{ matrix.scanner }} || true
+          ${{ matrix.scanner }} --version || true
+
+      - name: Build cases
+        if: ${{ inputs.mode == 'build' }}
+        run: python build_bench.py --scanners ${{ matrix.scanner }} --target 100 --cap 15 --out test_cases_v6 --work "$RUNNER_TEMP/corpora"
+
+      - name: Judge fixes
+        if: ${{ inputs.mode == 'judge' }}
+        run: |
+          mkdir -p judged
+          python evaluate.py --mode judge --cases test_cases_v6 --results results/*.jsonl --scanner ${{ matrix.scanner }} --out judged/${{ matrix.scanner }}.jsonl
+
+      - name: Upload build output
+        if: ${{ inputs.mode == 'build' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-${{ matrix.scanner }}
+          path: |
+            test_cases_v6/${{ matrix.scanner }}
+            manifests/${{ matrix.scanner }}.json
+          if-no-files-found: warn
+
+      - name: Upload judged output
+        if: ${{ inputs.mode == 'judge' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: judged-${{ matrix.scanner }}
+          path: judged/${{ matrix.scanner }}.jsonl
+          if-no-files-found: warn
+
+  commit:
+    needs: run
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          path: collected
+          merge-multiple: true
+
+      - name: Commit results
+        run: |
+          mkdir -p test_cases_v6 manifests judged
+          cp -r collected/test_cases_v6/. test_cases_v6/ 2>/dev/null || true
+          cp -r collected/manifests/. manifests/ 2>/dev/null || true
+          cp -r collected/judged/. judged/ 2>/dev/null || true
+          cp collected/*.jsonl judged/ 2>/dev/null || true
+          rm -rf collected
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add -A test_cases_v6 manifests judged
+          git diff --cached --quiet && exit 0
+          git commit -m "Pipeline ${{ inputs.mode }} results"
+          git push
