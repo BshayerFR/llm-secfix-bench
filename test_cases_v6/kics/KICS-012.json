@@ -1,0 +1,18 @@
+{
+  "case_id": "KICS-012",
+  "scanner": "KICS",
+  "rule_id": "611ab018-c4aa-4ba2-b0f6-a448337509a6",
+  "rule_name": "Using Unrecommended Namespace",
+  "rule_description": "Namespaces like 'default', 'kube-system' or 'kube-public' should not be used",
+  "language": "yaml",
+  "file": "manifest.yaml",
+  "line": 18,
+  "vulnerable_code": "# Copyright 2018 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#      http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\napiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: emailservice\n  labels:\n    app: emailservice\nspec:\n  selector:\n    matchLabels:\n      app: emailservice\n  template:\n    metadata:\n      labels:\n        app: emailservice\n    spec:\n      serviceAccountName: emailservice\n      terminationGracePeriodSeconds: 5\n      securityContext:\n        fsGroup: 1000\n        runAsGroup: 1000\n        runAsNonRoot: true\n        runAsUser: 1000\n      containers:\n      - name: server\n        securityContext:\n          allowPrivilegeEscalation: false\n          capabilities:\n            drop:\n              - ALL\n          privileged: false\n          readOnlyRootFilesystem: true\n        image: emailservice\n        ports:\n        - containerPort: 8080\n        env:\n        - name: PORT\n          value: \"8080\"\n        - name: DISABLE_PROFILER\n          value: \"1\"\n        readinessProbe:\n          periodSeconds: 5\n          grpc:\n            port: 8080\n        livenessProbe:\n          periodSeconds: 5\n          grpc:\n            port: 8080\n        resources:\n          requests:\n            cpu: 100m\n            memory: 64Mi\n          limits:\n            cpu: 200m\n            memory: 128Mi\n---\napiVersion: v1\nkind: Service\nmetadata:\n  name: emailservice\n  labels:\n    app: emailservice\nspec:\n  type: ClusterIP\n  selector:\n    app: emailservice\n  ports:\n  - name: grpc\n    port: 5000\n    targetPort: 8080\n---\napiVersion: v1\nkind: ServiceAccount\nmetadata:\n  name: emailservice\n",
+  "source": {
+    "corpus": "microservices-demo",
+    "url": "https://github.com/GoogleCloudPlatform/microservices-demo",
+    "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+    "path": "kubernetes-manifests/emailservice.yaml",
+    "license": "Apache-2.0"
+  }
+}

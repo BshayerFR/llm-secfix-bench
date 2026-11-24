@@ -1,0 +1,18 @@
+{
+  "case_id": "KICS-086",
+  "scanner": "KICS",
+  "rule_id": "d3499f6d-1651-41bb-a9a7-de925fea487b",
+  "rule_name": "Unpinned Package Version in Apk Add",
+  "rule_description": "Package version pinning reduces the range of versions that can be installed, reducing the chances of failure due to unanticipated changes",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 4,
+  "vulnerable_code": "FROM nginx:1.19.7-alpine\n\n# Add bash for boot cmd\nRUN apk add bash\n\n# Add nginx.conf to container\nCOPY --chown=nginx:nginx nginx.conf /etc/nginx/nginx.conf\nCOPY --chown=nginx:nginx start.sh /app/start.sh\n\n# set workdir\nWORKDIR /app\n\n# permissions and nginx user for tightened security\nRUN chown -R nginx:nginx /app && chmod -R 755 /app && \\\n        chown -R nginx:nginx /var/cache/nginx && \\\n        chown -R nginx:nginx /var/log/nginx && \\\n        chmod -R 755 /var/log/nginx; \\\n        chown -R nginx:nginx /etc/nginx/conf.d\nRUN touch /var/run/nginx.pid && chown -R nginx:nginx /var/run/nginx.pid\n\n# # Uncomment to keep the nginx logs inside the container - Leave commented for logging to stdout and stderr\n# RUN mkdir -p /var/log/nginx\n# RUN unlink /var/log/nginx/access.log \\\n#     && unlink /var/log/nginx/error.log \\\n#     && touch /var/log/nginx/access.log \\\n#     && touch /var/log/nginx/error.log \\\n#     && chown nginx /var/log/nginx/*log \\\n#     && chmod 644 /var/log/nginx/*log\n\nUSER nginx\n\nCMD [\"nginx\", \"-g\", \"'daemon off;'\"]\n",
+  "source": {
+    "corpus": "awesome-compose",
+    "url": "https://github.com/docker/awesome-compose",
+    "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+    "path": "nginx-wsgi-flask/nginx/Dockerfile",
+    "license": "CC0, see LICENSE"
+  }
+}

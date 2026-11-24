@@ -1,0 +1,18 @@
+{
+  "case_id": "CODEQL-020",
+  "scanner": "CodeQL",
+  "rule_id": "py/flask-debug",
+  "rule_name": "Flask app is run in debug mode",
+  "rule_description": "A Flask app appears to be run in debug mode. This may allow an attacker to run arbitrary code through the debugger.",
+  "language": "python",
+  "file": "app.py",
+  "line": 70,
+  "vulnerable_code": "from flask import Flask, render_template, request, make_response, redirect, url_for\nfrom dataclasses import dataclass\nimport os\n\napp = Flask(__name__)\napp.secret_key = os.urandom(24)\n\n\n@dataclass\nclass User:\n    username: str\n    password: str\n    is_admin: bool = False\n\n\n# Hardcoded users for demonstration\nusers = {\n    \"jack\": User(\"jack\", \"jacktheripper\", False),\n    \"admin\": User(\"admin\", \"admin_pass\", True),\n}\n\n\n@app.route(\"/\")\ndef index():\n    return render_template(\"index.html\")\n\n\n@app.route(\"/lab\")\ndef lab():\n    return render_template(\"lab.html\")\n\n\n@app.route(\"/lab/login\", methods=[\"GET\", \"POST\"])\ndef lab_login():\n    if request.cookies.get(\"admin\") == \"1\":\n        return render_template(\n            \"result.html\",\n            username=\"admin\",\n            message=\"Welcome Admin! Secret key: ADMIN_KEY_123\",\n        )\n\n    if request.method == \"POST\":\n        username = request.form.get(\"username\")\n        password = request.form.get(\"password\")\n\n    if username in users and users[username].password == password:\n        user = users[username]\n        response = make_response(\n            render_template(\n                \"result.html\",\n                username=username,\n                message=(\n                    \"Welcome back!\"\n                    if not user.is_admin\n                    else \"Welcome Admin! Secret key: ADMIN_KEY_123\"\n                ),\n            )\n        )\n        # Set admin cookie - intentionally vulnerable\n        response.set_cookie(\"admin\", \"0\" if not user.is_admin else \"1\", max_age=200)\n        return response\n\n    return render_template(\"result.html\", message=\"Invalid credentials\")\n\n@app.route(\"/health\")\ndef health_check():\n    return \"OK\", 200\n\nif __name__ == '__main__':\n    app.run(host='0.0.0.0', port=8080, debug=True) \n",
+  "source": {
+    "corpus": "pygoat",
+    "url": "https://github.com/adeyosemanputra/pygoat",
+    "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+    "path": "dockerized_labs/broken_access_lab/main.py",
+    "license": "MIT"
+  }
+}

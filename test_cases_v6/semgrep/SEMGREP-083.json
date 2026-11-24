@@ -1,0 +1,18 @@
+{
+  "case_id": "SEMGREP-083",
+  "scanner": "Semgrep",
+  "rule_id": "generic.secrets.security.detected-jwt-token.detected-jwt-token",
+  "rule_name": "detected-jwt-token",
+  "rule_description": "JWT token detected",
+  "language": "typescript",
+  "file": "app.ts",
+  "line": 7,
+  "vulnerable_code": "describe('/', () => {\n  describe('challenge \"jwtUnsignedChallenge\"', () => {\n    it('should accept an unsigned token with email jwtn3d@juice-sh.op in the payload ', () => {\n      cy.window().then(() => {\n        localStorage.setItem(\n          'token',\n          'eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJkYXRhIjp7ImVtYWlsIjoiand0bjNkQGp1aWNlLXNoLm9wIn0sImlhdCI6MTUwODYzOTYxMiwiZXhwIjo5OTk5OTk5OTk5fQ.'\n        )\n      })\n      cy.visit('/')\n      cy.expectChallengeSolved({ challenge: 'Unsigned JWT' })\n    })\n  })\n\n  describe('challenge \"jwtForgedChallenge\"', () => {\n    it('should accept a token HMAC-signed with public RSA key with email rsa_lord@juice-sh.op in the payload ', () => {\n      cy.task('isWindows').then((isWindows) => {\n        if (!isWindows) {\n          cy.window().then(() => {\n            localStorage.setItem(\n              'token',\n              'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkYXRhIjp7ImVtYWlsIjoicnNhX2xvcmRAanVpY2Utc2gub3AifSwiaWF0IjoxNTgzMDM3NzExfQ.gShXDT5TrE5736mpIbfVDEcQbLfteJaQUG7Z0PH8Xc8'\n            )\n          })\n          cy.visit('/#/')\n\n          cy.expectChallengeSolved({ challenge: 'Forged Signed JWT' })\n        }\n      })\n    })\n  })\n\n  describe('challenge \"iacLeakedKeyChallenge\"', () => {\n    it('should accept an RS256-signed token with email cloud-admin@juice-sh.op using the leaked private key', () => {\n      cy.window().then(() => {\n        localStorage.setItem(\n          'token',\n          'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJkYXRhIjp7ImVtYWlsIjoiY2xvdWQtYWRtaW5AanVpY2Utc2gub3AifSwiaWF0IjoxNzgzNTg3MDc1fQ.o1ghEUyLemmv982A2CW_w_RLh9FDYOx1GxU-_GeyEwfO8vBKIa-Ubh1bmdmP_WmySrekzy_0zfII-wjmj_e_6hKvZz0IDR_EyfDjCmYVzu8YdgQSNNZXu3_kLdXEKjJirXU5bPUdUIiR2GoMcOAXQouna3RAn4rkR90rDJeNblU'\n        )\n      })\n      cy.visit('/#/')\n      cy.expectChallengeSolved({ challenge: 'Login Cloud Admin' })\n    })\n  })\n})\n",
+  "source": {
+    "corpus": "juice-shop",
+    "url": "https://github.com/juice-shop/juice-shop",
+    "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+    "path": "test/cypress/e2e/forgedJwt.spec.ts",
+    "license": "MIT"
+  }
+}

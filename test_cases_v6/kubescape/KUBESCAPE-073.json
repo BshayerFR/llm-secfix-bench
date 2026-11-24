@@ -1,0 +1,18 @@
+{
+  "case_id": "KUBESCAPE-073",
+  "scanner": "Kubescape",
+  "rule_id": "C-0237",
+  "rule_name": "Check if signature exists",
+  "rule_description": "Ensures that all images contain some signature\n\nAffected fields:\nspec.template.spec.containers[0].image (current: us-central1-docker.pkg.dev/online-boutique-ci/microservices-demo/adservice:v0.10.7) (server)",
+  "language": "yaml",
+  "file": "manifest.yaml",
+  "line": 46,
+  "vulnerable_code": "# Copyright 2018 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#      http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\napiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: adservice\n  labels:\n    app: adservice\nspec:\n  selector:\n    matchLabels:\n      app: adservice\n  template:\n    metadata:\n      labels:\n        app: adservice\n    spec:\n      serviceAccountName: adservice\n      terminationGracePeriodSeconds: 5\n      securityContext:\n        fsGroup: 1000\n        runAsGroup: 1000\n        runAsNonRoot: true\n        runAsUser: 1000\n      containers:\n      - name: server\n        securityContext:\n          allowPrivilegeEscalation: false\n          capabilities:\n            drop:\n              - ALL\n          privileged: false\n          readOnlyRootFilesystem: true\n        image: us-central1-docker.pkg.dev/online-boutique-ci/microservices-demo/adservice:v0.10.7\n        ports:\n        - containerPort: 9555\n        env:\n        - name: PORT\n          value: \"9555\"\n        resources:\n          requests:\n            cpu: 200m\n            memory: 180Mi\n          limits:\n            cpu: 300m\n            memory: 300Mi\n        readinessProbe:\n          initialDelaySeconds: 20\n          periodSeconds: 15\n          grpc:\n            port: 9555\n        livenessProbe:\n          initialDelaySeconds: 20\n          periodSeconds: 15\n          grpc:\n            port: 9555\n---\napiVersion: v1\nkind: Service\nmetadata:\n  name: adservice\n  labels:\n    app: adservice\nspec:\n  type: ClusterIP\n  selector:\n    app: adservice\n  ports:\n  - name: grpc\n    port: 9555\n    targetPort: 9555\n---\napiVersion: v1\nkind: ServiceAccount\nmetadata:\n  name: adservice\n",
+  "source": {
+    "corpus": "microservices-demo",
+    "url": "https://github.com/GoogleCloudPlatform/microservices-demo",
+    "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+    "path": "kustomize/base/adservice.yaml",
+    "license": "Apache-2.0"
+  }
+}

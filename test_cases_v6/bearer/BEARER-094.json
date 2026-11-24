@@ -1,0 +1,18 @@
+{
+  "case_id": "BEARER-094",
+  "scanner": "Bearer",
+  "rule_id": "javascript_lang_sql_injection",
+  "rule_name": "Unsanitized input in SQL query",
+  "rule_description": "## Description\n\nUsing unsanitized data, such as user input or request data, or externally influenced data passed to a function, in SQL query exposes your application to SQL injection attacks. This vulnerability arises when externally controlled data is directly included in SQL statements without proper sanitation, allowing attackers to manipulate queries and access or modify data.\n\n## Remediations\n\n- **Do not** use raw SQL queries that concatenate unsanitized input directly.\n  ```javascript\n  var sqlite = new Sequelize(\"sqlite::memory:\");\n  sqlite.query(\"SELECT * FROM users WHERE ID = \" + req.params.userId); // unsafe\n  ```\n- **Do** validate all query inputs to ensure they meet expected patterns or values before using them in a query.\n  ```javascript\n  var rawId = req.params.userId\n  if !(/[0-9]+/.test(rawId)) {\n    // input is unexpected; don't make the query\n  }\n  ```\n- **Do** use prepared (or parameterized) statements for querying databases to safely include external input.\n  ```javascript\n  var sqlite = new Sequelize(\"sqlite::memory:\");\n  sqlite.query(\n    \"SELECT * FROM users WHERE ID = ?\",\n    { replacements: [req.params.userId] },\n    type: sequelize.QueryTypes.SELECT\n  )\n  ```\n\n## References\n\n- [OWASP SQL injection explained](https://owasp.org/www-community/attacks/SQL_Injection)\n- [OWASP SQL injection prevention cheat sheet](https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html)",
+  "language": "typescript",
+  "file": "app.ts",
+  "line": 15,
+  "vulnerable_code": "export function login () {\n  function afterLogin (user: User, res: Response, next: NextFunction) {\n    BasketModel.findOrCreate({ where: { UserId: user.id } })\n      .then(([basket]: [BasketModel, boolean]) => {\n        const authenticatedUser = { data: user, bid: basket.id } // keep track of original basket\n        const token = security.authorize(authenticatedUser)\n        security.authenticatedUsers.put(token, authenticatedUser)\n        res.json({ authentication: { token, bid: basket.id, umail: user.email } })\n      }).catch((error: Error) => {\n        next(error)\n      })\n  }\n\n  return (req: Request, res: Response, next: NextFunction) => {\n    models.sequelize.query(`SELECT * FROM Users WHERE email = '${req.body.email || ''}' AND password = '${security.hash(req.body.password || '')}' AND deletedAt IS NULL`, { model: models.User, plain: false })\n      .then((authenticatedUser) => {\n        const user = utils.queryResultToJson(authenticatedUser)\n        if (user.data?.id && user.data.totpSecret !== '') {\n          res.status(401).json({\n            status: 'totp_token_required',\n            data: {\n              tmpToken: security.authorize({\n                userId: user.data.id,\n                type: 'password_valid_needs_second_factor_token'\n              })\n            }\n          })\n        } else if (user.data?.id) {\n          afterLogin(user.data, res, next)\n        } else {\n          res.status(401).send(res.__('Invalid email or password.'))\n        }\n      }).catch((error: Error) => {\n        next(error)\n      })\n  }\n",
+  "source": {
+    "corpus": "juice-shop",
+    "url": "https://github.com/juice-shop/juice-shop",
+    "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+    "path": "data/static/codefixes/loginBenderChallenge_4.ts",
+    "license": "MIT"
+  }
+}

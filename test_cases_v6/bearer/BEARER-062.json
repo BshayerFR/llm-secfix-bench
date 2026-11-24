@@ -1,0 +1,18 @@
+{
+  "case_id": "BEARER-062",
+  "scanner": "Bearer",
+  "rule_id": "javascript_lang_manual_html_sanitization",
+  "rule_name": "Usage of manual HTML sanitization (XSS)",
+  "rule_description": "## Description\n\nManually sanitizing HTML is prone to mistakes and can lead to Cross-Site Scripting (XSS) vulnerabilities. This occurs when user input is not properly sanitized, allowing attackers to inject malicious scripts into web pages viewed by other users.\n\n## Remediations\n\n- **Do not** manually escape HTML to sanitize user input. This method is unreliable and can easily miss certain exploits.\n  ```javascript\n  const sanitizedUserInput = user.Input\n    .replaceAll('<', '&lt;')\n    .replaceAll('>', '&gt;'); // unsafe\n  const html = `<strong>${sanitizedUserInput}</strong>`;\n  ```\n- **Do** use a trusted HTML sanitization library to handle user input safely. Libraries designed for sanitization are more reliable as they cover a wide range of XSS attack vectors.\n  ```javascript\n  import sanitizeHtml from 'sanitize-html';\n\n  const html = sanitizeHtml(`<strong>${user.Input}</strong>`);\n  ```\n\n## References\n\n- [OWASP XSS explained](https://owasp.org/www-community/attacks/xss/)",
+  "language": "typescript",
+  "file": "app.ts",
+  "line": 48,
+  "vulnerable_code": "ngAfterViewInit () {\n    const products = this.productService.search('')\n    const quantities = this.quantityService.getAll()\n    forkJoin([quantities, products]).subscribe({\n      next: ([quantities, products]) => {\n        const dataTable: ProductTableEntry[] = []\n        this.tableData = products\n        this.encodeProductDescription(products)\n        for (const product of products) {\n          dataTable.push({\n            name: product.name,\n            price: product.price,\n            deluxePrice: product.deluxePrice,\n            id: product.id,\n            image: product.image,\n            description: product.description,\n            alternateImages: product.alternateImages\n          })\n        }\n        for (const quantity of quantities) {\n          const entry = dataTable.find((dataTableEntry) => {\n            return dataTableEntry.id === quantity.ProductId\n          })\n          if (entry === undefined) {\n            continue\n          }\n          entry.quantity = quantity.quantity\n          entry.limitPerUser = quantity.limitPerUser\n        }\n        this.dataSource = new MatTableDataSource<ProductTableEntry>(dataTable)\n        this.updatePageSizeOptions()\n        this.dataSource.paginator = this.paginator\n        this.setupResponsivePageSize()\n        this.gridDataSource = this.dataSource.connect()\n        this.resultsLength = this.dataSource.data.length\n        this.filterTable()\n        this.routerSubscription = this.router.events.subscribe(() => {\n          this.filterTable()\n        })\n        this.cdRef.detectChanges()\n      },\n      error: (err) => { console.log(err) }\n    })\n  }\n\n  encodeProductDescription (tableData: any[]) {\n    for (let i = 0; i < tableData.length; i++) {\n      tableData[i].description = tableData[i].description.replaceAll('<', '&lt;').replaceAll('>', '&gt;')\n    }\n  }\n",
+  "source": {
+    "corpus": "juice-shop",
+    "url": "https://github.com/juice-shop/juice-shop",
+    "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+    "path": "data/static/codefixes/restfulXssChallenge_2.ts",
+    "license": "MIT"
+  }
+}

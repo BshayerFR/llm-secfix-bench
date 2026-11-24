@@ -1,0 +1,18 @@
+{
+  "case_id": "BEARER-085",
+  "scanner": "Bearer",
+  "rule_id": "javascript_express_https_protocol_missing",
+  "rule_name": "Missing secure HTTP server configuration",
+  "rule_description": "## Description\n\nFailing to configure your HTTP server to use HTTPS can expose data to interception and manipulation. HTTPS, which incorporates TLS (Transport Layer Security), encrypts data in transit and therefore provides a more secure communication channel than HTTP.\n\n## Remediations\n\n- **Do** use the `https` module for creating secure servers in your applications. This ensures that data transmitted between the server and clients is encrypted.\n  ```javascript\n  var https = require('https');\n  var express = require('express');\n  var app = express();\n\n  var httpsServer = https.createServer(app);\n  httpsServer.listen(8080);\n  ```\n\n## References\n\n- [Express Security Best Practices: use TLS](https://expressjs.com/en/advanced/best-practice-security.html#use-tls)",
+  "language": "typescript",
+  "file": "app.ts",
+  "line": 38,
+  "vulnerable_code": "/*\n * Copyright (c) 2014-2026 Bjoern Kimminich & the OWASP Juice Shop contributors.\n * SPDX-License-Identifier: MIT\n */\n\nimport { describe, it } from 'node:test'\nimport assert from 'node:assert/strict'\nimport * as webhook from '../../lib/webhook'\nimport { type AddressInfo } from 'node:net'\nimport http from 'node:http'\n\nvoid describe('webhook', () => {\n  const challenge = {\n    key: 'key',\n    name: 'name',\n    difficulty: 1\n  }\n\n  void describe('notify', () => {\n    void it('ignores errors where no webhook URL is provided via environment variable', async () => {\n      try {\n        await webhook.notify(challenge)\n      } catch (error) {\n        assert.fail('webhook.notify should not throw an error when no webhook URL is provided')\n      }\n    })\n\n    void it('fails when supplied webhook is not a valid URL', async () => {\n      try {\n        await webhook.notify(challenge, 0, 0, 0, 'localhorst')\n        assert.fail('Expected error was not thrown')\n      } catch (error) {\n        assert.equal((error as Error).message, 'Failed to parse URL from localhorst')\n      }\n    })\n\n    void it('submits POST with payload to existing URL', async () => {\n      const server = http.createServer((req, res) => {\n        res.statusCode = 200\n        res.end('OK')\n      })\n\n      await new Promise<void>((resolve) => server.listen(0, resolve))\n\n      const port = (server.address() as AddressInfo)?.port\n      const url = `http://localhost:${port}`\n\n      try {\n        await webhook.notify(challenge, 0, 0, 0, url)\n      } finally {\n        server.close()\n      }\n    })\n  })\n})\n",
+  "source": {
+    "corpus": "juice-shop",
+    "url": "https://github.com/juice-shop/juice-shop",
+    "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+    "path": "test/server/webhook.unit.test.ts",
+    "license": "MIT"
+  }
+}

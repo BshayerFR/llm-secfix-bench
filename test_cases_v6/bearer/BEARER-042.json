@@ -1,0 +1,18 @@
+{
+  "case_id": "BEARER-042",
+  "scanner": "Bearer",
+  "rule_id": "go_gosec_crypto_weak_random",
+  "rule_name": "Usage of weak Pseudo-Random Number Generator (PRNG)",
+  "rule_description": "## Description\n\nThe `math/rand` package in Go generates pseudorandom numbers that are not secure for cryptographic purposes. These numbers can be predicted if the seed is known, posing a risk to the security of applications that use them for generating secrets, tokens, or other security-sensitive elements.\n\n## Remediations\n\n- **Do** use `crypto/rand` instead of `math/rand` for generating random numbers in contexts where security is crucial. This ensures the randomness is cryptographically secure and unpredictable.\n- **Do not** use `math/rand` for generating random numbers in cryptographic applications, including but not limited to key generation, authentication tokens, or security challenges.\n- **Do not** initialize `math/rand` with predictable seeds, such as timestamps or other easily guessable values, if it is required to use `math/rand`.\n\n## References\n\n- [crypto/rand package documentation](https://pkg.go.dev/crypto/rand)",
+  "language": "go",
+  "file": "main.go",
+  "line": 36,
+  "vulnerable_code": "// Copyright 2018 Google LLC\n//\n// Licensed under the Apache License, Version 2.0 (the \"License\");\n// you may not use this file except in compliance with the License.\n// You may obtain a copy of the License at\n//\n//      http://www.apache.org/licenses/LICENSE-2.0\n//\n// Unless required by applicable law or agreed to in writing, software\n// distributed under the License is distributed on an \"AS IS\" BASIS,\n// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n// See the License for the specific language governing permissions and\n// limitations under the License.\n\npackage main\n\nimport (\n\t\"fmt\"\n\t\"math/rand\"\n)\n\n// CreateTrackingId generates a tracking ID.\nfunc CreateTrackingId(salt string) string {\n\treturn fmt.Sprintf(\"%c%c-%d%s-%d%s\",\n\t\tgetRandomLetterCode(),\n\t\tgetRandomLetterCode(),\n\t\tlen(salt),\n\t\tgetRandomNumber(3),\n\t\tlen(salt)/2,\n\t\tgetRandomNumber(7),\n\t)\n}\n\n// getRandomLetterCode generates a code point value for a capital letter.\nfunc getRandomLetterCode() uint32 {\n\treturn 65 + uint32(rand.Intn(25))\n}\n\n// getRandomNumber generates a string representation of a number with the requested number of digits.\nfunc getRandomNumber(digits int) string {\n\tstr := \"\"\n\tfor i := 0; i < digits; i++ {\n\t\tstr = fmt.Sprintf(\"%s%d\", str, rand.Intn(10))\n\t}\n\n\treturn str\n}\n",
+  "source": {
+    "corpus": "microservices-demo",
+    "url": "https://github.com/GoogleCloudPlatform/microservices-demo",
+    "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+    "path": "src/shippingservice/tracker.go",
+    "license": "Apache-2.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "SEMGREP-020",
+  "scanner": "Semgrep",
+  "rule_id": "javascript.express.security.audit.remote-property-injection.remote-property-injection",
+  "rule_name": "remote-property-injection",
+  "rule_description": "Bracket object notation with user input is present, this might allow an attacker to access all properties of the object and even it's prototype. Use literal values for object properties.",
+  "language": "typescript",
+  "file": "app.ts",
+  "line": 31,
+  "vulnerable_code": "/*\n * Copyright (c) 2014-2026 Bjoern Kimminich & the OWASP Juice Shop contributors.\n * SPDX-License-Identifier: MIT\n */\n\nimport * as challengeUtils from '../lib/challengeUtils'\nimport { type Request, type Response } from 'express'\nimport { challenges } from '../data/datacache'\nimport * as security from '../lib/insecurity'\n\nexport function retrieveLoggedInUser () {\n  return (req: Request, res: Response) => {\n    let user\n    let response: any\n    const emptyUser = { id: undefined, email: undefined, lastLoginIp: undefined, profileImage: undefined }\n    try {\n      if (security.verify(req.cookies.token)) {\n        user = security.authenticatedUsers.get(req.cookies.token)\n\n        // Parse the fields parameter into an array, splitting by comma.\n        // If not provided, both these variables will be undefined.\n        const fieldsParam = req.query?.fields as string | undefined\n        const requestedFields = fieldsParam ? fieldsParam.split(',').map(f => f.trim()) : []\n\n        let baseUser: any = {}\n\n        if (requestedFields.length > 0) {\n          // When fields are specified, return only those fields\n          for (const field of requestedFields) {\n            if (user?.data[field as keyof typeof user.data] !== undefined) {\n              baseUser[field] = user?.data[field as keyof typeof user.data]\n            }\n          }\n        } else {\n          // If no fields parameter, return standard fields (not password field)\n          baseUser = {\n            id: user?.data?.id,\n            email: user?.data?.email,\n            lastLoginIp: user?.data?.lastLoginIp,\n            profileImage: user?.data?.profileImage\n          }\n        }\n\n        response = { user: baseUser }\n      } else {\n        response = { user: emptyUser }\n      }\n    } catch (err) {\n      response = { user: emptyUser }\n    }\n    // Solve passwordHashLeakChallenge when password field is included in response\n    challengeUtils.solveIf(challenges.passwordHashLeakChallenge, () => response?.user?.password)\n\n    if (req.query.callback === undefined) {\n      res.json(response)\n    } else {\n      challengeUtils.solveIf(challenges.emailLeakChallenge, () => { return true })\n      res.jsonp(response)\n    }\n  }\n}\n",
+  "source": {
+    "corpus": "juice-shop",
+    "url": "https://github.com/juice-shop/juice-shop",
+    "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+    "path": "routes/currentUser.ts",
+    "license": "MIT"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "SEMGREP-050",
+  "scanner": "Semgrep",
+  "rule_id": "python.flask.security.open-redirect.open-redirect",
+  "rule_name": "open-redirect",
+  "rule_description": "Data from request is passed to redirect(). This is an open redirect and could be exploited. Consider using 'url_for()' to generate links to known locations. If you must use a URL to unknown pages, consider using 'urlparse()' or similar and checking if the 'netloc' property is the same as your site's host name. See the references for more information.",
+  "language": "python",
+  "file": "app.py",
+  "line": 84,
+  "vulnerable_code": "from flask import Flask, render_template, request, redirect, make_response\nimport re\n\napp = Flask(__name__)\n\n# Mock FAANG data\nFAANG_DATA = {\n    \"facebook\": {\n        \"company\": \"Facebook\",\n        \"ceo\": \"Mark Zuckerberg\",\n        \"about\": \"Social media and technology company\",\n    },\n    \"amazon\": {\n        \"company\": \"Amazon\",\n        \"ceo\": \"Andy Jassy\",\n        \"about\": \"E-commerce and technology company\",\n    },\n    \"apple\": {\n        \"company\": \"Apple\",\n        \"ceo\": \"Tim Cook\",\n        \"about\": \"Consumer electronics and software company\",\n    },\n    \"netflix\": {\n        \"company\": \"Netflix\",\n        \"ceo\": \"Ted Sarandos\",\n        \"about\": \"Streaming media and video on demand company\",\n    },\n    \"google\": {\n        \"company\": \"Google\",\n        \"ceo\": \"Sundar Pichai\",\n        \"about\": \"Technology and search engine company\",\n    },\n}\n\n\n@app.route(\"/\")\ndef index():\n    return render_template(\"index.html\")\n\n\n@app.route(\"/lab1\")\ndef lab1():\n    q = request.args.get(\"q\")\n    if not q:\n        return render_template(\"lab1.html\")\n\n    q_lower = q.lower()\n    if q_lower in FAANG_DATA:\n        data = FAANG_DATA[q_lower]\n        return render_template(\n            \"lab1.html\", company=data[\"company\"], ceo=data[\"ceo\"], about=data[\"about\"]\n        )\n    else:\n        # Vulnerable: Reflects unescaped user input\n        return render_template(\"lab1.html\", query=q)\n\n\n@app.route(\"/lab2\", methods=[\"GET\", \"POST\"])\ndef lab2():\n    if request.method == \"POST\":\n        username = request.form.get(\"username\", \"\")\n        if username:\n            # Vulnerable: Simple filter bypass by script tags\n            username = username.strip()\n            username = username.replace(\"<script>\", \"\").replace(\"</script>\", \"\")\n            return render_template(\"lab2.html\", username=username)\n    return render_template(\"lab2.html\", username=\"Guest\")\n\n\n@app.route(\"/lab3\", methods=[\"GET\", \"POST\"])\ndef lab3():\n    if request.method == \"POST\":\n        username = request.form.get(\"username\")\n        if username:\n            # Vulnerable: Only filters alphanumeric\n            pattern = r\"\\w\"\n            result = re.sub(pattern, \"\", username)\n            return render_template(\"lab3.html\", code=result)\n    return render_template(\"lab3.html\")\n\n\n@app.route(\"/toggle-theme\")\ndef toggle_theme():\n    resp = make_response(redirect(request.referrer or \"/\"))\n    current = request.cookies.get(\"theme\", \"light\")\n    resp.set_cookie(\"theme\", \"dark\" if current == \"light\" else \"light\")\n    return resp\n\n@app.route(\"/health\")\ndef health_check():\n    return \"OK\", 200\n\nif __name__ == '__main__':\n    app.run(host='0.0.0.0', port=5006)\n",
+  "source": {
+    "corpus": "pygoat",
+    "url": "https://github.com/adeyosemanputra/pygoat",
+    "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+    "path": "dockerized_labs/xss_lab/app.py",
+    "license": "MIT"
+  }
+}

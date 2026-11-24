@@ -1,0 +1,18 @@
+{
+  "case_id": "BEARER-090",
+  "scanner": "Bearer",
+  "rule_id": "javascript_lang_hardcoded_secret",
+  "rule_name": "Usage of hard-coded secret",
+  "rule_description": "## Description\n\nStoring secrets directly in your code is a security risk. Instead, opt for environment variables or a secret management system to safeguard your secrets.\n\n## Remediations\n\n- **Do not** store plaintext secrets in your code. This exposes sensitive information to unnecessary risk.\n  ```javascript\n    passport.use(new OAuth2Strategy({\n        authorizationURL: 'https://www.example.com/oauth2/authorize',\n        tokenURL: 'https://www.example.com/oauth2/token',\n        clientID: 'my-id-123',\n        clientSecret: 'shh-my-secret',\n        callbackURL: 'http://localhost:3000/auth/example/callback'\n      },\n      function(accessToken, refreshToken, profile, cb) {\n        User.findOrCreate({ exampleId: profile.id }, function (err, user) {\n          return cb(err, user);\n        });\n      }\n    ));\n  ```\n- **Do** use environment variables to store sensitive information such as secrets. This method keeps credentials out of your codebase and makes them easier to manage securely.\n- **Do** consider implementing a key-management system to securely handle secrets and other sensitive information. This approach provides enhanced security measures for managing and accessing credentials.\n\n## References\n\n- [OWASP hardcoded passwords](https://owasp.org/www-community/vulnerabilities/Use_of_hard-coded_password)\n- [Google Cloud Key Management Service](https://cloud.google.com/kms/docs)\n- [AWS Key Management Service](https://aws.amazon.com/kms/)",
+  "language": "typescript",
+  "file": "app.ts",
+  "line": 26,
+  "vulnerable_code": "describe('/#/privacy-security/data-export', () => {\n  describe('challenge \"dataExportChallenge\"', () => {\n    beforeEach(() => {\n      cy.intercept('GET', '/api/SecurityQuestions/').as('securityQuestions')\n      cy.visit('/#/register')\n      cy.wait('@securityQuestions')\n\n      cy.task<string>('GetFromConfig', 'application.domain').then(\n        (appDomain: string) => {\n          cy.get('#emailControl').type(`admun@${appDomain}`)\n        }\n      )\n      cy.get('#passwordControl').focus().type('admun123')\n      cy.get('#repeatPasswordControl').focus().type('admun123')\n\n      cy.get('#securityQuestionControl').click()\n      cy.get('.mat-mdc-option')\n        .contains('Your eldest siblings middle name?')\n        .click()\n\n      cy.get('#securityAnswerControl').focus().type('admun')\n      cy.get('#registerButton').click()\n    })\n\n    it('should be possible to steal admin user data by causing email clash during export', () => {\n      cy.login({ email: 'admun', password: 'admun123' })\n\n      cy.visit('/#/privacy-security/data-export')\n      cy.get('#formatControl').contains('JSON').click()\n      cy.get('#submitButton').click()\n      cy.expectChallengeSolved({ challenge: 'GDPR Data Theft' })\n    })\n  })\n})\n",
+  "source": {
+    "corpus": "juice-shop",
+    "url": "https://github.com/juice-shop/juice-shop",
+    "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+    "path": "test/cypress/e2e/dataExport.spec.ts",
+    "license": "MIT"
+  }
+}

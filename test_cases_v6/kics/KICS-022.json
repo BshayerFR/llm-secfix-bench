@@ -1,0 +1,18 @@
+{
+  "case_id": "KICS-022",
+  "scanner": "KICS",
+  "rule_id": "3fa5900f-9aac-4982-96b2-a6143d9c99fb",
+  "rule_name": "Role Definition Allows Custom Role Creation",
+  "rule_description": "Role Definition should not allow custom role creation (Microsoft.Authorization/roleDefinitions/write)",
+  "language": "terraform",
+  "file": "main.tf",
+  "line": 9,
+  "vulnerable_code": "data azurerm_subscription current_subscription {}\n\nresource \"azurerm_role_definition\" \"example\" {\n  name        = \"my-custom-role\"\n  scope       = data.azurerm_subscription.current_subscription.id\n  description = \"This is a custom role created via Terraform\"\n\n  permissions {\n    actions     = [\"*\"]\n    not_actions = []\n  }\n\n  assignable_scopes = [\n    data.azurerm_subscription.current_subscription.id\n  ]\n}\n",
+  "source": {
+    "corpus": "terragoat",
+    "url": "https://github.com/bridgecrewio/terragoat",
+    "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+    "path": "terraform/azure/roles.tf",
+    "license": "Apache-2.0"
+  }
+}

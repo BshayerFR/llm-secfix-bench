@@ -1,0 +1,18 @@
+{
+  "case_id": "KICS-095",
+  "scanner": "KICS",
+  "rule_id": "02d9c71f-3ee8-4986-9c27-1a20d0d19bfc",
+  "rule_name": "Unpinned Package Version in Pip Install",
+  "rule_description": "Package version pinning reduces the range of versions that can be installed, reducing the chances of failure due to unanticipated changes",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 25,
+  "vulnerable_code": "# Copyright 2022 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#      http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\nFROM python:3.14-slim\n\nWORKDIR /pipeline\n\n# Set the entrypoint to Apache Beam SDK worker launcher.\nCOPY --from=apache/beam_python3.14_sdk:2.73.0 /opt/apache/beam /opt/apache/beam\nENTRYPOINT [ \"/opt/apache/beam/boot\" ]\n\n# Install the requirements.\nCOPY requirements.txt .\nRUN pip install --no-cache-dir --upgrade pip \\\n    && pip install --no-cache-dir -r requirements.txt \\\n    && pip check\n\n# Copy the pipeline source files.\nCOPY main.py ./\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+    "path": "dataflow/custom-containers/minimal/Dockerfile",
+    "license": "Apache-2.0"
+  }
+}

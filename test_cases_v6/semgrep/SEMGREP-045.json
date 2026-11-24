@@ -1,0 +1,18 @@
+{
+  "case_id": "SEMGREP-045",
+  "scanner": "Semgrep",
+  "rule_id": "java.lang.security.audit.object-deserialization.object-deserialization",
+  "rule_name": "object-deserialization",
+  "rule_description": "Found object deserialization using ObjectInputStream. Deserializing entire Java objects is dangerous because malicious actors can create Java object streams with unintended consequences. Ensure that the objects being deserialized are not user-controlled. If this must be done, consider using HMACs to sign the data stream to make sure it is not tampered with, or consider only transmitting object fields and populating a new object.",
+  "language": "java",
+  "file": "Main.java",
+  "line": 42,
+  "vulnerable_code": "/*\n * SPDX-FileCopyrightText: Copyright © 2014 WebGoat authors\n * SPDX-License-Identifier: GPL-2.0-or-later\n */\npackage org.owasp.webgoat.lessons.deserialization;\n\nimport static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;\nimport static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;\n\nimport java.io.ByteArrayInputStream;\nimport java.io.IOException;\nimport java.io.InvalidClassException;\nimport java.io.ObjectInputStream;\nimport java.util.Base64;\nimport org.dummy.insecure.framework.VulnerableTaskHolder;\nimport org.owasp.webgoat.container.assignments.AssignmentEndpoint;\nimport org.owasp.webgoat.container.assignments.AssignmentHints;\nimport org.owasp.webgoat.container.assignments.AttackResult;\nimport org.springframework.web.bind.annotation.PostMapping;\nimport org.springframework.web.bind.annotation.RequestParam;\nimport org.springframework.web.bind.annotation.ResponseBody;\nimport org.springframework.web.bind.annotation.RestController;\n\n@RestController\n@AssignmentHints({\n  \"insecure-deserialization.hints.1\",\n  \"insecure-deserialization.hints.2\",\n  \"insecure-deserialization.hints.3\"\n})\npublic class InsecureDeserializationTask implements AssignmentEndpoint {\n\n  @PostMapping(\"/InsecureDeserialization/task\")\n  @ResponseBody\n  public AttackResult completed(@RequestParam String token) throws IOException {\n    String b64token;\n    long before;\n    long after;\n    int delay;\n\n    b64token = token.replace('-', '+').replace('_', '/');\n\n    try (ObjectInputStream ois =\n        new ObjectInputStream(new ByteArrayInputStream(Base64.getDecoder().decode(b64token)))) {\n      before = System.currentTimeMillis();\n      Object o = ois.readObject();\n      if (!(o instanceof VulnerableTaskHolder)) {\n        if (o instanceof String) {\n          return failed(this).feedback(\"insecure-deserialization.stringobject\").build();\n        }\n        return failed(this).feedback(\"insecure-deserialization.wrongobject\").build();\n      }\n      after = System.currentTimeMillis();\n    } catch (InvalidClassException e) {\n      return failed(this).feedback(\"insecure-deserialization.invalidversion\").build();\n    } catch (IllegalArgumentException e) {\n      return failed(this).feedback(\"insecure-deserialization.expired\").build();\n    } catch (Exception e) {\n      return failed(this).feedback(\"insecure-deserialization.invalidversion\").build();\n    }\n\n    delay = (int) (after - before);\n    if (delay > 7000) {\n      return failed(this).build();\n    }\n    if (delay < 3000) {\n      return failed(this).build();\n    }\n    return success(this).build();\n  }\n}\n",
+  "source": {
+    "corpus": "WebGoat",
+    "url": "https://github.com/WebGoat/WebGoat",
+    "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+    "path": "src/main/java/org/owasp/webgoat/lessons/deserialization/InsecureDeserializationTask.java",
+    "license": "GPL-2.0-or-later"
+  }
+}

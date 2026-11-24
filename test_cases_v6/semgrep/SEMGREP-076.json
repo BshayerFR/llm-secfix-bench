@@ -1,0 +1,18 @@
+{
+  "case_id": "SEMGREP-076",
+  "scanner": "Semgrep",
+  "rule_id": "java.lang.security.audit.object-deserialization.object-deserialization",
+  "rule_name": "object-deserialization",
+  "rule_description": "Found object deserialization using ObjectInputStream. Deserializing entire Java objects is dangerous because malicious actors can create Java object streams with unintended consequences. Ensure that the objects being deserialized are not user-controlled. If this must be done, consider using HMACs to sign the data stream to make sure it is not tampered with, or consider only transmitting object fields and populating a new object.",
+  "language": "java",
+  "file": "Main.java",
+  "line": 22,
+  "vulnerable_code": "/*\n * SPDX-FileCopyrightText: Copyright © 2019 WebGoat authors\n * SPDX-License-Identifier: GPL-2.0-or-later\n */\npackage org.owasp.webgoat.lessons.deserialization;\n\nimport java.io.ByteArrayInputStream;\nimport java.io.ByteArrayOutputStream;\nimport java.io.DataOutputStream;\nimport java.io.IOException;\nimport java.io.ObjectInputStream;\nimport java.io.ObjectOutputStream;\nimport java.io.Serializable;\nimport java.util.Base64;\n\npublic class SerializationHelper {\n\n  private static final char[] hexArray = \"0123456789ABCDEF\".toCharArray();\n\n  public static Object fromString(String s) throws IOException, ClassNotFoundException {\n    byte[] data = Base64.getDecoder().decode(s);\n    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data));\n    Object o = ois.readObject();\n    ois.close();\n    return o;\n  }\n\n  public static String toString(Serializable o) throws IOException {\n\n    ByteArrayOutputStream baos = new ByteArrayOutputStream();\n    ObjectOutputStream oos = new ObjectOutputStream(baos);\n    oos.writeObject(o);\n    oos.close();\n    return Base64.getEncoder().encodeToString(baos.toByteArray());\n  }\n\n  public static String show() throws IOException {\n    ByteArrayOutputStream baos = new ByteArrayOutputStream();\n    DataOutputStream dos = new DataOutputStream(baos);\n    dos.writeLong(-8699352886133051976L);\n    dos.close();\n    byte[] longBytes = baos.toByteArray();\n    return bytesToHex(longBytes);\n  }\n\n  public static String bytesToHex(byte[] bytes) {\n    char[] hexChars = new char[bytes.length * 2];\n    for (int j = 0; j < bytes.length; j++) {\n      int v = bytes[j] & 0xFF;\n      hexChars[j * 2] = hexArray[v >>> 4];\n      hexChars[j * 2 + 1] = hexArray[v & 0x0F];\n    }\n    return new String(hexChars);\n  }\n}\n",
+  "source": {
+    "corpus": "WebGoat",
+    "url": "https://github.com/WebGoat/WebGoat",
+    "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+    "path": "src/main/java/org/owasp/webgoat/lessons/deserialization/SerializationHelper.java",
+    "license": "GPL-2.0-or-later"
+  }
+}

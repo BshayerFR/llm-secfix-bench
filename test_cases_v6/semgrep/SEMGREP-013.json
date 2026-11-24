@@ -1,0 +1,18 @@
+{
+  "case_id": "SEMGREP-013",
+  "scanner": "Semgrep",
+  "rule_id": "generic.secrets.security.detected-generic-secret.detected-generic-secret",
+  "rule_name": "detected-generic-secret",
+  "rule_description": "Generic Secret detected",
+  "language": "typescript",
+  "file": "app.ts",
+  "line": 7,
+  "vulnerable_code": "describe('/#/basket', () => {\n  describe('as wurstbrot', () => {\n    beforeEach(() => {\n      cy.login({\n        email: 'wurstbrot',\n        password: 'EinBelegtesBrotMitSchinkenSCHINKEN!',\n        totpSecret: 'IFTXE3SPOEYVURT2MRYGI52TKJ4HC3KH'\n      })\n    })\n\n    it('should show an success message for 2fa enabled accounts', () => {\n      cy.visit('/#/privacy-security/two-factor-authentication')\n    })\n  })\n\n  describe('as amy', () => {\n    beforeEach(() => {\n      cy.login({\n        email: 'amy',\n        password: 'K1f.....................'\n      })\n    })\n\n    it('should be possible to setup 2fa for a account without 2fa enabled', async () => {\n      cy.visit('/#/privacy-security/two-factor-authentication')\n\n      cy.get('#initialToken')\n        .should('have.attr', 'data-test-totp-secret')\n        .then(($val) => {\n          // console.log($val);\n          cy.get('#currentPasswordSetup').type('K1f.....................')\n\n          cy.task<string>('GenerateAuthenticator', $val).then((secret: string) => {\n            cy.get('#initialToken').type(secret)\n            cy.get('#setupTwoFactorAuth').click()\n\n            cy.get('#currentPasswordDisable').type('K1f.....................')\n            cy.get('#disableTwoFactorAuth').click()\n          })\n        })\n      cy.get('.mat-snack-bar-container').should(\n        'contain',\n        'Two-Factor Authentication has been removed.'\n      )\n    })\n  })\n})\n",
+  "source": {
+    "corpus": "juice-shop",
+    "url": "https://github.com/juice-shop/juice-shop",
+    "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+    "path": "test/cypress/e2e/totpSetup.spec.ts",
+    "license": "MIT"
+  }
+}

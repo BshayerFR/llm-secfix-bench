@@ -1,0 +1,18 @@
+{
+  "case_id": "BEARER-081",
+  "scanner": "Bearer",
+  "rule_id": "java_lang_cookie_missing_http_only",
+  "rule_name": "Missing HTTP Only option in cookie configuration",
+  "rule_description": "## Description\n\nNot setting the HTTP Only attribute to \"true\" in cookie configurations leaves the cookie vulnerable to being accessed by client-side JavaScript. This oversight can lead to the exposure of cookie values, especially on websites susceptible to Cross-Site Scripting (XSS) attacks. Enabling HTTP Only is a critical step in preventing malicious scripts from reading the cookie values through JavaScript.\n\n## Remediations\n\n- **Do** set the HTTP Only attribute to `true` for cookies to prevent them from being accessed by client-side JavaScript. This is a critical step in safeguarding your cookies against unauthorized access, especially in the context of XSS vulnerabilities.\n  ```java\n  cookie.setHttpOnly(true);\n  ```",
+  "language": "java",
+  "file": "Main.java",
+  "line": 45,
+  "vulnerable_code": "/*\n * SPDX-FileCopyrightText: Copyright © 2017 WebGoat authors\n * SPDX-License-Identifier: GPL-2.0-or-later\n */\npackage org.owasp.webgoat.lessons.csrf;\n\nimport static org.hamcrest.core.Is.is;\nimport static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;\nimport static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;\nimport static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;\n\nimport jakarta.servlet.http.Cookie;\nimport org.hamcrest.core.StringContains;\nimport org.junit.jupiter.api.BeforeEach;\nimport org.junit.jupiter.api.Test;\nimport org.owasp.webgoat.container.plugins.LessonTest;\nimport org.springframework.http.MediaType;\nimport org.springframework.test.web.servlet.setup.MockMvcBuilders;\n\npublic class CSRFFeedbackTest extends LessonTest {\n\n  @BeforeEach\n  public void setup() {\n    this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();\n  }\n\n  @Test\n  public void postingJsonMessageThroughWebGoatShouldWork() throws Exception {\n    mockMvc\n        .perform(\n            post(\"/csrf/feedback/message\")\n                .contentType(MediaType.APPLICATION_JSON)\n                .content(\n                    \"{\\\"name\\\": \\\"Test\\\", \\\"email\\\": \\\"test1233@dfssdf.de\\\", \\\"subject\\\":\"\n                        + \" \\\"service\\\", \\\"message\\\":\\\"dsaffd\\\"}\"))\n        .andExpect(status().isOk());\n  }\n\n  @Test\n  public void csrfAttack() throws Exception {\n    mockMvc\n        .perform(\n            post(\"/csrf/feedback/message\")\n                .contentType(MediaType.TEXT_PLAIN)\n                .cookie(new Cookie(\"JSESSIONID\", \"test\"))\n                .header(\"host\", \"localhost:8080\")\n                .header(\"referer\", \"webgoat.org\")\n                .content(\n                    \"{\\\"name\\\": \\\"Test\\\", \\\"email\\\": \\\"test1233@dfssdf.de\\\", \\\"subject\\\":\"\n                        + \" \\\"service\\\", \\\"message\\\":\\\"dsaffd\\\"}\"))\n        .andExpect(jsonPath(\"lessonCompleted\", is(true)))\n        .andExpect(jsonPath(\"feedback\", StringContains.containsString(\"the flag is: \")));\n  }\n}\n",
+  "source": {
+    "corpus": "WebGoat",
+    "url": "https://github.com/WebGoat/WebGoat",
+    "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+    "path": "src/test/java/org/owasp/webgoat/lessons/csrf/CSRFFeedbackTest.java",
+    "license": "GPL-2.0-or-later"
+  }
+}

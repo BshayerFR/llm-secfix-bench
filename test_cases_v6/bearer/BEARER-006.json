@@ -1,0 +1,18 @@
+{
+  "case_id": "BEARER-006",
+  "scanner": "Bearer",
+  "rule_id": "java_lang_jwt_verification_bypass",
+  "rule_name": "Missing signature verification of JWT",
+  "rule_description": "## Description\n\nFailing to verify the signature of JSON Web Tokens (JWTs) compromises the security of an application. Signature verification is crucial for confirming the authenticity and integrity of JWTs. Without this verification, your application is open to token forgery and replay attacks, where attackers can manipulate or reuse tokens to gain unauthorized access.\n\n## Remediations\n\n- **Do not** use the `parse()` method for handling JWTs, as it does not verify the token's signature, leaving a significant security gap.\n  ```java\n  Jwts.parser().setSigningKey(JWT_PASSWORD).parse(accessToken); // unsafe\n  ```\n- **Do** use the `parseClaimsJws()` method when working with JWTs. This method ensures that the signature is verified, safeguarding against the manipulation of token data.\n  ```java\n  Jwts.parser().setSigningKey(JWT_PASSWORD).parseClaimsJws(accessToken);\n  ```\n\n## References\n\n- [JWT for Java Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_for_Java_Cheat_Sheet.html)",
+  "language": "java",
+  "file": "Main.java",
+  "line": 37,
+  "vulnerable_code": "/*\n * SPDX-FileCopyrightText: Copyright © 2018 WebGoat authors\n * SPDX-License-Identifier: GPL-2.0-or-later\n */\npackage org.owasp.webgoat.lessons.jwt;\n\nimport io.jsonwebtoken.Claims;\nimport io.jsonwebtoken.JwsHeader;\nimport io.jsonwebtoken.Jwt;\nimport io.jsonwebtoken.Jwts;\nimport io.jsonwebtoken.SigningKeyResolverAdapter;\nimport io.jsonwebtoken.impl.TextCodec;\nimport java.time.Duration;\nimport java.time.Instant;\nimport java.util.Date;\nimport java.util.Map;\nimport java.util.concurrent.TimeUnit;\nimport lombok.extern.slf4j.Slf4j;\nimport org.junit.jupiter.api.Test;\n\n@Slf4j\npublic class TokenTest {\n\n  @Test\n  public void test() {\n    String key = \"qwertyqwerty1234\";\n    Map<String, Object> claims =\n        Map.of(\"username\", \"Jerry\", \"aud\", \"webgoat.org\", \"email\", \"jerry@webgoat.com\");\n    String token =\n        Jwts.builder()\n            .setHeaderParam(\"kid\", \"webgoat_key\")\n            .setIssuedAt(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toDays(10)))\n            .setClaims(claims)\n            .signWith(io.jsonwebtoken.SignatureAlgorithm.HS512, key)\n            .compact();\n    log.debug(token);\n    Jwt jwt = Jwts.parser().setSigningKey(\"qwertyqwerty1234\").parse(token);\n    jwt =\n        Jwts.parser()\n            .setSigningKeyResolver(\n                new SigningKeyResolverAdapter() {\n                  @Override\n                  public byte[] resolveSigningKeyBytes(JwsHeader header, Claims claims) {\n                    return TextCodec.BASE64.decode(key);\n                  }\n                })\n            .parse(token);\n  }\n\n  @Test\n  public void testRefresh() {\n    Instant now = Instant.now(); // current date\n    Claims claims = Jwts.claims().setIssuedAt(Date.from(now.minus(Duration.ofDays(10))));\n    claims.setExpiration(Date.from(now.minus(Duration.ofDays(9))));\n    claims.put(\"admin\", \"false\");\n    claims.put(\"user\", \"Tom\");\n    String token =\n        Jwts.builder()\n            .setClaims(claims)\n            .signWith(io.jsonwebtoken.SignatureAlgorithm.HS512, \"bm5n3SkxCX4kKRy4\")\n            .compact();\n    log.debug(token);\n  }\n}\n",
+  "source": {
+    "corpus": "WebGoat",
+    "url": "https://github.com/WebGoat/WebGoat",
+    "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+    "path": "src/test/java/org/owasp/webgoat/lessons/jwt/TokenTest.java",
+    "license": "GPL-2.0-or-later"
+  }
+}

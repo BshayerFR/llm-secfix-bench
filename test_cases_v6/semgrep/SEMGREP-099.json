@@ -1,0 +1,18 @@
+{
+  "case_id": "SEMGREP-099",
+  "scanner": "Semgrep",
+  "rule_id": "java.lang.security.audit.formatted-sql-string.formatted-sql-string",
+  "rule_name": "formatted-sql-string",
+  "rule_description": "Detected a formatted string in a SQL statement. This could lead to SQL injection if variables in the SQL statement are not properly sanitized. Use a prepared statements (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using 'connection.prepareStatement'.",
+  "language": "java",
+  "file": "Main.java",
+  "line": 50,
+  "vulnerable_code": "/*\n * SPDX-FileCopyrightText: Copyright © 2017 WebGoat authors\n * SPDX-License-Identifier: GPL-2.0-or-later\n */\npackage org.owasp.webgoat.lessons.challenges.challenge5;\n\nimport static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;\nimport static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;\n\nimport java.sql.PreparedStatement;\nimport java.sql.ResultSet;\nimport lombok.RequiredArgsConstructor;\nimport lombok.extern.slf4j.Slf4j;\nimport org.owasp.webgoat.container.LessonDataSource;\nimport org.owasp.webgoat.container.assignments.AssignmentEndpoint;\nimport org.owasp.webgoat.container.assignments.AttackResult;\nimport org.owasp.webgoat.lessons.challenges.Flags;\nimport org.springframework.util.StringUtils;\nimport org.springframework.web.bind.annotation.PostMapping;\nimport org.springframework.web.bind.annotation.RequestParam;\nimport org.springframework.web.bind.annotation.ResponseBody;\nimport org.springframework.web.bind.annotation.RestController;\n\n@RestController\n@Slf4j\n@RequiredArgsConstructor\npublic class Assignment5 implements AssignmentEndpoint {\n\n  private final LessonDataSource dataSource;\n  private final Flags flags;\n\n  @PostMapping(\"/challenge/5\")\n  @ResponseBody\n  public AttackResult login(\n      @RequestParam String username_login, @RequestParam String password_login) throws Exception {\n    if (!StringUtils.hasText(username_login) || !StringUtils.hasText(password_login)) {\n      return failed(this).feedback(\"required4\").build();\n    }\n    if (!\"Larry\".equals(username_login)) {\n      return failed(this).feedback(\"user.not.larry\").feedbackArgs(username_login).build();\n    }\n    try (var connection = dataSource.getConnection()) {\n      PreparedStatement statement =\n          connection.prepareStatement(\n              \"select password from challenge_users where userid = '\"\n                  + username_login\n                  + \"' and password = '\"\n                  + password_login\n                  + \"'\");\n      ResultSet resultSet = statement.executeQuery();\n\n      if (resultSet.next()) {\n        return success(this).feedback(\"challenge.solved\").feedbackArgs(flags.getFlag(5)).build();\n      } else {\n        return failed(this).feedback(\"challenge.close\").build();\n      }\n    }\n  }\n}\n",
+  "source": {
+    "corpus": "WebGoat",
+    "url": "https://github.com/WebGoat/WebGoat",
+    "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+    "path": "src/main/java/org/owasp/webgoat/lessons/challenges/challenge5/Assignment5.java",
+    "license": "GPL-2.0-or-later"
+  }
+}

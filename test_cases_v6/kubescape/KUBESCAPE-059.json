@@ -1,0 +1,18 @@
+{
+  "case_id": "KUBESCAPE-059",
+  "scanner": "Kubescape",
+  "rule_id": "C-0237",
+  "rule_name": "Check if signature exists",
+  "rule_description": "Ensures that all images contain some signature\n\nAffected fields:\nspec.template.spec.containers[0].image (current: recommendationservice) (server)",
+  "language": "yaml",
+  "file": "manifest.yaml",
+  "line": 46,
+  "vulnerable_code": "# Copyright 2018 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#      http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\napiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: recommendationservice\n  labels:\n    app: recommendationservice\nspec:\n  selector:\n    matchLabels:\n      app: recommendationservice\n  template:\n    metadata:\n      labels:\n        app: recommendationservice\n    spec:\n      serviceAccountName: recommendationservice\n      terminationGracePeriodSeconds: 5\n      securityContext:\n        fsGroup: 1000\n        runAsGroup: 1000\n        runAsNonRoot: true\n        runAsUser: 1000\n      containers:\n      - name: server\n        securityContext:\n          allowPrivilegeEscalation: false\n          capabilities:\n            drop:\n              - ALL\n          privileged: false\n          readOnlyRootFilesystem: true\n        image: recommendationservice\n        ports:\n        - containerPort: 8080\n        readinessProbe:\n          periodSeconds: 5\n          grpc:\n            port: 8080\n        livenessProbe:\n          periodSeconds: 5\n          grpc:\n            port: 8080\n        env:\n        - name: PORT\n          value: \"8080\"\n        - name: PRODUCT_CATALOG_SERVICE_ADDR\n          value: \"productcatalogservice:3550\"\n        - name: DISABLE_PROFILER\n          value: \"1\"\n        resources:\n          requests:\n            cpu: 100m\n            memory: 220Mi\n          limits:\n            cpu: 200m\n            memory: 450Mi\n---\napiVersion: v1\nkind: Service\nmetadata:\n  name: recommendationservice\n  labels:\n    app: recommendationservice\nspec:\n  type: ClusterIP\n  selector:\n    app: recommendationservice\n  ports:\n  - name: grpc\n    port: 8080\n    targetPort: 8080\n---\napiVersion: v1\nkind: ServiceAccount\nmetadata:\n  name: recommendationservice\n",
+  "source": {
+    "corpus": "microservices-demo",
+    "url": "https://github.com/GoogleCloudPlatform/microservices-demo",
+    "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+    "path": "kubernetes-manifests/recommendationservice.yaml",
+    "license": "Apache-2.0"
+  }
+}

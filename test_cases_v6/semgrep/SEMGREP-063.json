@@ -1,0 +1,18 @@
+{
+  "case_id": "SEMGREP-063",
+  "scanner": "Semgrep",
+  "rule_id": "python.lang.security.deserialization.pickle.avoid-pickle",
+  "rule_name": "avoid-pickle",
+  "rule_description": "Avoid using `pickle`, which is known to lead to code execution vulnerabilities. When unpickling, the serialized data could be manipulated to run arbitrary code. Instead, consider serializing the relevant data as JSON or a similar text-based serialization format.",
+  "language": "python",
+  "file": "app.py",
+  "line": 19,
+  "vulnerable_code": "from flask import Flask, render_template, request, make_response, send_from_directory\nimport base64\nimport pickle\nimport os\nfrom dataclasses import dataclass\nfrom pathlib import Path\n\napp = Flask(__name__)\napp.config[\"SECRET_KEY\"] = \"your-secret-key-here\"\n\n\n# For Lab 1 - Pickle Deserialization\n@dataclass\nclass TestUser:\n    admin: int = 0\n\n\n# Create the initial pickled user data\npickled_user = pickle.dumps(TestUser())\nencoded_user = base64.b64encode(pickled_user)\n\n\n@app.route(\"/\")\ndef index():\n    \"\"\"Description page explaining Software and Data Integrity Failures\"\"\"\n    return render_template(\"index.html\")\n\n\n@app.route(\"/lab1\")\ndef lab1():\n    \"\"\"Lab 1: Insecure Deserialization\"\"\"\n    response = render_template(\"lab1.html\", message=\"Only Admins can see this page\")\n    token = request.cookies.get(\"token\")\n\n    if token is None:\n        token = encoded_user\n        response = make_response(\n            render_template(\"lab1.html\", message=\"Only Admins can see this page\")\n        )\n        response.set_cookie(key=\"token\", value=token.decode(\"utf-8\"))\n    else:\n        try:\n            token = base64.b64decode(token)\n            admin = pickle.loads(\n                token\n            )  # Intentionally vulnerable to pickle deserialization\n            if admin.admin == 1:\n                response = render_template(\n                    \"lab1.html\", message=\"Welcome Admin, SECRETKEY:ADMIN123\"\n                )\n        except Exception as e:\n            response = render_template(\"lab1.html\", error=str(e))\n\n    return response\n\n\n@app.route(\"/lab2\")\ndef lab2():\n    \"\"\"Lab 2: Software Supply Chain Attack\"\"\"\n    username = request.args.get(\"username\", \"\")\n    if username:\n        # Intentionally vulnerable to XSS that can modify download link\n        return render_template(\"lab2.html\", username=username, success=True)\n    return render_template(\"lab2.html\")\n\n\n@app.route(\"/download/<path:filename>\")\ndef serve_file(filename):\n    \"\"\"Serve static files with forced download\"\"\"\n    return send_from_directory(\n        \"static\", filename, as_attachment=True, download_name=filename\n    )\n\n@app.route(\"/health\")\ndef health_check():\n    return \"OK\", 200\n\nif __name__ == '__main__':\n    # Ensure static files exist\n    static_dir = Path(\"./static\")\n    static_dir.mkdir(exist_ok=True)\n\n    # Create sample files for lab2\n    with open(static_dir / \"real.txt\", \"w\") as f:\n        f.write(\"Congratulations! You downloaded the real file.\")\n\n    with open(static_dir / \"fake.txt\", \"w\") as f:\n        f.write(\"This is a fake file that could contain malicious code.\")\n\n    app.run(host=\"0.0.0.0\", port=5011, debug=True)\n",
+  "source": {
+    "corpus": "pygoat",
+    "url": "https://github.com/adeyosemanputra/pygoat",
+    "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+    "path": "dockerized_labs/software_integrity_lab/app.py",
+    "license": "MIT"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "SEMGREP-007",
+  "scanner": "Semgrep",
+  "rule_id": "java.spring.security.injection.tainted-sql-string.tainted-sql-string",
+  "rule_name": "tainted-sql-string",
+  "rule_description": "User data flows into this manually-constructed SQL string. User data can be safely inserted into SQL strings using prepared statements or an object-relational mapper (ORM). Manually-constructed SQL strings is a possible indicator of SQL injection, which could let an attacker steal or manipulate data from the database. Instead, use prepared statements (`connection.PreparedStatement`) or a safe library.",
+  "language": "java",
+  "file": "Main.java",
+  "line": 51,
+  "vulnerable_code": "/*\n * SPDX-FileCopyrightText: Copyright © 2017 WebGoat authors\n * SPDX-License-Identifier: GPL-2.0-or-later\n */\npackage org.owasp.webgoat.lessons.sqlinjection.mitigation;\n\nimport java.util.ArrayList;\nimport java.util.List;\nimport lombok.AllArgsConstructor;\nimport lombok.Getter;\nimport lombok.extern.slf4j.Slf4j;\nimport org.owasp.webgoat.container.LessonDataSource;\nimport org.springframework.http.MediaType;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RequestMapping;\nimport org.springframework.web.bind.annotation.RequestParam;\nimport org.springframework.web.bind.annotation.ResponseBody;\nimport org.springframework.web.bind.annotation.RestController;\n\n@RestController\n@RequestMapping(\"SqlInjectionMitigations/servers\")\n@Slf4j\npublic class Servers {\n\n  private final LessonDataSource dataSource;\n\n  @AllArgsConstructor\n  @Getter\n  private class Server {\n\n    private String id;\n    private String hostname;\n    private String ip;\n    private String mac;\n    private String status;\n    private String description;\n  }\n\n  public Servers(LessonDataSource dataSource) {\n    this.dataSource = dataSource;\n  }\n\n  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)\n  @ResponseBody\n  public List<Server> sort(@RequestParam String column) throws Exception {\n    List<Server> servers = new ArrayList<>();\n\n    try (var connection = dataSource.getConnection()) {\n      try (var statement =\n          connection.prepareStatement(\n              \"select id, hostname, ip, mac, status, description from SERVERS where status <> 'out\"\n                  + \" of order' order by \"\n                  + column)) {\n        try (var rs = statement.executeQuery()) {\n          while (rs.next()) {\n            Server server =\n                new Server(\n                    rs.getString(1),\n                    rs.getString(2),\n                    rs.getString(3),\n                    rs.getString(4),\n                    rs.getString(5),\n                    rs.getString(6));\n            servers.add(server);\n          }\n        }\n      }\n    }\n    return servers;\n  }\n}\n",
+  "source": {
+    "corpus": "WebGoat",
+    "url": "https://github.com/WebGoat/WebGoat",
+    "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+    "path": "src/main/java/org/owasp/webgoat/lessons/sqlinjection/mitigation/Servers.java",
+    "license": "GPL-2.0-or-later"
+  }
+}

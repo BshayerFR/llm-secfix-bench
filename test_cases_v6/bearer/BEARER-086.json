@@ -1,0 +1,18 @@
+{
+  "case_id": "BEARER-086",
+  "scanner": "Bearer",
+  "rule_id": "java_lang_hardcoded_secret",
+  "rule_name": "Usage of hard-coded secret",
+  "rule_description": "## Description\n\nApplications should store secret values securely and not as literal values\nin the source code.\n\n## Remediations\n\n✅ Retrieve secrets from a secure location at runtime\n\n## Resources\n- [OWASP hardcoded passwords](https://owasp.org/www-community/vulnerabilities/Use_of_hard-coded_password)\n- [OWASP secrets management cheat sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html#21-high-availability)\n",
+  "language": "java",
+  "file": "Main.java",
+  "line": 14,
+  "vulnerable_code": "/*\n * SPDX-FileCopyrightText: Copyright © 2014 WebGoat authors\n * SPDX-License-Identifier: GPL-2.0-or-later\n */\npackage org.owasp.webgoat.lessons.missingac;\n\nimport org.owasp.webgoat.container.lessons.Category;\nimport org.owasp.webgoat.container.lessons.Lesson;\nimport org.springframework.stereotype.Component;\n\n@Component\npublic class MissingFunctionAC extends Lesson {\n\n  public static final String PASSWORD_SALT_SIMPLE = \"DeliberatelyInsecure1234\";\n  public static final String PASSWORD_SALT_ADMIN = \"DeliberatelyInsecure1235\";\n\n  @Override\n  public Category getDefaultCategory() {\n    return Category.A1;\n  }\n\n  @Override\n  public String getTitle() {\n    return \"missing-function-access-control.title\";\n  }\n}\n",
+  "source": {
+    "corpus": "WebGoat",
+    "url": "https://github.com/WebGoat/WebGoat",
+    "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+    "path": "src/main/java/org/owasp/webgoat/lessons/missingac/MissingFunctionAC.java",
+    "license": "GPL-2.0-or-later"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "KICS-009",
+  "scanner": "KICS",
+  "rule_id": "9db38e87-f6aa-4b5e-a1ec-7266df259409",
+  "rule_name": "Email Alerts Disabled",
+  "rule_description": "Make sure that alerts notifications are set to 'On' in the Azure Security Center Contact",
+  "language": "terraform",
+  "file": "main.tf",
+  "line": 6,
+  "vulnerable_code": "resource azurerm_security_center_subscription_pricing \"pricing\" {\n  tier = \"Free\"\n}\n\nresource azurerm_security_center_contact \"contact\" {\n  alert_notifications = false\n  alerts_to_admins    = false\n  email               = \"some@email.com\"\n}\n",
+  "source": {
+    "corpus": "terragoat",
+    "url": "https://github.com/bridgecrewio/terragoat",
+    "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+    "path": "terraform/azure/security_center.tf",
+    "license": "Apache-2.0"
+  }
+}

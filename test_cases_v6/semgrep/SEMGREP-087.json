@@ -1,0 +1,18 @@
+{
+  "case_id": "SEMGREP-087",
+  "scanner": "Semgrep",
+  "rule_id": "python.flask.security.insecure-deserialization.insecure-deserialization",
+  "rule_name": "insecure-deserialization",
+  "rule_description": "Detected the use of an insecure deserialization library in a Flask route. These libraries are prone to code execution vulnerabilities. Ensure user data does not enter this function. To fix this, try to avoid serializing whole objects. Consider instead using a serializer such as JSON.",
+  "language": "python",
+  "file": "app.py",
+  "line": 30,
+  "vulnerable_code": "from flask import Flask, render_template, request, make_response\nimport pickle\nimport base64\nfrom dataclasses import dataclass\n\napp = Flask(__name__)\n\n\n@dataclass\nclass User:\n    username: str\n    is_admin: bool = False\n\n    def __reduce__(self):\n        # Intentionally vulnerable __reduce__ method to match PyGoat\n        return (User, (self.username, self.is_admin))\n\n\n@app.route(\"/\")\ndef index():\n    return render_template(\"index.html\")\n\n\n@app.route(\"/serialize\", methods=[\"POST\"])\ndef serialize_data():\n    username = request.form.get(\"username\", \"guest\")\n    # Create regular user with admin=False\n    user = User(username=username, is_admin=False)\n    # Match PyGoat's serialization format\n    serialized = base64.b64encode(pickle.dumps(user)).decode()\n    return render_template(\"result.html\", serialized=serialized)\n\n\n@app.route(\"/deserialize\", methods=[\"POST\"])\ndef deserialize_data():\n    try:\n        serialized_data = request.form.get(\"serialized_data\", \"\")\n        decoded_data = base64.b64decode(serialized_data)\n        # Intentionally vulnerable deserialization, matching PyGoat\n        user = pickle.loads(decoded_data)\n\n        if isinstance(user, User):\n            if user.is_admin:\n                message = f\"Welcome Admin {user.username}! Here's the secret admin content: ADMIN_KEY_123\"\n            else:\n                message = (\n                    f\"Welcome {user.username}. Only admins can see the secret content.\"\n                )\n        else:\n            message = \"Invalid user data\"\n\n        return render_template(\"result.html\", message=message)\n    except Exception as e:\n        return render_template(\"result.html\", message=f\"Error: {str(e)}\")\n\n@app.route(\"/health\")\ndef health_check():\n    return \"OK\", 200\n\nif __name__ == '__main__':\n    app.run(host='0.0.0.0', port=8080)\n",
+  "source": {
+    "corpus": "pygoat",
+    "url": "https://github.com/adeyosemanputra/pygoat",
+    "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+    "path": "dockerized_labs/insec_des_lab/main.py",
+    "license": "MIT"
+  }
+}

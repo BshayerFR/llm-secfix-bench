@@ -1,0 +1,18 @@
+{
+  "case_id": "BEARER-016",
+  "scanner": "Bearer",
+  "rule_id": "java_lang_trust_boundary_violation",
+  "rule_name": "Usage of trusted and untrusted data inside the same data structure",
+  "rule_description": "## Description\n\nCombining trusted and untrusted data within a single data structure poses a significant security risk. This practice may result in untrusted data being incorrectly regarded as trustworthy, potentially leading to security vulnerabilities.\n\n## Remediations\n\n- **Do not** mix trusted and untrusted data in the same data structure. Keeping them separate ensures that untrusted data does not accidentally gain the same level of trust as the verified data.",
+  "language": "java",
+  "file": "Main.java",
+  "line": 35,
+  "vulnerable_code": "/*\n * SPDX-FileCopyrightText: Copyright © 2016 WebGoat authors\n * SPDX-License-Identifier: GPL-2.0-or-later\n */\npackage org.owasp.webgoat.container.controller;\n\nimport jakarta.servlet.http.HttpServletRequest;\nimport org.owasp.webgoat.container.session.Course;\nimport org.springframework.stereotype.Controller;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.servlet.ModelAndView;\n\n@Controller\npublic class StartLesson {\n\n  private final Course course;\n\n  public StartLesson(Course course) {\n    this.course = course;\n  }\n\n  @GetMapping(\n      value = {\"*.lesson\"},\n      produces = \"text/html\")\n  public ModelAndView lessonPage(HttpServletRequest request) {\n    var model = new ModelAndView(\"lesson_content\");\n    var path = request.getRequestURL().toString(); // we now got /a/b/c/AccessControlMatrix.lesson\n    var lessonName = path.substring(path.lastIndexOf('/') + 1, path.indexOf(\".lesson\"));\n\n    course.getLessons().stream()\n        .filter(l -> l.getId().equals(lessonName))\n        .findFirst()\n        .ifPresent(\n            lesson -> {\n              request.setAttribute(\"lesson\", lesson);\n            });\n\n    return model;\n  }\n}\n",
+  "source": {
+    "corpus": "WebGoat",
+    "url": "https://github.com/WebGoat/WebGoat",
+    "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+    "path": "src/main/java/org/owasp/webgoat/container/controller/StartLesson.java",
+    "license": "GPL-2.0-or-later"
+  }
+}

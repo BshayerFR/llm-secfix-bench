@@ -1,0 +1,18 @@
+{
+  "case_id": "KICS-015",
+  "scanner": "KICS",
+  "rule_id": "599318f2-6653-4569-9e21-041d06c63a89",
+  "rule_name": "AKS Private Cluster Disabled",
+  "rule_description": "Azure Kubernetes Service (AKS) API should not be exposed to the internet",
+  "language": "terraform",
+  "file": "main.tf",
+  "line": 1,
+  "vulnerable_code": "resource azurerm_kubernetes_cluster \"k8s_cluster\" {\n  dns_prefix          = \"terragoat-${var.environment}\"\n  location            = var.location\n  name                = \"terragoat-aks-${var.environment}\"\n  resource_group_name = azurerm_resource_group.example.name\n  identity {\n    type = \"SystemAssigned\"\n  }\n  default_node_pool {\n    name       = \"default\"\n    vm_size    = \"Standard_D2_v2\"\n    node_count = 2\n  }\n  addon_profile {\n    oms_agent {\n      enabled = false\n    }\n    kube_dashboard {\n      enabled = true\n    }\n  }\n  role_based_access_control {\n    enabled = false\n  }\n  tags = {\n    git_commit           = \"898d5beaec7ffdef6df0d7abecff407362e2a74e\"\n    git_file             = \"terraform/azure/aks.tf\"\n    git_last_modified_at = \"2020-06-17 12:59:55\"\n    git_last_modified_by = \"nimrodkor@gmail.com\"\n    git_modifiers        = \"nimrodkor\"\n    git_org              = \"bridgecrewio\"\n    git_repo             = \"terragoat\"\n    yor_trace            = \"6103d111-864e-42e5-899c-1864de281fd1\"\n  }\n}\n",
+  "source": {
+    "corpus": "terragoat",
+    "url": "https://github.com/bridgecrewio/terragoat",
+    "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+    "path": "terraform/azure/aks.tf",
+    "license": "Apache-2.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "BEARER-096",
+  "scanner": "Bearer",
+  "rule_id": "java_lang_insufficiently_random_values",
+  "rule_name": "Usage of insufficient random value",
+  "rule_description": "## Description\n\nThe use of predictable random values compromises application security, particularly when these values serve security-related functions.\n\n## Remediations\n\n- **Do** utilize a robust library for generating random values to enhance security.\n  ```java\n  SecureRandom random = new SecureRandom();\n  ```\n\n## References\n\n- [Java SecureRandom class](https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/security/SecureRandom.html)",
+  "language": "java",
+  "file": "Main.java",
+  "line": 16,
+  "vulnerable_code": "/*\n * SPDX-FileCopyrightText: Copyright © 2021 WebGoat authors\n * SPDX-License-Identifier: GPL-2.0-or-later\n */\npackage org.owasp.webgoat.lessons.spoofcookie.encoders;\n\nimport java.nio.charset.StandardCharsets;\nimport java.util.Base64;\nimport org.apache.commons.lang3.RandomStringUtils;\nimport org.springframework.security.crypto.codec.Hex;\n\npublic class EncDec {\n\n  // PoC: weak encoding method\n\n  private static final String SALT = RandomStringUtils.randomAlphabetic(10);\n\n  private EncDec() {}\n\n  public static String encode(final String value) {\n    if (value == null) {\n      return null;\n    }\n\n    String encoded = value.toLowerCase() + SALT;\n    encoded = revert(encoded);\n    encoded = hexEncode(encoded);\n    return base64Encode(encoded);\n  }\n\n  public static String decode(final String encodedValue) throws IllegalArgumentException {\n    if (encodedValue == null) {\n      return null;\n    }\n\n    String decoded = base64Decode(encodedValue);\n    decoded = hexDecode(decoded);\n    decoded = revert(decoded);\n    return decoded.substring(0, decoded.length() - SALT.length());\n  }\n\n  private static String revert(final String value) {\n    return new StringBuilder(value).reverse().toString();\n  }\n\n  private static String hexEncode(final String value) {\n    char[] encoded = Hex.encode(value.getBytes(StandardCharsets.UTF_8));\n    return new String(encoded);\n  }\n\n  private static String hexDecode(final String value) {\n    byte[] decoded = Hex.decode(value);\n    return new String(decoded);\n  }\n\n  private static String base64Encode(final String value) {\n    return Base64.getEncoder().encodeToString(value.getBytes());\n  }\n\n  private static String base64Decode(final String value) {\n    byte[] decoded = Base64.getDecoder().decode(value.getBytes());\n    return new String(decoded);\n  }\n}\n",
+  "source": {
+    "corpus": "WebGoat",
+    "url": "https://github.com/WebGoat/WebGoat",
+    "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+    "path": "src/main/java/org/owasp/webgoat/lessons/spoofcookie/encoders/EncDec.java",
+    "license": "GPL-2.0-or-later"
+  }
+}

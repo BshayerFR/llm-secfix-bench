@@ -1,0 +1,18 @@
+{
+  "case_id": "BEARER-078",
+  "scanner": "Bearer",
+  "rule_id": "javascript_express_external_file_upload",
+  "rule_name": "Unsanitized user input in HTTP send file request",
+  "rule_description": "## Description\n\nUsing unsanitized user input in the sendFile API call exposes your application to path manipulation attacks. This vulnerability allows attackers to access files and resources they shouldn't be able to, by manipulating file paths in requests.\n\n## Remediations\n\n- **Do** set the `root` option to an absolute path to a directory when using `sendFile`. This confines the accessible files to a specific directory, preventing attackers from accessing files outside of this directory.\n  ```javascript\n  app.post(\"/upload\", (req, res) => {\n    var options = {\n      root: path.join(__dirname, \"upload\")\n    };\n    res.sendFile(req.params.filename, options);\n  });\n  ```\n\n## References\n\n- [Express sendFile API reference](http://expressjs.com/en/5x/api.html#res.sendFile)",
+  "language": "typescript",
+  "file": "app.ts",
+  "line": 14,
+  "vulnerable_code": "/*\n * Copyright (c) 2014-2026 Bjoern Kimminich & the OWASP Juice Shop contributors.\n * SPDX-License-Identifier: MIT\n */\n\nimport path from 'node:path'\nimport { type Request, type Response, type NextFunction } from 'express'\n\nexport function serveQuarantineFiles () {\n  return ({ params, query }: Request, res: Response, next: NextFunction) => {\n    const file = params.file\n\n    if (!file.includes('/')) {\n      res.sendFile(path.resolve('ftp/quarantine/', file))\n    } else {\n      res.status(403)\n      next(new Error('File names cannot contain forward slashes!'))\n    }\n  }\n}\n",
+  "source": {
+    "corpus": "juice-shop",
+    "url": "https://github.com/juice-shop/juice-shop",
+    "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+    "path": "routes/quarantineServer.ts",
+    "license": "MIT"
+  }
+}
