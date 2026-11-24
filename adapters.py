@@ -287,7 +287,7 @@ def run_trivy(root):
     with tempfile.TemporaryDirectory() as out:
         target = Path(out) / "report.json"
         r = sh(
-            ["trivy", "fs", "--scanners", "vuln", "--format", "json"]
+            ["trivy", "fs", "--scanners", "vuln", "--offline-scan", "--format", "json"]
             + ["--output", str(target), str(root)]
         )
         if r.returncode != 0 or not target.exists():
@@ -496,6 +496,10 @@ def run_sonarqube(root):
 
     key = f"case-{uuid.uuid4().hex[:12]}"
     url = os.environ["SONAR_URL"]
+    for dp, _, names in os.walk(root):
+        os.chmod(dp, 0o755)
+        for n in names:
+            os.chmod(os.path.join(dp, n), 0o644)
     r = sh(
         [
             "docker",
