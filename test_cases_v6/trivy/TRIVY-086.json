@@ -1,0 +1,18 @@
+{
+  "case_id": "TRIVY-086",
+  "scanner": "Trivy",
+  "rule_id": "CVE-2026-112400:pillow",
+  "rule_name": "CVE-2026-112400 in pillow",
+  "rule_description": "pillow: pillow: Denial of Service via memory exhaustion from crafted GIF image in pillow. Installed 12.3.0, fixed in 13.0.0.",
+  "language": "text",
+  "file": "requirements.txt",
+  "line": 1,
+  "vulnerable_code": "apache-beam[gcp]==2.77.0\ngoogle-genai==3.0.0\npillow==12.3.0\npydantic==2.14.1\nrequests==2.34.2\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+    "path": "people-and-planet-ai/image-classification/requirements.txt",
+    "license": "Apache-2.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "TRIVY-029",
+  "scanner": "Trivy",
+  "rule_id": "CVE-2026-33264:apache-airflow",
+  "rule_name": "CVE-2026-33264 in apache-airflow",
+  "rule_description": "Apache Airflow allows code execution through unsafe serialized DAG deserialization in apache-airflow. Installed 3.2.1, fixed in 3.3.0.",
+  "language": "text",
+  "file": "requirements.txt",
+  "line": 1,
+  "vulnerable_code": "# be sure to update the constraints file to match\n# see https://airflow.apache.org/docs/apache-airflow/stable/installation/installing-from-pypi.html#constraints-files\napache-airflow==3.2.1; python_version >= \"3.10\"\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+    "path": "composer/cicd_sample/requirements.txt",
+    "license": "Apache-2.0"
+  }
+}

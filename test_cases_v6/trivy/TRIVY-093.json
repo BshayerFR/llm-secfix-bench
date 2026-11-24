@@ -1,0 +1,18 @@
+{
+  "case_id": "TRIVY-093",
+  "scanner": "Trivy",
+  "rule_id": "CVE-2020-25658:rsa",
+  "rule_name": "CVE-2020-25658 in rsa",
+  "rule_description": "python-rsa: bleichenbacher timing oracle attack against RSA decryption in rsa. Installed 4.5, fixed in 4.7.",
+  "language": "text",
+  "file": "requirements.txt",
+  "line": 1,
+  "vulnerable_code": "google-endpoints==4.8.0\ngoogle-endpoints-api-management==1.11.1\n# Newer versions of rsa module are incompatible with Python 2.7\nrsa==4.5; python_version < '3'\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+    "path": "appengine/standard/endpoints-frameworks-v2/echo/requirements.txt",
+    "license": "Apache-2.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "TRIVY-047",
+  "scanner": "Trivy",
+  "rule_id": "CVE-2026-114134:black",
+  "rule_name": "CVE-2026-114134 in black",
+  "rule_description": "black: Black: Arbitrary code execution via unvalidated version specification in GitHub Action in black. Installed 26.3.1, fixed in 26.10.1.",
+  "language": "text",
+  "file": "requirements.txt",
+  "line": 1,
+  "vulnerable_code": "isort==6.0.0; python_version > \"3.9\"\nisort==5.13.2; python_version <= \"3.8\"\nblack==26.3.1\ngoogle-cloud-compute==1.19.1\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+    "path": "compute/client_library/requirements.txt",
+    "license": "Apache-2.0"
+  }
+}

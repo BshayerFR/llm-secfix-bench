@@ -1,0 +1,18 @@
+{
+  "case_id": "TRIVY-062",
+  "scanner": "Trivy",
+  "rule_id": "CVE-2023-30861:flask",
+  "rule_name": "CVE-2023-30861 in flask",
+  "rule_description": "flask: Possible disclosure of permanent session cookie due to missing Vary: Cookie header in flask. Installed 2.0.3, fixed in 2.3.2, 2.2.5.",
+  "language": "text",
+  "file": "requirements.txt",
+  "line": 1,
+  "vulnerable_code": "flask==2.0.3\nWerkzeug==2.0.3\n",
+  "source": {
+    "corpus": "pygoat",
+    "url": "https://github.com/adeyosemanputra/pygoat",
+    "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+    "path": "dockerized_labs/sde/requirements.txt",
+    "license": "MIT"
+  }
+}

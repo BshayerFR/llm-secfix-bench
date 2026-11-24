@@ -1,0 +1,18 @@
+{
+  "case_id": "TRIVY-013",
+  "scanner": "Trivy",
+  "rule_id": "CVE-2026-59200:pillow",
+  "rule_name": "CVE-2026-59200 in pillow",
+  "rule_description": "Pillow: Pillow: Denial of service via crafted PDF stream in pillow. Installed 8.0.0, fixed in 12.3.0.",
+  "language": "text",
+  "file": "requirements.txt",
+  "line": 1,
+  "vulnerable_code": "flask==2.0.1\npyyaml==5.1\npillow==8.0.0\nwerkzeug==2.0.1\njinja2==3.0.1\ngunicorn==20.1.0\n",
+  "source": {
+    "corpus": "pygoat",
+    "url": "https://github.com/adeyosemanputra/pygoat",
+    "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+    "path": "dockerized_labs/a9_uckv_lab/requirements.txt",
+    "license": "MIT"
+  }
+}

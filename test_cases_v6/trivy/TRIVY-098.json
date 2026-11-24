@@ -1,0 +1,18 @@
+{
+  "case_id": "TRIVY-098",
+  "scanner": "Trivy",
+  "rule_id": "CVE-2026-112405:pillow",
+  "rule_name": "CVE-2026-112405 in pillow",
+  "rule_description": "pillow: Pillow: Denial of Service via null pointer dereference in Image.merge() in pillow. Installed 12.3.0, fixed in 13.0.0.",
+  "language": "text",
+  "file": "requirements.txt",
+  "line": 1,
+  "vulnerable_code": "pandas==2.2.3; python_version == '3.7'\npandas==2.2.3; python_version == '3.8'\npandas==2.2.3; python_version > '3.8'\npillow==12.3.0\ngoogle-cloud-aiplatform[full]==1.157.0\nsentencepiece==0.2.1\ngoogle-auth==2.38.0\nanthropic[vertex]==0.28.0\nlangchain-core==1.4.0\nlangchain-google-vertexai==3.2.3\nnumpy<3\nopenai==1.68.2\nimmutabledict==4.2.0\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+    "path": "generative_ai/model_tuning/requirements.txt",
+    "license": "Apache-2.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "TRIVY-009",
+  "scanner": "Trivy",
+  "rule_id": "CVE-2011-4139:django",
+  "rule_name": "CVE-2011-4139 in django",
+  "rule_description": "Django before 1.2.7 and 1.3.x before 1.3.1 uses a request's HTTP Host  ... in django. Installed 1.2, fixed in 1.2.7, 1.3.1.",
+  "language": "text",
+  "file": "requirements.txt",
+  "line": 1,
+  "vulnerable_code": "django==1.2 \n",
+  "source": {
+    "corpus": "terragoat",
+    "url": "https://github.com/bridgecrewio/terragoat",
+    "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+    "path": "packages/requirements.txt",
+    "license": "Apache-2.0"
+  }
+}

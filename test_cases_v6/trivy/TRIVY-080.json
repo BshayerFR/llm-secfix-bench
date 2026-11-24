@@ -1,0 +1,18 @@
+{
+  "case_id": "TRIVY-080",
+  "scanner": "Trivy",
+  "rule_id": "CVE-2026-114140:nbconvert",
+  "rule_name": "CVE-2026-114140 in nbconvert",
+  "rule_description": "nbconvert: nbconvert: arbitrary file write via path traversal in ExtractOutputPreprocessor in nbconvert. Installed 7.17.1, fixed in 7.17.2.",
+  "language": "text",
+  "file": "requirements.txt",
+  "line": 1,
+  "vulnerable_code": "google-cloud-alloydb-connector[asyncpg]==1.12.1\nsqlalchemy==2.0.40\npytest==9.0.3\nipykernel==6.29.5\npytest-asyncio==1.3.0\nnbconvert==7.17.1\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "5244cbe3a4bf5bf4b73cbec3b298759ccf6ccf64",
+    "path": "alloydb/notebooks/requirements-test.txt",
+    "license": "Apache-2.0"
+  }
+}

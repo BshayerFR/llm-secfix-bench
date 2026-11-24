@@ -1,0 +1,18 @@
+{
+  "case_id": "TRIVY-028",
+  "scanner": "Trivy",
+  "rule_id": "CVE-2025-64458:Django",
+  "rule_name": "CVE-2025-64458 in Django",
+  "rule_description": "Django: Denial-of-service vulnerability in Django on Windows in Django. Installed 3.2.13, fixed in 5.2.8, 5.1.14, 4.2.26.",
+  "language": "text",
+  "file": "requirements.txt",
+  "line": 1,
+  "vulnerable_code": "Django==3.2.13\nenvirons==7.3.1\n",
+  "source": {
+    "corpus": "awesome-compose",
+    "url": "https://github.com/docker/awesome-compose",
+    "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+    "path": "django/app/requirements.txt",
+    "license": "CC0, see LICENSE"
+  }
+}

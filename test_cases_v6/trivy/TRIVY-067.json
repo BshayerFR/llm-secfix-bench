@@ -1,0 +1,18 @@
+{
+  "case_id": "TRIVY-067",
+  "scanner": "Trivy",
+  "rule_id": "CVE-2026-102267:PyJWT",
+  "rule_name": "CVE-2026-102267 in PyJWT",
+  "rule_description": "pyjwt: pyjwt: Verification key substitution via unvalidated JWKS redirects in PyJWT. Installed 2.6.0, fixed in 2.14.0.",
+  "language": "text",
+  "file": "requirements.txt",
+  "line": 1,
+  "vulnerable_code": "connexion[swagger-ui]==2.14.2\nflask==2.2.2\nflask-sqlalchemy==3.0.3\njsonschema==4.17.3\nsqlalchemy==2.0.2\nswagger-ui-bundle\nPyJWT==2.6.0\nmarkupsafe==2.1.2\n",
+  "source": {
+    "corpus": "VAmPI",
+    "url": "https://github.com/erev0s/VAmPI",
+    "commit": "f16052dce83f05847133ec98f01c5193a41de7d8",
+    "path": "requirements.txt",
+    "license": "MIT"
+  }
+}

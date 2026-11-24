@@ -1,0 +1,18 @@
+{
+  "case_id": "TRIVY-037",
+  "scanner": "Trivy",
+  "rule_id": "CVE-2016-7401:django",
+  "rule_name": "CVE-2016-7401 in django",
+  "rule_description": "python-django: CSRF protection bypass on a site with Google Analytics in django. Installed 1.2, fixed in 1.8.15, 1.9.10.",
+  "language": "text",
+  "file": "requirements.txt",
+  "line": 1,
+  "vulnerable_code": "django==1.2\n",
+  "source": {
+    "corpus": "terragoat",
+    "url": "https://github.com/bridgecrewio/terragoat",
+    "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+    "path": "packages/sub/.hidden/requirements.txt",
+    "license": "Apache-2.0"
+  }
+}
