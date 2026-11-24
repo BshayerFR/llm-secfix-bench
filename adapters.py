@@ -288,7 +288,7 @@ def run_trivy(root):
         target = Path(out) / "report.json"
         r = sh(
             ["trivy", "fs", "--scanners", "vuln", "--offline-scan", "--format", "json"]
-            + ["--output", str(target), str(root)]
+            + ["--cache-dir", "/tmp/trivy-cache", "--output", str(target), str(root)]
         )
         if r.returncode != 0 or not target.exists():
             warn("trivy", r)
