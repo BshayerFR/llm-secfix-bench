@@ -13,7 +13,10 @@ on:
         default: build
       scanners:
         description: JSON list of scanners to run
-        default: '["bandit","semgrep","bearer","codeql","sonarqube","checkov","kics","kubescape","conftest","hadolint","trivy","osv-scanner","grype","dependency-check"]'
+        default: '["bandit","semgrep","bearer","codeql","sonarqube","checkov","kics","kubescape","conftest","hadolint","trivy"]'
+      model_tag:
+        description: judge and collect only, the tag of the results file, for example gptoss for results/results_gptoss.jsonl
+        default: ""
       run_id:
         description: collect mode only, the id of the run whose artifacts to commit
         default: ""
@@ -168,11 +171,23 @@ jobs:
         if: ${{ inputs.mode == 'build' }}
         run: python build_bench.py --scanners ${{ matrix.scanner }} --target 100 --cap 15 --out test_cases_v6 --work "$RUNNER_TEMP/corpora"
 
+      - name: Check the model tag
+        if: ${{ inputs.mode == 'judge' }}
+        run: |
+          if [ -z "${{ inputs.model_tag }}" ]; then
+            echo "model_tag is empty, write for example gptoss"
+            exit 1
+          fi
+          if [ ! -f "results/results_${{ inputs.model_tag }}.jsonl" ]; then
+            echo "results/results_${{ inputs.model_tag }}.jsonl does not exist"
+            exit 1
+          fi
+
       - name: Judge fixes
         if: ${{ inputs.mode == 'judge' }}
         run: |
           mkdir -p judged
-          python evaluate.py --mode judge --cases test_cases_v6 --results results/*.jsonl --scanner ${{ matrix.scanner }} --out judged/${{ matrix.scanner }}.jsonl
+          python evaluate.py --mode judge --cases test_cases_v6 --results results/results_${{ inputs.model_tag }}.jsonl --scanner ${{ matrix.scanner }} --out judged/${{ matrix.scanner }}.jsonl
 
       - name: Upload build output
         if: ${{ inputs.mode == 'build' }}
@@ -188,7 +203,7 @@ jobs:
         if: ${{ inputs.mode == 'judge' }}
         uses: actions/upload-artifact@v4
         with:
-          name: judged-${{ matrix.scanner }}
+          name: judged-${{ inputs.model_tag }}-${{ matrix.scanner }}
           path: judged/${{ matrix.scanner }}.jsonl
           if-no-files-found: warn
 
@@ -196,6 +211,8 @@ jobs:
     needs: run
     if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
+    env:
+      TAG: ${{ inputs.model_tag }}
     steps:
       - uses: actions/checkout@v4
 
@@ -220,12 +237,15 @@ jobs:
           mkdir -p test_cases_v6 manifests judged
           cp -r collected/test_cases_v6/. test_cases_v6/ 2>/dev/null || true
           cp -r collected/manifests/. manifests/ 2>/dev/null || true
-          cp -r collected/judged/. judged/ 2>/dev/null || true
-          cp collected/*.jsonl judged/ 2>/dev/null || true
+          if [ -n "$TAG" ]; then
+            mkdir -p "judged/$TAG"
+            cp collected/*.jsonl "judged/$TAG/" 2>/dev/null || true
+          fi
           rm -rf collected
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
           git add -A test_cases_v6 manifests judged
           git diff --cached --quiet && exit 0
           git commit -m "Pipeline ${{ inputs.mode }} results"
+          git pull --rebase
           git push
