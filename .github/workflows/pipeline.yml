@@ -186,8 +186,8 @@ jobs:
       - name: Judge fixes
         if: ${{ inputs.mode == 'judge' }}
         run: |
-          mkdir -p judged
-          python evaluate.py --mode judge --cases test_cases_v6 --results results/results_${{ inputs.model_tag }}.jsonl --scanner ${{ matrix.scanner }} --out judged/${{ matrix.scanner }}.jsonl
+          mkdir -p judged_run
+          python evaluate.py --mode judge --cases test_cases_v6 --results results/results_${{ inputs.model_tag }}.jsonl --scanner ${{ matrix.scanner }} --out judged_run/${{ matrix.scanner }}.jsonl
 
       - name: Upload build output
         if: ${{ inputs.mode == 'build' }}
@@ -204,7 +204,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: judged-${{ inputs.model_tag }}-${{ matrix.scanner }}
-          path: judged/${{ matrix.scanner }}.jsonl
+          path: judged_run/${{ matrix.scanner }}.jsonl
           if-no-files-found: warn
 
   commit:
