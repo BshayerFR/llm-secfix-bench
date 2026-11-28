@@ -4,21 +4,24 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: build creates the test cases, judge checks the models' fixes, collect commits the artifacts of an earlier run
+        description: build and judge are phase 1, build_v7 judge_v2 collect_v2 are phase 2, collect commits the artifacts of an earlier phase 1 run
         type: choice
         options:
           - build
+          - build_v7
           - judge
+          - judge_v2
           - collect
+          - collect_v2
         default: build
       scanners:
         description: JSON list of scanners to run
         default: '["bandit","semgrep","bearer","codeql","sonarqube","checkov","kics","kubescape","conftest","hadolint","trivy"]'
       model_tag:
-        description: judge and collect only, the tag of the results file, for example gptoss for results/results_gptoss.jsonl
+        description: judge and collect only, the tag of the results file, for example gptoss
         default: ""
       run_id:
-        description: collect mode only, the id of the run whose artifacts to commit
+        description: collect and collect_v2 only, the id of the run whose artifacts to commit
         default: ""
 
 permissions:
@@ -27,22 +30,23 @@ permissions:
 
 jobs:
   guard:
-    if: ${{ inputs.mode == 'build' }}
+    if: ${{ inputs.mode == 'build' || inputs.mode == 'build_v7' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Refuse to rebuild frozen cases
         run: |
+          if [ "${{ inputs.mode }}" = "build_v7" ]; then d=test_cases_v7; else d=test_cases_v6; fi
           for s in $(echo '${{ inputs.scanners }}' | python3 -c "import sys,json; print(' '.join(json.load(sys.stdin)))"); do
-            if [ -d "test_cases_v6/$s" ]; then
-              echo "test_cases_v6/$s already exists and is frozen"
+            if [ -d "$d/$s" ]; then
+              echo "$d/$s already exists and is frozen"
               exit 1
             fi
           done
 
   run:
     needs: guard
-    if: ${{ !cancelled() && inputs.mode != 'collect' && (needs.guard.result == 'success' || needs.guard.result == 'skipped') }}
+    if: ${{ !cancelled() && inputs.mode != 'collect' && inputs.mode != 'collect_v2' && (needs.guard.result == 'success' || needs.guard.result == 'skipped') }}
     runs-on: ubuntu-latest
     timeout-minutes: 360
     strategy:
@@ -171,6 +175,10 @@ jobs:
         if: ${{ inputs.mode == 'build' }}
         run: python build_bench.py --scanners ${{ matrix.scanner }} --target 100 --cap 15 --out test_cases_v6 --work "$RUNNER_TEMP/corpora"
 
+      - name: Build phase 2 cases
+        if: ${{ inputs.mode == 'build_v7' }}
+        run: python build_v7.py --scanners ${{ matrix.scanner }} --target 100 --cap 15 --work "$RUNNER_TEMP/corpora"
+
       - name: Check the model tag
         if: ${{ inputs.mode == 'judge' }}
         run: |
@@ -183,11 +191,29 @@ jobs:
             exit 1
           fi
 
+      - name: Check the phase 2 model tag
+        if: ${{ inputs.mode == 'judge_v2' }}
+        run: |
+          if [ -z "${{ inputs.model_tag }}" ]; then
+            echo "model_tag is empty, write for example gptoss"
+            exit 1
+          fi
+          if [ ! -f "results_v2/results_${{ inputs.model_tag }}.jsonl" ]; then
+            echo "results_v2/results_${{ inputs.model_tag }}.jsonl does not exist"
+            exit 1
+          fi
+
       - name: Judge fixes
         if: ${{ inputs.mode == 'judge' }}
         run: |
           mkdir -p judged_run
           python evaluate.py --mode judge --cases test_cases_v6 --results results/results_${{ inputs.model_tag }}.jsonl --scanner ${{ matrix.scanner }} --out judged_run/${{ matrix.scanner }}.jsonl
+
+      - name: Judge phase 2 fixes
+        if: ${{ inputs.mode == 'judge_v2' }}
+        run: |
+          mkdir -p judged_run
+          python evaluate.py --mode judge --cases test_cases_v7 --results results_v2/results_${{ inputs.model_tag }}.jsonl --scanner ${{ matrix.scanner }} --out judged_run/${{ matrix.scanner }}.jsonl
 
       - name: Upload build output
         if: ${{ inputs.mode == 'build' }}
@@ -199,11 +225,29 @@ jobs:
             manifests/${{ matrix.scanner }}.json
           if-no-files-found: warn
 
+      - name: Upload phase 2 build output
+        if: ${{ inputs.mode == 'build_v7' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: buildv7-${{ matrix.scanner }}
+          path: |
+            v7/test_cases_v7/${{ matrix.scanner }}
+            v7/manifests/${{ matrix.scanner }}_v7.json
+          if-no-files-found: warn
+
       - name: Upload judged output
         if: ${{ inputs.mode == 'judge' }}
         uses: actions/upload-artifact@v4
         with:
           name: judged-${{ inputs.model_tag }}-${{ matrix.scanner }}
+          path: judged_run/${{ matrix.scanner }}.jsonl
+          if-no-files-found: warn
+
+      - name: Upload phase 2 judged output
+        if: ${{ inputs.mode == 'judge_v2' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: judgedv2-${{ inputs.model_tag }}-${{ matrix.scanner }}
           path: judged_run/${{ matrix.scanner }}.jsonl
           if-no-files-found: warn
 
@@ -213,18 +257,19 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TAG: ${{ inputs.model_tag }}
+      MODE: ${{ inputs.mode }}
     steps:
       - uses: actions/checkout@v4
 
       - name: Download artifacts of this run
-        if: ${{ inputs.mode != 'collect' }}
+        if: ${{ inputs.mode != 'collect' && inputs.mode != 'collect_v2' }}
         uses: actions/download-artifact@v4
         with:
           path: collected
           merge-multiple: true
 
       - name: Download artifacts of an earlier run
-        if: ${{ inputs.mode == 'collect' }}
+        if: ${{ inputs.mode == 'collect' || inputs.mode == 'collect_v2' }}
         uses: actions/download-artifact@v4
         with:
           path: collected
@@ -234,18 +279,20 @@ jobs:
 
       - name: Commit results
         run: |
-          mkdir -p test_cases_v6 manifests judged
+          mkdir -p test_cases_v6 test_cases_v7 manifests judged judged_v2
           cp -r collected/test_cases_v6/. test_cases_v6/ 2>/dev/null || true
+          cp -r collected/test_cases_v7/. test_cases_v7/ 2>/dev/null || true
           cp -r collected/manifests/. manifests/ 2>/dev/null || true
           if [ -n "$TAG" ]; then
-            mkdir -p "judged/$TAG"
-            cp collected/*.jsonl "judged/$TAG/" 2>/dev/null || true
+            if [ "$MODE" = "judge_v2" ] || [ "$MODE" = "collect_v2" ]; then D="judged_v2/$TAG"; else D="judged/$TAG"; fi
+            mkdir -p "$D"
+            cp collected/*.jsonl "$D/" 2>/dev/null || true
           fi
           rm -rf collected
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git add -A test_cases_v6 manifests judged
+          git add -A test_cases_v6 test_cases_v7 manifests judged judged_v2
           git diff --cached --quiet && exit 0
-          git commit -m "Pipeline ${{ inputs.mode }} results"
+          git commit -m "Pipeline $MODE results"
           git pull --rebase
           git push
