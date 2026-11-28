@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-085",
+  "scanner": "Bandit",
+  "rule_id": "B201",
+  "rule_name": "flask_debug_true",
+  "rule_description": "A Flask app appears to be run with debug=True, which exposes the Werkzeug debugger and allows the execution of arbitrary code.",
+  "language": "python",
+  "file": "app.py",
+  "line": 90,
+  "vulnerable_code": "# Copyright 2019 Google, LLC.\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#    http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\nimport os\nimport subprocess\n\nfrom flask import Flask, make_response, request\n\n\napp = Flask(__name__)\n\n\n# [START cloudrun_system_package_handler]\n@app.route(\"/diagram.png\", methods=[\"GET\"])\ndef index():\n    \"\"\"Takes an HTTP GET request with query param dot and\n    returns a png with the rendered DOT diagram in a HTTP response.\n    \"\"\"\n    try:\n        image = create_diagram(request.args.get(\"dot\"))\n        response = make_response(image)\n        response.headers.set(\"Content-Type\", \"image/png\")\n        return response\n\n    except Exception as e:\n        print(f\"error: {e}\")\n\n        # If no graphviz definition or bad graphviz def, return 400\n        if \"syntax\" in str(e):\n            return f\"Bad Request: {e}\", 400\n\n        return \"Internal Server Error\", 500\n\n\n# [END cloudrun_system_package_handler]\n\n\n# [START cloudrun_system_package_exec]\ndef create_diagram(dot):\n    \"\"\"Generates a diagram based on a graphviz DOT diagram description.\n\n    Args:\n        dot: diagram description in graphviz DOT syntax\n\n    Returns:\n        A diagram in the PNG image format.\n    \"\"\"\n    if not dot:\n        raise Exception(\"syntax: no graphviz definition provided\")\n\n    dot_args = [  # These args add a watermark to the dot graphic.\n        \"-Glabel=Made on Cloud Run\",\n        \"-Gfontsize=10\",\n        \"-Glabeljust=right\",\n        \"-Glabelloc=bottom\",\n        \"-Gfontcolor=gray\",\n        \"-Tpng\",\n    ]\n\n    # Uses local `dot` binary from Graphviz:\n    # https://graphviz.gitlab.io\n    image = subprocess.run(\n        [\"dot\"] + dot_args, input=dot.encode(\"utf-8\"), stdout=subprocess.PIPE\n    ).stdout\n\n    if not image:\n        raise Exception(\"syntax: bad graphviz definition provided\")\n    return image\n\n\n# [END cloudrun_system_package_exec]\n\n\nif __name__ == \"__main__\":\n    PORT = int(os.getenv(\"PORT\")) if os.getenv(\"PORT\") else 8080\n\n    # This is used when running locally. Gunicorn is used to run the\n    # application on Cloud Run. See entrypoint in Dockerfile.\n    app.run(host=\"127.0.0.1\", port=PORT, debug=True)\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+    "path": "run/system-package/main.py",
+    "license": "Apache-2.0"
+  }
+}

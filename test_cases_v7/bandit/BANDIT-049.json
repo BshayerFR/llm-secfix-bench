@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-049",
+  "scanner": "Bandit",
+  "rule_id": "B108",
+  "rule_name": "hardcoded_tmp_directory",
+  "rule_description": "Probable insecure usage of temp file/directory.",
+  "language": "python",
+  "file": "app.py",
+  "line": 16,
+  "vulnerable_code": "import libuser\nimport random\nimport hashlib\n\nfrom pathlib import Path\n\n\ndef keygen(username, password=None):\n\n    if password:\n        if not libuser.login(username, password):\n            return None\n\n    key = hashlib.sha256(str(random.getrandbits(2048)).encode()).hexdigest()\n\n    for f in Path('/tmp/').glob('vulpy.apikey.' + username + '.*'):\n        print('removing', f)\n        f.unlink()\n\n    keyfile = '/tmp/vulpy.apikey.{}.{}'.format(username, key)\n\n    Path(keyfile).touch()\n\n    return key\n\n\ndef authenticate(request):\n    if 'X-APIKEY' not in request.headers:\n        return None\n\n    key = request.headers['X-APIKEY']\n\n    for f in Path('/tmp/').glob('vulpy.apikey.*.' + key):\n        return f.name.split('.')[2]\n\n    return None\n",
+  "source": {
+    "corpus": "vulpy",
+    "url": "https://github.com/fportantier/vulpy",
+    "commit": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+    "path": "bad/libapi.py",
+    "license": "MIT"
+  }
+}

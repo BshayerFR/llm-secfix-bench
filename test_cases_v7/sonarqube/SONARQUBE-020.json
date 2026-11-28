@@ -1,0 +1,18 @@
+{
+  "case_id": "SONARQUBE-020",
+  "scanner": "SonarQube",
+  "rule_id": "typescript:S6268",
+  "rule_name": "Make sure disabling Angular built-in sanitization is safe here.",
+  "rule_description": "Make sure disabling Angular built-in sanitization is safe here.",
+  "language": "typescript",
+  "file": "app.ts",
+  "line": 40,
+  "vulnerable_code": "/*\n * Copyright (c) 2014-2026 Bjoern Kimminich & the OWASP Juice Shop contributors.\n * SPDX-License-Identifier: MIT\n */\n\nimport { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core'\nimport { DomSanitizer } from '@angular/platform-browser'\nimport { jwtDecode } from 'jwt-decode'\nimport { TranslateModule } from '@ngx-translate/core'\nimport { MatCardModule } from '@angular/material/card'\n\n@Component({\n  changeDetection: ChangeDetectionStrategy.Eager,\n  selector: 'app-last-login-ip',\n  templateUrl: './last-login-ip.component.html',\n  styleUrls: ['./last-login-ip.component.scss'],\n  imports: [MatCardModule, TranslateModule]\n})\n\nexport class LastLoginIpComponent implements OnInit {\n  private readonly sanitizer = inject(DomSanitizer)\n\n  lastLoginIp: any = '?'\n\n  ngOnInit (): void {\n    try {\n      this.parseAuthToken()\n    } catch (err) {\n      console.log(err)\n    }\n  }\n\n  parseAuthToken () {\n    let payload = {} as any\n    const token = localStorage.getItem('token')\n    if (token) {\n      payload = jwtDecode(token)\n      if (payload.data.lastLoginIp) {\n\n        this.lastLoginIp = this.sanitizer.bypassSecurityTrustHtml(`<small>${payload.data.lastLoginIp}</small>`)\n      }\n    }\n  }\n}\n",
+  "source": {
+    "corpus": "juice-shop",
+    "url": "https://github.com/juice-shop/juice-shop",
+    "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+    "path": "frontend/src/app/last-login-ip/last-login-ip.component.ts",
+    "license": "MIT"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "HADOLINT-024",
+  "scanner": "Hadolint",
+  "rule_id": "DL3022",
+  "rule_name": "DL3022",
+  "rule_description": "`COPY --from` should reference a previously defined `FROM` alias",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 26,
+  "vulnerable_code": "# syntax=docker/dockerfile:1.4\nFROM --platform=$BUILDPLATFORM python:3.10-alpine AS builder\n\nWORKDIR /src\nCOPY requirements.txt /src\nRUN --mount=type=cache,target=/root/.cache/pip \\\n    pip3 install -r requirements.txt\n\nCOPY . .\n\nCMD [\"python3\", \"server.py\"]\n\nFROM builder as dev-envs\n\nRUN <<EOF\napk update\napk add git\nEOF\n\nRUN <<EOF\naddgroup -S docker\nadduser -S --shell /bin/bash --ingroup docker vscode\nEOF\n\n# install Docker tools (cli, buildx, compose)\nCOPY --from=gloursdocker/docker / /\n\nCMD [\"python3\", \"server.py\"]\n",
+  "source": {
+    "corpus": "awesome-compose",
+    "url": "https://github.com/docker/awesome-compose",
+    "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+    "path": "nginx-flask-mongo/flask/Dockerfile",
+    "license": "CC0, see LICENSE"
+  }
+}

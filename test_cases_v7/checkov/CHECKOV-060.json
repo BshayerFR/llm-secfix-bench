@@ -1,0 +1,18 @@
+{
+  "case_id": "CHECKOV-060",
+  "scanner": "Checkov",
+  "rule_id": "CKV_AWS_289",
+  "rule_name": "Ensure IAM policies does not allow permissions management / resource exposure without constraints",
+  "rule_description": "Ensure IAM policies does not allow permissions management / resource exposure without constraints",
+  "language": "terraform",
+  "file": "main.tf",
+  "line": 25,
+  "vulnerable_code": "resource \"aws_iam_user\" \"user\" {\n  name          = \"${local.resource_prefix.value}-user\"\n  force_destroy = true\n\n  tags = merge({\n    Name        = \"${local.resource_prefix.value}-user\"\n    Environment = local.resource_prefix.value\n    }, {\n    git_commit           = \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\"\n    git_file             = \"terraform/aws/iam.tf\"\n    git_last_modified_at = \"2020-06-16 14:46:24\"\n    git_last_modified_by = \"nimrodkor@gmail.com\"\n    git_modifiers        = \"nimrodkor\"\n    git_org              = \"bridgecrewio\"\n    git_repo             = \"terragoat\"\n    yor_trace            = \"9b45b298-c1ea-426a-9644-610780021eaa\"\n  })\n\n}\n\nresource \"aws_iam_access_key\" \"user\" {\n  user = aws_iam_user.user.name\n}\n\nresource \"aws_iam_user_policy\" \"userpolicy\" {\n  name = \"excess_policy\"\n  user = \"${aws_iam_user.user.name}\"\n\n  policy = <<EOF\n{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": [\n        \"ec2:*\",\n        \"s3:*\",\n        \"lambda:*\",\n        \"cloudwatch:*\"\n      ],\n      \"Effect\": \"Allow\",\n      \"Resource\": \"*\"\n    }\n  ]\n}\nEOF\n}\n\noutput \"username\" {\n  value = aws_iam_user.user.name\n}\n\noutput \"secret\" {\n  value = aws_iam_access_key.user.encrypted_secret\n}\n",
+  "source": {
+    "corpus": "terragoat",
+    "url": "https://github.com/bridgecrewio/terragoat",
+    "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+    "path": "terraform/aws/iam.tf",
+    "license": "Apache-2.0"
+  }
+}

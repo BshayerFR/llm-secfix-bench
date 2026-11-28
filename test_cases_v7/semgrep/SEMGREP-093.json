@@ -1,0 +1,18 @@
+{
+  "case_id": "SEMGREP-093",
+  "scanner": "Semgrep",
+  "rule_id": "javascript.express.security.audit.express-res-sendfile.express-res-sendfile",
+  "rule_name": "express-res-sendfile",
+  "rule_description": "The application processes user-input, this is passed to res.sendFile which can allow an attacker to arbitrarily read files on the system through path traversal. It is recommended to perform input validation in addition to canonicalizing the path. This allows you to validate the path against the intended directory it should be accessing.",
+  "language": "typescript",
+  "file": "app.ts",
+  "line": 14,
+  "vulnerable_code": "/*\n * Copyright (c) 2014-2026 Bjoern Kimminich & the OWASP Juice Shop contributors.\n * SPDX-License-Identifier: MIT\n */\n\nimport path from 'node:path'\nimport { type Request, type Response, type NextFunction } from 'express'\n\nexport function serveQuarantineFiles () {\n  return ({ params, query }: Request, res: Response, next: NextFunction) => {\n    const file = params.file\n\n    if (!file.includes('/')) {\n      res.sendFile(path.resolve('ftp/quarantine/', file))\n    } else {\n      res.status(403)\n      next(new Error('File names cannot contain forward slashes!'))\n    }\n  }\n}\n",
+  "source": {
+    "corpus": "juice-shop",
+    "url": "https://github.com/juice-shop/juice-shop",
+    "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+    "path": "routes/quarantineServer.ts",
+    "license": "MIT"
+  }
+}

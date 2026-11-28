@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-080",
+  "scanner": "Bandit",
+  "rule_id": "B608",
+  "rule_name": "hardcoded_sql_expressions",
+  "rule_description": "Possible SQL injection vector through string-based query construction.",
+  "language": "python",
+  "file": "app.py",
+  "line": 90,
+  "vulnerable_code": "# Copyright 2021 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#     http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\nfrom __future__ import annotations\n\nimport os\nimport uuid\n\nimport pytest\nimport sqlalchemy\n\nfrom snippets.cloud_sql_connection_pool import (\n    init_db,\n    init_tcp_connection_engine,\n    init_unix_connection_engine,\n)\n\n\n@pytest.fixture(name=\"conn_vars\")\ndef setup() -> dict[str, str]:\n    try:\n        conn_vars = {}\n        conn_vars[\"db_user\"] = os.environ[\"MYSQL_USER\"]\n        conn_vars[\"db_pass\"] = os.environ[\"MYSQL_PASSWORD\"]\n        conn_vars[\"db_name\"] = os.environ[\"MYSQL_DATABASE\"]\n        conn_vars[\"db_host\"] = os.environ[\"MYSQL_HOST\"]\n        conn_vars[\"instance_conn_name\"] = os.environ[\"MYSQL_INSTANCE\"]\n        conn_vars[\"db_socket_dir\"] = os.getenv(\"DB_SOCKET_DIR\", \"/cloudsql\")\n    except KeyError:\n        raise Exception(\n            \"The following env variables must be set to run these tests:\"\n            \"MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE, MYSQL_HOST, \"\n            \"MYSQL_INSTANCE\"\n        )\n    else:\n        yield conn_vars\n\n\ndef test_init_tcp_connection_engine(conn_vars: dict[str, str]) -> None:\n    engine = init_tcp_connection_engine(\n        db_user=conn_vars[\"db_user\"],\n        db_name=conn_vars[\"db_name\"],\n        db_pass=conn_vars[\"db_pass\"],\n        db_host=conn_vars[\"db_host\"],\n    )\n\n    assert isinstance(engine, sqlalchemy.engine.base.Engine)\n    assert conn_vars[\"db_name\"] in engine.url\n\n\ndef test_init_unix_connection_engine(conn_vars: dict[str, str]) -> None:\n    engine = init_unix_connection_engine(\n        db_user=conn_vars[\"db_user\"],\n        db_name=conn_vars[\"db_name\"],\n        db_pass=conn_vars[\"db_pass\"],\n        instance_connection_name=conn_vars[\"instance_conn_name\"],\n        db_socket_dir=conn_vars[\"db_socket_dir\"],\n    )\n\n    assert isinstance(engine, sqlalchemy.engine.base.Engine)\n    assert conn_vars[\"db_name\"] in engine.url\n\n\ndef test_init_db(conn_vars: dict[str, str]) -> None:\n    table_name = f\"votes_{uuid.uuid4().hex}\"\n\n    engine = init_db(\n        db_user=conn_vars[\"db_user\"],\n        db_name=conn_vars[\"db_name\"],\n        db_pass=conn_vars[\"db_pass\"],\n        table_name=table_name,\n        db_host=conn_vars[\"db_host\"],\n    )\n\n    assert isinstance(engine, sqlalchemy.engine.base.Engine)\n\n    try:\n        with engine.connect() as conn:\n            conn.execute(f\"SELECT count(*) FROM {table_name}\").all()\n    except Exception as error:\n        pytest.fail(f\"Database wasn't initialized properly: {error}\")\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+    "path": "cloud-sql/mysql/client-side-encryption/snippets/cloud_sql_connection_pool_test.py",
+    "license": "Apache-2.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-094",
+  "scanner": "Bandit",
+  "rule_id": "B608",
+  "rule_name": "hardcoded_sql_expressions",
+  "rule_description": "Possible SQL injection vector through string-based query construction.",
+  "language": "python",
+  "file": "app.py",
+  "line": 51,
+  "vulnerable_code": "# Copyright 2026 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#     https://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n# [START bigquery_query_iceberg_table]\nfrom google.cloud import bigquery\n\n\ndef query_iceberg_table(\n    project_id: str,\n    dataset_id: str,\n    table_id: str,\n    connection_id: str,\n    metadata_uri: str,\n) -> None:\n    \"\"\"Refreshes an Apache Iceberg external table metadata snapshot and queries it.\n\n    Args:\n        project_id: Google Cloud project ID (for example, 'example-project').\n        dataset_id: BigQuery dataset ID containing the Iceberg external table\n            (for example, 'example_dataset').\n        table_id: BigQuery Iceberg external table ID\n            (for example, 'example_iceberg_table').\n        connection_id: Fully qualified BigQuery Cloud Resource connection ID\n            (for example, 'example-project.us.example_iceberg_conn').\n        metadata_uri: Cloud Storage URI of the Apache Iceberg metadata JSON file\n            (for example, 'gs://example-bucket/warehouse/db/table/metadata/v2.metadata.json').\n    \"\"\"\n    client = bigquery.Client(project=project_id)\n    table_ref = f\"{project_id}.{dataset_id}.{table_id}\"\n    # BigQuery Iceberg external tables point to a specific Iceberg metadata JSON snapshot;\n    # re-running CREATE OR REPLACE EXTERNAL TABLE updates the snapshot URI with schema autodetection.\n    ddl_sql = f\"\"\"\n        CREATE OR REPLACE EXTERNAL TABLE `{table_ref}`\n        WITH CONNECTION `{connection_id}`\n        OPTIONS (\n          format = 'ICEBERG',\n          uris = ['{metadata_uri}']\n        );\n    \"\"\"\n    select_sql = f\"\"\"\n        SELECT\n          order_id,\n          user_id,\n          status,\n          num_of_item\n        FROM `{table_ref}`\n        ORDER BY order_id ASC;\n    \"\"\"\n\n    print(f\"Refreshing Iceberg metadata and querying table: {table_ref}\")\n    client.query(ddl_sql).result()\n\n    query_job = client.query(select_sql)\n    rows = list(query_job.result())\n\n    print(f\"Resource ID: {table_ref}\")\n    print(f\"Job ID: {query_job.job_id}\")\n    print(f\"Metadata URI: {metadata_uri}\")\n    print(f\"Rows Returned: {len(rows)}\")\n\n\n# [END bigquery_query_iceberg_table]\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+    "path": "bigquery/biglake/bigquery_query_iceberg_table.py",
+    "license": "Apache-2.0"
+  }
+}

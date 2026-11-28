@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-015",
+  "scanner": "Bandit",
+  "rule_id": "B602",
+  "rule_name": "subprocess_popen_with_shell_equals_true",
+  "rule_description": "subprocess call with shell=True identified, security issue.",
+  "language": "python",
+  "file": "app.py",
+  "line": 34,
+  "vulnerable_code": "# Copyright 2022 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#      http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\nimport re\nimport subprocess\n\nfrom google.api_core.retry import Retry\n\nfrom setup_product.setup_cleanup import create_bucket, delete_bucket, upload_blob\n\n\n@Retry()\ndef test_import_products_gcs(bucket_name_prefix):\n    # gcs buckets have a limit of 63 characters. Get the last 60 characters\n    bucket_name = bucket_name_prefix[63:]\n\n    try:\n        create_bucket(bucket_name)\n        upload_blob(bucket_name, \"../resources/products.json\")\n\n        output = str(\n            subprocess.check_output(\n                f\"python import_products_gcs.py {bucket_name}\", shell=True\n            )\n        )\n    finally:\n        delete_bucket(bucket_name)\n\n    assert re.match(\".*import products from google cloud source request.*\", output)\n    assert re.match('.*input_uris: \"gs://.*/products.json\".*', output)\n    assert re.match(\".*the operation was started.*\", output)\n    assert re.match(\n        \".*projects/.*/locations/global/catalogs/default_catalog/branches/0/operations/import-products.*\",\n        output,\n    )\n\n    assert re.match(\".*number of successfully imported products.*?316.*\", output)\n    assert re.match(\".*number of failures during the importing.*?0.*\", output)\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+    "path": "retail/interactive-tutorials/product/import_products_gcs_test.py",
+    "license": "Apache-2.0"
+  }
+}

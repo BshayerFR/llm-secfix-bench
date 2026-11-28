@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-098",
+  "scanner": "Bandit",
+  "rule_id": "B201",
+  "rule_name": "flask_debug_true",
+  "rule_description": "A Flask app appears to be run with debug=True, which exposes the Werkzeug debugger and allows the execution of arbitrary code.",
+  "language": "python",
+  "file": "app.py",
+  "line": 51,
+  "vulnerable_code": "# Copyright 2018 Google Inc.\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#     http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n# [START memorystore_main_py]\nimport logging\nimport os\n\nfrom flask import Flask\nimport redis\n\napp = Flask(__name__)\n\nredis_host = os.environ.get(\"REDISHOST\", \"localhost\")\nredis_port = int(os.environ.get(\"REDISPORT\", 6379))\nredis_client = redis.StrictRedis(host=redis_host, port=redis_port)\n\n\n@app.route(\"/\")\ndef index():\n    value = redis_client.incr(\"counter\", 1)\n    return f\"Visitor number: {value}\"\n\n\n@app.errorhandler(500)\ndef server_error(e):\n    logging.exception(\"An error occurred during a request.\")\n    return (\n        \"\"\"\n    An internal error occurred: <pre>{}</pre>\n    See logs for full stacktrace.\n    \"\"\".format(\n            e\n        ),\n        500,\n    )\n\n\nif __name__ == \"__main__\":\n    # This is used when running locally. Gunicorn is used to run the\n    # application on Google App Engine and Cloud Run.\n    # See entrypoint in app.yaml or Dockerfile.\n    app.run(host=\"127.0.0.1\", port=8080, debug=True)\n# [END memorystore_main_py]\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+    "path": "memorystore/redis/main.py",
+    "license": "Apache-2.0"
+  }
+}

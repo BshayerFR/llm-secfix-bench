@@ -1,0 +1,875 @@
+{
+  "seed": 42,
+  "max_lines": 400,
+  "per_rule_cap": 15,
+  "corpora": {
+    "juice-shop": {
+      "url": "https://github.com/juice-shop/juice-shop",
+      "license": "MIT"
+    },
+    "WebGoat": {
+      "url": "https://github.com/WebGoat/WebGoat",
+      "license": "GPL-2.0-or-later"
+    },
+    "microservices-demo": {
+      "url": "https://github.com/GoogleCloudPlatform/microservices-demo",
+      "license": "Apache-2.0"
+    },
+    "pygoat": {
+      "url": "https://github.com/adeyosemanputra/pygoat",
+      "license": "MIT"
+    },
+    "terragoat": {
+      "url": "https://github.com/bridgecrewio/terragoat",
+      "license": "Apache-2.0"
+    },
+    "vulpy": {
+      "url": "https://github.com/fportantier/vulpy",
+      "license": "MIT"
+    },
+    "VAmPI": {
+      "url": "https://github.com/erev0s/VAmPI",
+      "license": "MIT"
+    },
+    "dvpwa": {
+      "url": "https://github.com/anxolerd/dvpwa",
+      "license": "MIT-style, see LICENSE"
+    },
+    "awesome-compose": {
+      "url": "https://github.com/docker/awesome-compose",
+      "license": "CC0, see LICENSE"
+    },
+    "example-voting-app": {
+      "url": "https://github.com/dockersamples/example-voting-app",
+      "license": "Apache-2.0"
+    },
+    "python-docs-samples": {
+      "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+      "license": "Apache-2.0"
+    }
+  },
+  "scanners": {
+    "bandit": {
+      "version": "bandit 1.9.4",
+      "files_staged": 4030,
+      "candidates": 421,
+      "selected": 100,
+      "distinct_rules": 18,
+      "corpus_commits": {
+        "juice-shop": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+        "WebGoat": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+        "microservices-demo": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+        "pygoat": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+        "terragoat": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+        "vulpy": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+        "VAmPI": "f16052dce83f05847133ec98f01c5193a41de7d8",
+        "dvpwa": "4a8f4a43fafcc1b304f1b97d0f0a8dea755a7756",
+        "awesome-compose": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+        "example-voting-app": "63e9150ca17af4ed05880d4245e486481f73fcb4",
+        "python-docs-samples": "3df3ff2ae7c8e1313456afa4e662244f6a275f65"
+      }
+    }
+  },
+  "cases": [
+    {
+      "case_id": "BANDIT-001",
+      "rule_id": "B615",
+      "corpus": "python-docs-samples",
+      "path": "dataflow/run-inference/download_model.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "e760515a51b7f0ddc1a7ad6b0c0d0b9394afaa9bc20565f83881e17815aae362"
+    },
+    {
+      "case_id": "BANDIT-002",
+      "rule_id": "B319",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/xxe_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "3b3718cc8d7fa5e65e34cfac56986baad9a11eb095d850717dfe03f5a44e78f0"
+    },
+    {
+      "case_id": "BANDIT-003",
+      "rule_id": "B310",
+      "corpus": "python-docs-samples",
+      "path": "auth/service-to-service/auth_test.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "f325c79a691168ee03c37db4f68b15c0695bf04b109e373ab2c51d1b242a651b"
+    },
+    {
+      "case_id": "BANDIT-004",
+      "rule_id": "B108",
+      "corpus": "vulpy",
+      "path": "utils/rsa-encrypt.py",
+      "commit": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+      "sha256": "d4d7a11d9dd4ded42d330a6592f1f61fcfa97a88278ccab13b6685f112ca58ea"
+    },
+    {
+      "case_id": "BANDIT-005",
+      "rule_id": "B701",
+      "corpus": "python-docs-samples",
+      "path": "appengine/standard/i18n/i18n_utils.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "2fe12698dbfcdf0bd206f1bc9af92f8a09db02cd444c079391c7b2d135764dd3"
+    },
+    {
+      "case_id": "BANDIT-006",
+      "rule_id": "B201",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/open_source_library_attack_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "37b926ac684d4e81be2c9264f7ce46ab455d684b896d4dbbee3e90d150cd67a8"
+    },
+    {
+      "case_id": "BANDIT-007",
+      "rule_id": "B301",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/insec_des_lab/main.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "37e3df741234a90604f5c779e1f39a178dae73bfd4b5cc91a0694ab5442b7fa5"
+    },
+    {
+      "case_id": "BANDIT-008",
+      "rule_id": "B303",
+      "corpus": "python-docs-samples",
+      "path": "compute/encryption/generate_wrapped_rsa_key.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "84dbb1ada9fef5bbc6747c8d525160f2a29b5b71840b667271c0d0cbb5fa14fd"
+    },
+    {
+      "case_id": "BANDIT-009",
+      "rule_id": "B104",
+      "corpus": "awesome-compose",
+      "path": "flask-redis/app.py",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "6c99e59be8f09257c400e3db5cff313612b74fff7f802dd7d2981bc108c2436e"
+    },
+    {
+      "case_id": "BANDIT-010",
+      "rule_id": "B103",
+      "corpus": "python-docs-samples",
+      "path": "composer/workflows/terraform_apply_operator.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "b06bc2fb74ebf3c6d0b69920dfc4b0a210744af6269d97c0041d91d5c98e9e38"
+    },
+    {
+      "case_id": "BANDIT-011",
+      "rule_id": "B324",
+      "corpus": "dvpwa",
+      "path": "sqli/dao/user.py",
+      "commit": "4a8f4a43fafcc1b304f1b97d0f0a8dea755a7756",
+      "sha256": "3c5347a99d1f1a7937be72a3c6c0d83d6e57928f6083133a0f7f6a8290797b87"
+    },
+    {
+      "case_id": "BANDIT-012",
+      "rule_id": "B506",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/a9_uckv_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "eb928f60157d1287d874e1b64a7ea542eee77645c37ef5583bf641456703deac"
+    },
+    {
+      "case_id": "BANDIT-013",
+      "rule_id": "B608",
+      "corpus": "python-docs-samples",
+      "path": "composer/2022_airflow_summit/data_analytics_dag.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "c17b206fa2dc992716f0c08db016036f88e1ccb76b900cccdc3838dbffa3e07c"
+    },
+    {
+      "case_id": "BANDIT-014",
+      "rule_id": "B317",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/xxe_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "5572d614d1f72697c2618bf9522c7b37ba10ef1fbd13ba63bdec6aa91b17603f"
+    },
+    {
+      "case_id": "BANDIT-015",
+      "rule_id": "B602",
+      "corpus": "python-docs-samples",
+      "path": "retail/interactive-tutorials/product/import_products_gcs_test.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "dfead013a9a5a129bcab1994904fd75adfc134dae4764cb92deaeaa75b4b825d"
+    },
+    {
+      "case_id": "BANDIT-016",
+      "rule_id": "B113",
+      "corpus": "python-docs-samples",
+      "path": "functions/v2/deploy-function/test_deploy_function.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "be9d47bea32436d24be2ed9d27225f5d99d64d13d221600c162b8e4005c22050"
+    },
+    {
+      "case_id": "BANDIT-017",
+      "rule_id": "B413",
+      "corpus": "python-docs-samples",
+      "path": "appengine/standard/app_identity/signing/main.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "bf5fdafbab306db4970db834e9498b53e955911df5721fde87411fd605a30855"
+    },
+    {
+      "case_id": "BANDIT-018",
+      "rule_id": "B307",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/command_injection_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "3e42b76a04eee2c3c7071152c686b1e1b61b9388fb5ebf23ba7e1bd4832395e9"
+    },
+    {
+      "case_id": "BANDIT-019",
+      "rule_id": "B615",
+      "corpus": "python-docs-samples",
+      "path": "dataflow/run-inference/main.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "97c301ca5416c9e6a6a1a09e06401a8b7ea24dbc1fbafa99eec74b37202b3c48"
+    },
+    {
+      "case_id": "BANDIT-020",
+      "rule_id": "B310",
+      "corpus": "python-docs-samples",
+      "path": "auth/service-to-service/auth.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "e568c6dfad01c4bfd5412c58da225741e1b1c476be693d1f89441b5dec84b1c1"
+    },
+    {
+      "case_id": "BANDIT-021",
+      "rule_id": "B108",
+      "corpus": "python-docs-samples",
+      "path": "composer/workflows/terraform_apply_operator_test.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "9dbb858cff5152ac8806afaea85171c4898f2e899432555c1dbd24247524de4e"
+    },
+    {
+      "case_id": "BANDIT-022",
+      "rule_id": "B701",
+      "corpus": "python-docs-samples",
+      "path": "scripts/readme-gen/readme_gen.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "815069a3da70f34cb797490dff24d6c48c555337d9db889c211a7c8cfb447108"
+    },
+    {
+      "case_id": "BANDIT-023",
+      "rule_id": "B201",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/sql_injection_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "1526f43390380a70b66cb0ea50ce7645ff97c54e4be02945671ca2491a79560f"
+    },
+    {
+      "case_id": "BANDIT-024",
+      "rule_id": "B301",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/software_integrity_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "26cd8939519d5ff7e989c15703e222759808362b1bb29c700834d7c73624e906"
+    },
+    {
+      "case_id": "BANDIT-025",
+      "rule_id": "B303",
+      "corpus": "python-docs-samples",
+      "path": "kms/snippets/import_manually_wrapped_key.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "8f94d7d3ff324f4eb33fc22287aa7d3e4edd732b91c0ef943a6a477ea706f4f1"
+    },
+    {
+      "case_id": "BANDIT-026",
+      "rule_id": "B104",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/insec_des_lab/main.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "713c2d9c336a8602597d60debd2d51657eef1c355a89353efdac8ec848759acb"
+    },
+    {
+      "case_id": "BANDIT-027",
+      "rule_id": "B103",
+      "corpus": "python-docs-samples",
+      "path": "composer/workflows/terraform_apply_operator_test.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "a759493dd0d95045333ffa4e6a457a14401916065a286dc827e53e3fd60401c6"
+    },
+    {
+      "case_id": "BANDIT-028",
+      "rule_id": "B324",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/crypto_failure_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "2dfe3ef172519e474ecdad22e6e7e279e3d108394bb0cff2cbc5d812412eb634"
+    },
+    {
+      "case_id": "BANDIT-029",
+      "rule_id": "B608",
+      "corpus": "python-docs-samples",
+      "path": "bigquery/search/bigquery_search_exclude_columns.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "f8b6a1e6ecdb55198c6bd8aa6727c875ed4fd587a6078d44dc5b268b97ba9644"
+    },
+    {
+      "case_id": "BANDIT-030",
+      "rule_id": "B602",
+      "corpus": "python-docs-samples",
+      "path": "appengine/standard_python3/bundled-services/mail/django/main_test.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "32192f5281be62d9c76fe7aee11a2885fea4af6dcd8f73dee948ad4fb3267e1b"
+    },
+    {
+      "case_id": "BANDIT-031",
+      "rule_id": "B113",
+      "corpus": "vulpy",
+      "path": "bad/api_post.py",
+      "commit": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+      "sha256": "9e7d05076bf9ec51323610e2bda7135f1be998dda1c210ecf921bd199502424d"
+    },
+    {
+      "case_id": "BANDIT-032",
+      "rule_id": "B310",
+      "corpus": "python-docs-samples",
+      "path": "bigquery/remote-function/vision/vision_function.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "0a8cf567c1c48bec6519c471043e7e5762f8033b85d03f4c35ecc309147154f4"
+    },
+    {
+      "case_id": "BANDIT-033",
+      "rule_id": "B108",
+      "corpus": "vulpy",
+      "path": "good/vulpy-ssl.py",
+      "commit": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+      "sha256": "52565285a145e4f64d1d58e335e63f75ba29754d2305df7bf28a0d1502f44d25"
+    },
+    {
+      "case_id": "BANDIT-034",
+      "rule_id": "B701",
+      "corpus": "python-docs-samples",
+      "path": "appengine/standard/taskqueue/pull-counter/main.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "ff0b582a992041bc770fa844c7fca4fa832d81b55e0d5f147cf7d048ace0c190"
+    },
+    {
+      "case_id": "BANDIT-035",
+      "rule_id": "B201",
+      "corpus": "python-docs-samples",
+      "path": "run/logging-manual/main.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "581f6f12264806b11c418353565405795e4f230c4ed5cb56ebc6ee4bc8b059f0"
+    },
+    {
+      "case_id": "BANDIT-036",
+      "rule_id": "B104",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/crypto_failure_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "33bc75a120ed6380c9d15744101ac1b381a344af532a4b071fb8c16c1c434668"
+    },
+    {
+      "case_id": "BANDIT-037",
+      "rule_id": "B324",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/broken_auth_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "7cb3c452608b2dfe1c6eb6a32032ab7be0d44d61fcd02256d2b6b256fe4e06be"
+    },
+    {
+      "case_id": "BANDIT-038",
+      "rule_id": "B608",
+      "corpus": "python-docs-samples",
+      "path": "composer/workflows/bq_notify.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "69b440b738adb42cf495df525d6e3df67b02866b00a9685825e07f50414597ea"
+    },
+    {
+      "case_id": "BANDIT-039",
+      "rule_id": "B602",
+      "corpus": "python-docs-samples",
+      "path": "run/markdown-preview/e2e_test.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "f94317ab7a83ed992842aea1883dd5411a4a8e9f6fe9607fab3495aebb2bc0a6"
+    },
+    {
+      "case_id": "BANDIT-040",
+      "rule_id": "B113",
+      "corpus": "python-docs-samples",
+      "path": "cloud-sql/sql-server/sqlalchemy/connection_test.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "8c1c3b391de428f73436c8e5127f08d99009e5462148dce91453d5856dd6387d"
+    },
+    {
+      "case_id": "BANDIT-041",
+      "rule_id": "B310",
+      "corpus": "python-docs-samples",
+      "path": "service_extensions/callouts/add_header/test_server.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "8f612f9e2582e875a6338608c10dfde877755124bc60793a1445076e68792b86"
+    },
+    {
+      "case_id": "BANDIT-042",
+      "rule_id": "B108",
+      "corpus": "python-docs-samples",
+      "path": "composer/workflows/terraform_apply_operator.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "ef2402607e51e6c360ec80097315e2fb487461b75775b52d2358979ca2da20a3"
+    },
+    {
+      "case_id": "BANDIT-043",
+      "rule_id": "B201",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/template_injection_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "3d17f5f4367333f8311d6c75f1f903d85ff0bd5e557b642f6b1eed5dec16cdbe"
+    },
+    {
+      "case_id": "BANDIT-044",
+      "rule_id": "B104",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/command_injection_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "10a9049887cd2c1f2c8ea3d57670d6afd6b75e5313011a8f12e3a44bba44bbda"
+    },
+    {
+      "case_id": "BANDIT-045",
+      "rule_id": "B608",
+      "corpus": "python-docs-samples",
+      "path": "dataproc/snippets/pyspark_hudi.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "83596ac339517bd40d34135476599a7ef27f640ce1edc5dfe57b8c5e586dd5af"
+    },
+    {
+      "case_id": "BANDIT-046",
+      "rule_id": "B602",
+      "corpus": "python-docs-samples",
+      "path": "dataproc/snippets/submit_spark_job_to_driver_node_group_cluster_test.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "5847a81ff67dac9cdbb55c2d61f461206d393d523c5a55d350cc5a66ce0afc1b"
+    },
+    {
+      "case_id": "BANDIT-047",
+      "rule_id": "B113",
+      "corpus": "python-docs-samples",
+      "path": "appengine/standard_python3/bundled-services/blobstore/django/main_test.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "118487e1e7a61c037725b63ad1f002aef34f2a287fbf46b497ee3a4c2f130680"
+    },
+    {
+      "case_id": "BANDIT-048",
+      "rule_id": "B310",
+      "corpus": "python-docs-samples",
+      "path": "run/markdown-preview/editor/render.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "4c572bfb295a2ee976684b13f3a00e4488c4ae614647aea368abcfa5d534d1d7"
+    },
+    {
+      "case_id": "BANDIT-049",
+      "rule_id": "B108",
+      "corpus": "vulpy",
+      "path": "bad/libapi.py",
+      "commit": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+      "sha256": "7ea0fc6cad8fab47c355ee0b9b4702fd01ae0d676d3adb9b49d8df4eaf815f6a"
+    },
+    {
+      "case_id": "BANDIT-050",
+      "rule_id": "B201",
+      "corpus": "python-docs-samples",
+      "path": "appengine/standard_python3/pubsub/main.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "aa18ceffaafa77b55e7dc14fc9fefa236b1f705340ae5209b7e3f2447de16ca3"
+    },
+    {
+      "case_id": "BANDIT-051",
+      "rule_id": "B104",
+      "corpus": "pygoat",
+      "path": "challenge/labs/business_logic_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "d31200ad3bb204f75d38e313d8c91af661748bf7813c7114f7b67e5839480f09"
+    },
+    {
+      "case_id": "BANDIT-052",
+      "rule_id": "B608",
+      "corpus": "python-docs-samples",
+      "path": "bigquery/biglake/bigquery_query_biglake_gcs_temp_table.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "3c8fa649758841ba0a3ba31dccccd5946ec30d8f6c84bc6caebfe63aced4b8a4"
+    },
+    {
+      "case_id": "BANDIT-053",
+      "rule_id": "B602",
+      "corpus": "python-docs-samples",
+      "path": "appengine/standard_python3/bundled-services/deferred/wsgi/main_test.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "63516e4014c6ee04d6ce94b50aa8d461c04ac327a7829f1c0ec31b3d777dfffb"
+    },
+    {
+      "case_id": "BANDIT-054",
+      "rule_id": "B113",
+      "corpus": "vulpy",
+      "path": "good/httpbrute.py",
+      "commit": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+      "sha256": "4b2e2169da3d034cc2e66e73fb9bc637e3d2bacd2743a40e692814f9880a2b1f"
+    },
+    {
+      "case_id": "BANDIT-055",
+      "rule_id": "B310",
+      "corpus": "python-docs-samples",
+      "path": "bigquery/remote-function/document/document_function.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "9d2a8d1be597c74b59055c9ce588d55388562941f1d57e12fd4e3a95aa4f575e"
+    },
+    {
+      "case_id": "BANDIT-056",
+      "rule_id": "B108",
+      "corpus": "vulpy",
+      "path": "good/cutpasswd.py",
+      "commit": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+      "sha256": "e8830c19f70bd96f9ad74c5e6f3f4d72841a8d55c488fda507b2f9844fa0dfc5"
+    },
+    {
+      "case_id": "BANDIT-057",
+      "rule_id": "B201",
+      "corpus": "python-docs-samples",
+      "path": "run/hello-broken/main.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "c5d3f0468f131ac3f66dd2a9075c84d2f52c13f80b866ee06007fa14e68866e9"
+    },
+    {
+      "case_id": "BANDIT-058",
+      "rule_id": "B104",
+      "corpus": "microservices-demo",
+      "path": "src/shoppingassistantservice/shoppingassistantservice.py",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "ab05fe1f94baf3ddf45cc9e2b6b45538902853fbf604e9bcad68c17d943c05d5"
+    },
+    {
+      "case_id": "BANDIT-059",
+      "rule_id": "B608",
+      "corpus": "python-docs-samples",
+      "path": "bigquery/federated_queries/bigquery_federated_query_cloud_sql.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "55a9c1b821326aa50d48bfbc26d9f7160fb987fc0b1f0323e1c7486d5079c539"
+    },
+    {
+      "case_id": "BANDIT-060",
+      "rule_id": "B602",
+      "corpus": "python-docs-samples",
+      "path": "appengine/standard_python3/bundled-services/blobstore/wsgi/main_test.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "dae86fd94c559c2fc6aff796d1e979b9d105a43732a4a0099c622eaa704ba56b"
+    },
+    {
+      "case_id": "BANDIT-061",
+      "rule_id": "B113",
+      "corpus": "python-docs-samples",
+      "path": "bigquery/continuous-queries/programmatic_retries.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "a8507fa79bef5f594471e0fc3a400913135052d1901a0f1320742a9093eacc00"
+    },
+    {
+      "case_id": "BANDIT-062",
+      "rule_id": "B310",
+      "corpus": "python-docs-samples",
+      "path": "memorystore/redis/cloud_run_deployment/e2e_test.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "9162c1476f0e35f952e34709f2fc992f0d56a4c45bd3baddd1b6a0fe343c4f43"
+    },
+    {
+      "case_id": "BANDIT-063",
+      "rule_id": "B108",
+      "corpus": "vulpy",
+      "path": "utils/rsa-decrypt.py",
+      "commit": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+      "sha256": "e23151871f26ea19a6669d32fb9a7507640d47f72cda266005d64f711f295770"
+    },
+    {
+      "case_id": "BANDIT-064",
+      "rule_id": "B201",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/broken_access_lab/main.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "928dd76ae16f4307a7c4fc87196bec65d49587707ff095ffb26109030004e3fb"
+    },
+    {
+      "case_id": "BANDIT-065",
+      "rule_id": "B104",
+      "corpus": "python-docs-samples",
+      "path": "eventarc/generic/main.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "ec88144b92cd48bb405f1e4bec92db3ec12ff433ff77bc8c5ccf249840f909a7"
+    },
+    {
+      "case_id": "BANDIT-066",
+      "rule_id": "B608",
+      "corpus": "python-docs-samples",
+      "path": "bigquery/bqml/ncaa_tutorial_test.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "4223024d432a87727e005cc4e7a87d13ed5a4a80108d6d94ed8125032c41bb22"
+    },
+    {
+      "case_id": "BANDIT-067",
+      "rule_id": "B602",
+      "corpus": "python-docs-samples",
+      "path": "appengine/standard_python3/bundled-services/blobstore/django/main_test.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "3d3c198ad9626018f85a76d43c2de75268fb6d9ab732a9cbc42e10a291a4fb24"
+    },
+    {
+      "case_id": "BANDIT-068",
+      "rule_id": "B113",
+      "corpus": "python-docs-samples",
+      "path": "appengine/standard_python3/bundled-services/deferred/django/main_test.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "3c87c5945093096252b16cfa9b396ba6ba8dd725e4c971cd7c1708e4619a4935"
+    },
+    {
+      "case_id": "BANDIT-069",
+      "rule_id": "B310",
+      "corpus": "python-docs-samples",
+      "path": "run/helloworld/e2e_test.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "8d400b15f2c6e956fd10c32f56c81cc653b3598ec83df8d5338a5c0464244b54"
+    },
+    {
+      "case_id": "BANDIT-070",
+      "rule_id": "B108",
+      "corpus": "vulpy",
+      "path": "utils/rsa-sign.py",
+      "commit": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+      "sha256": "6de7cf5dd1f4c826f2c18c945b5a0de9dc51fcbbd00ab91e79d3de75690647ac"
+    },
+    {
+      "case_id": "BANDIT-071",
+      "rule_id": "B201",
+      "corpus": "python-docs-samples",
+      "path": "appengine/standard_python3/cloudsql/main_mysql_pooling.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "38c05502235ce6c809bf7ce27ef2e8bf5eb5067b87e47112765d4b664c990b36"
+    },
+    {
+      "case_id": "BANDIT-072",
+      "rule_id": "B104",
+      "corpus": "example-voting-app",
+      "path": "vote/app.py",
+      "commit": "63e9150ca17af4ed05880d4245e486481f73fcb4",
+      "sha256": "687b5d0165e26adffc404c93b43fe03b99e0da55d81ddd87aa3e19ff45b3e11b"
+    },
+    {
+      "case_id": "BANDIT-073",
+      "rule_id": "B608",
+      "corpus": "python-docs-samples",
+      "path": "dataflow/extensible-templates/e2e_test.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "d943cd2c3d9ef93ef6c29011e550adfa754aa8681b2d3d51a625f56db9bf0334"
+    },
+    {
+      "case_id": "BANDIT-074",
+      "rule_id": "B602",
+      "corpus": "python-docs-samples",
+      "path": "dataproc/snippets/submit_pyspark_job_to_driver_node_group_cluster_test.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "f182d38a16e18007171fee3f8697f255b119494d896b6bbf9acade1a1c484534"
+    },
+    {
+      "case_id": "BANDIT-075",
+      "rule_id": "B113",
+      "corpus": "python-docs-samples",
+      "path": "genai/code_execution/codeexecution_interactions_cropimage_with_txt_img.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "e16c0bc499abdd87477d177f68b7c71b67ed4e7ad0e3bfe5afd5f2abaf78c1e3"
+    },
+    {
+      "case_id": "BANDIT-076",
+      "rule_id": "B310",
+      "corpus": "python-docs-samples",
+      "path": "run/markdown-preview/e2e_test.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "21cb695ab622d74c43939bed187953f6e5efb00d3db0879fa125324cf6f26848"
+    },
+    {
+      "case_id": "BANDIT-077",
+      "rule_id": "B108",
+      "corpus": "vulpy",
+      "path": "utils/ca-csr-load.py",
+      "commit": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+      "sha256": "b7f490a7a7a4af0a21231633c711c5f0eca20e6102d1176e4707607ea1146d4b"
+    },
+    {
+      "case_id": "BANDIT-078",
+      "rule_id": "B201",
+      "corpus": "python-docs-samples",
+      "path": "appengine/standard_python3/cloudsql/main_mysql.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "b4d958c0f09296da26c4a77966727c63470b64fc74ae796b7cf1e2d1cb540c19"
+    },
+    {
+      "case_id": "BANDIT-079",
+      "rule_id": "B104",
+      "corpus": "python-docs-samples",
+      "path": "monitoring/prometheus/main.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "4bde1b7121a0d01e12720f8af04a4048d766e79a2775da01df255c60514bc5ed"
+    },
+    {
+      "case_id": "BANDIT-080",
+      "rule_id": "B608",
+      "corpus": "python-docs-samples",
+      "path": "cloud-sql/mysql/client-side-encryption/snippets/cloud_sql_connection_pool_test.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "e90177af68325b2265616335ab661cf748086a018706b4e7b01941c1b4eb3994"
+    },
+    {
+      "case_id": "BANDIT-081",
+      "rule_id": "B602",
+      "corpus": "python-docs-samples",
+      "path": "retail/interactive-tutorials/events/import_user_events_bigquery_test.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "ac813f20ccf72f8e9533d1750f82e1057b1609b6b5d53cb1fd4de83915362b7f"
+    },
+    {
+      "case_id": "BANDIT-082",
+      "rule_id": "B113",
+      "corpus": "python-docs-samples",
+      "path": "appengine/standard_python3/bundled-services/mail/flask/main_test.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "0ff3f2e62cd65f0be238b08fa8ddb8225d0802ffd5a9b461f5e07aed78283fb5"
+    },
+    {
+      "case_id": "BANDIT-083",
+      "rule_id": "B310",
+      "corpus": "python-docs-samples",
+      "path": "functions/billing_stop_on_notification/stop_billing.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "9da069cb9d7d9ebae096350f4b33f8b7b26e8c494129f80884c95dfa16d048a5"
+    },
+    {
+      "case_id": "BANDIT-084",
+      "rule_id": "B108",
+      "corpus": "python-docs-samples",
+      "path": "composer/workflows/dataflowtemplateoperator_tutorial.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "cd7ea23f7f57f053d8a40c8584d39bd0efc94b5c2d70842c05bf185d2eb1d8b9"
+    },
+    {
+      "case_id": "BANDIT-085",
+      "rule_id": "B201",
+      "corpus": "python-docs-samples",
+      "path": "run/system-package/main.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "1f2d88dacd77e2029becda557895523cea8f60880f9de02078a9b4edd5e54519"
+    },
+    {
+      "case_id": "BANDIT-086",
+      "rule_id": "B104",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/template_injection_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "75240bbaed0d05531c4c9b3603f2e64d1f5fd5eccc5b80d85605dfd2021e8987"
+    },
+    {
+      "case_id": "BANDIT-087",
+      "rule_id": "B608",
+      "corpus": "python-docs-samples",
+      "path": "bigquery/vector_search/bigquery_get_vector_index_status.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "eef26011e21e6608bf5c384b8cad70b54f1372392c4e2c34bf44b83c2c6a4f56"
+    },
+    {
+      "case_id": "BANDIT-088",
+      "rule_id": "B602",
+      "corpus": "python-docs-samples",
+      "path": "appengine/standard_python3/bundled-services/deferred/flask/main_test.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "663ee45d1eaa87444465cadeccad276f9c78d919f3a0a3eb9c45d92bcd16e634"
+    },
+    {
+      "case_id": "BANDIT-089",
+      "rule_id": "B113",
+      "corpus": "python-docs-samples",
+      "path": "genai/live/live_txtgen_with_audio.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "da580ab6aa3ddc6361e80e7246bdc0c23224010666ccd2bd5b8ca4e4991c214c"
+    },
+    {
+      "case_id": "BANDIT-090",
+      "rule_id": "B310",
+      "corpus": "python-docs-samples",
+      "path": "composer/workflows/terraform_apply_operator.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "f04fc5fc71ec17386f559ec7917edf37202dacadd5c424f2b29e5d6020ba5fa3"
+    },
+    {
+      "case_id": "BANDIT-091",
+      "rule_id": "B108",
+      "corpus": "python-docs-samples",
+      "path": "composer/airflow_1_samples/dataflowtemplateoperator_tutorial.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "8f13e5285b44a595b5534b449bd3081be1126b4aea9aad43ebce3a2f03b1b519"
+    },
+    {
+      "case_id": "BANDIT-092",
+      "rule_id": "B201",
+      "corpus": "python-docs-samples",
+      "path": "cloud-sql/postgres/sqlalchemy/app.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "9c270d5cca5931556eb880f2ea1dd5f769960f281d6e10b006cad92f64cf5b4e"
+    },
+    {
+      "case_id": "BANDIT-093",
+      "rule_id": "B104",
+      "corpus": "awesome-compose",
+      "path": "flask/app/app.py",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "4d0ddfae5956a5a8a44f438701b69bd2fb71df4224dac90080b356319f06f0ab"
+    },
+    {
+      "case_id": "BANDIT-094",
+      "rule_id": "B608",
+      "corpus": "python-docs-samples",
+      "path": "bigquery/biglake/bigquery_query_iceberg_table.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "53f09dcda9e23e39ee9a3031bea04b4ca58a5e964854aa6d110c6ba777760306"
+    },
+    {
+      "case_id": "BANDIT-095",
+      "rule_id": "B602",
+      "corpus": "python-docs-samples",
+      "path": "appengine/standard_python3/bundled-services/mail/wsgi/main_test.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "15f65097557e1471ece9a17036c419e9a8a9247d49f84b7ff1f0972464af2e8c"
+    },
+    {
+      "case_id": "BANDIT-096",
+      "rule_id": "B113",
+      "corpus": "python-docs-samples",
+      "path": "genai/live/live_txt_with_audio.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "81d1bd6644119bffeb38061f4d9d9c56e12a980d3193533c534e2289dba03690"
+    },
+    {
+      "case_id": "BANDIT-097",
+      "rule_id": "B108",
+      "corpus": "vulpy",
+      "path": "utils/ca-create.py",
+      "commit": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+      "sha256": "8f44407bf3286c29c5c378f1fbe3b09490756b1801a71819aab8785c71c5af2f"
+    },
+    {
+      "case_id": "BANDIT-098",
+      "rule_id": "B201",
+      "corpus": "python-docs-samples",
+      "path": "memorystore/redis/main.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "543d33e3c85fff0b8cdcf74c5c3ccce9792ed0c075150d5cfb38e27fa7d8c1d9"
+    },
+    {
+      "case_id": "BANDIT-099",
+      "rule_id": "B104",
+      "corpus": "python-docs-samples",
+      "path": "trace/cloud-trace-demo-app-opentelemetry/app/app.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "888a4b82b586a8230e6bd704828b7b37e2b181a2b64bf169e208c19d6cd3ec98"
+    },
+    {
+      "case_id": "BANDIT-100",
+      "rule_id": "B608",
+      "corpus": "python-docs-samples",
+      "path": "bigquery/transactions/bigquery_multi_statement_transaction.py",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "1fe20975107b4c279978f29704aeb958e0054e28d24370e66567e1d3ec7e166e"
+    }
+  ]
+}

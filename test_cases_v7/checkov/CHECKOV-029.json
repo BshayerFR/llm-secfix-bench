@@ -1,0 +1,18 @@
+{
+  "case_id": "CHECKOV-029",
+  "scanner": "Checkov",
+  "rule_id": "CKV_ALI_1",
+  "rule_name": "Alibaba Cloud OSS bucket accessible to public",
+  "rule_description": "Alibaba Cloud OSS bucket accessible to public",
+  "language": "terraform",
+  "file": "main.tf",
+  "line": 1,
+  "vulnerable_code": "resource \"alicloud_oss_bucket\" \"bad_bucket\" {\n  # Public and writeable bucket \n  # Versioning isn't enabled\n  # Not Encrypted with a Customer Master Key and no Server side encryption\n  # Doesn't have access logging enabled\" \n  bucket = \"wildwestfreeforall\"\n  acl    = \"public-read-write\"\n  tags = {\n    git_commit           = \"9c114f23d311f787c137723e1f71b27a52f0adec\"\n    git_file             = \"terraform/alicloud/bucket.tf\"\n    git_last_modified_at = \"2022-04-05 15:17:55\"\n    git_last_modified_by = \"james.woolfenden@gmail.com\"\n    git_modifiers        = \"james.woolfenden\"\n    git_org              = \"bridgecrewio\"\n    git_repo             = \"terragoat\"\n    yor_trace            = \"80373049-248d-4f5e-9d25-740c3e80f2b9\"\n  }\n}\n",
+  "source": {
+    "corpus": "terragoat",
+    "url": "https://github.com/bridgecrewio/terragoat",
+    "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+    "path": "terraform/alicloud/bucket.tf",
+    "license": "Apache-2.0"
+  }
+}

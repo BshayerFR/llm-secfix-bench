@@ -1,0 +1,869 @@
+{
+  "seed": 42,
+  "max_lines": 400,
+  "per_rule_cap": 15,
+  "corpora": {
+    "juice-shop": {
+      "url": "https://github.com/juice-shop/juice-shop",
+      "license": "MIT"
+    },
+    "WebGoat": {
+      "url": "https://github.com/WebGoat/WebGoat",
+      "license": "GPL-2.0-or-later"
+    },
+    "microservices-demo": {
+      "url": "https://github.com/GoogleCloudPlatform/microservices-demo",
+      "license": "Apache-2.0"
+    },
+    "pygoat": {
+      "url": "https://github.com/adeyosemanputra/pygoat",
+      "license": "MIT"
+    },
+    "terragoat": {
+      "url": "https://github.com/bridgecrewio/terragoat",
+      "license": "Apache-2.0"
+    },
+    "vulpy": {
+      "url": "https://github.com/fportantier/vulpy",
+      "license": "MIT"
+    },
+    "VAmPI": {
+      "url": "https://github.com/erev0s/VAmPI",
+      "license": "MIT"
+    },
+    "dvpwa": {
+      "url": "https://github.com/anxolerd/dvpwa",
+      "license": "MIT-style, see LICENSE"
+    },
+    "awesome-compose": {
+      "url": "https://github.com/docker/awesome-compose",
+      "license": "CC0, see LICENSE"
+    },
+    "example-voting-app": {
+      "url": "https://github.com/dockersamples/example-voting-app",
+      "license": "Apache-2.0"
+    },
+    "python-docs-samples": {
+      "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+      "license": "Apache-2.0"
+    }
+  },
+  "scanners": {
+    "sonarqube": {
+      "version": "SonarQube Community (sonarqube:community docker image)",
+      "files_staged": 1388,
+      "candidates": 180,
+      "selected": 100,
+      "distinct_rules": 20,
+      "corpus_commits": {
+        "juice-shop": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+        "WebGoat": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+        "microservices-demo": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+        "pygoat": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+        "terragoat": "729f8da62c6a85ce4af5ad3d123de97776d954c4"
+      }
+    }
+  },
+  "cases": [
+    {
+      "case_id": "SONARQUBE-001",
+      "rule_id": "java:S5443",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/pathtraversal/ProfileZipSlip.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "15c419400f8d7172362230ea67aa4cc3e9147330f327d3f429469b50dd6d0991"
+    },
+    {
+      "case_id": "SONARQUBE-002",
+      "rule_id": "python:S4790",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/broken_auth_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "add10bee004b495382d4f74cf2790ab90823abf48d75db27968b46852d52c887"
+    },
+    {
+      "case_id": "SONARQUBE-003",
+      "rule_id": "typescript:S2245",
+      "corpus": "juice-shop",
+      "path": "lib/insecurity.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "19cd4e16a10f9aa784f371d50563a644247cab153670859c69a6183ed8c4d5b2"
+    },
+    {
+      "case_id": "SONARQUBE-004",
+      "rule_id": "typescript:S4790",
+      "corpus": "juice-shop",
+      "path": "lib/insecurity.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "709d63259b45f33b4e9fdb09bb49de039cedba2e5ba419806ec92f353db228f9"
+    },
+    {
+      "case_id": "SONARQUBE-005",
+      "rule_id": "javascript:S2068",
+      "corpus": "WebGoat",
+      "path": "src/main/resources/lessons/jwt/js/jwt-refresh.js",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "f38149732a5bd345c6d22f78e79cf2e80a472306fe47892f0882b65e62fc8cf6"
+    },
+    {
+      "case_id": "SONARQUBE-006",
+      "rule_id": "typescript:S2068",
+      "corpus": "juice-shop",
+      "path": "test/api/feedback.test.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "92261e8a499d9108e73e09fa0e85f3db279ca71e6743f1eb86d1f5ebdd38b68b"
+    },
+    {
+      "case_id": "SONARQUBE-007",
+      "rule_id": "python:S4502",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/xss_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "d9fb9fd310d4c04f8b922064131b665a7cd87f964159a1cf9c51da0d38d11454"
+    },
+    {
+      "case_id": "SONARQUBE-008",
+      "rule_id": "python:S2755",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/xxe_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "bd1b51edc4e4a5135d180335730c722a3c90f170410415caef53deca8541e483"
+    },
+    {
+      "case_id": "SONARQUBE-009",
+      "rule_id": "java:S2068",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/container/users/DefaultUserInitializer.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "2125abbf49972aa8cae2e708b1a8a012f01cacf5dc460a88ed6db97bad6d590d"
+    },
+    {
+      "case_id": "SONARQUBE-010",
+      "rule_id": "java:S2077",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/sqlinjection/introduction/SqlInjectionLesson9.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "b567f234cbac6c93dd9ddcf067da87d81edb473ca222b77d1736f57b98461953"
+    },
+    {
+      "case_id": "SONARQUBE-011",
+      "rule_id": "python:S2068",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/auth_failure_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "b6cdeab7455e14dde3ccff774b95ce9accc54a67e89de8b0296cc2b450f3b32e"
+    },
+    {
+      "case_id": "SONARQUBE-012",
+      "rule_id": "typescript:S6418",
+      "corpus": "juice-shop",
+      "path": "test/api/user.test.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "58817e28e6bf38aba194feeb3c692db5bd84220bfdc7e108b0a118acb635b59f"
+    },
+    {
+      "case_id": "SONARQUBE-013",
+      "rule_id": "java:S2245",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/jwt/JWTSecretKeyEndpoint.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "542b08573567fb163ce9230c5435e2f3b178416b1cddce9e34ac11bb448cc66a"
+    },
+    {
+      "case_id": "SONARQUBE-014",
+      "rule_id": "java:S4790",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/cryptography/HashingAssignment.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "672948efbf13f58bb712fa46a9d0e56dd94d51b781e111b2b695c7e9b3cb5873"
+    },
+    {
+      "case_id": "SONARQUBE-015",
+      "rule_id": "java:S6418",
+      "corpus": "WebGoat",
+      "path": "src/test/java/org/owasp/webgoat/lessons/jwt/claimmisuse/JWTHeaderKIDEndpointTest.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "f470d2e37d9eff5fdf102455bf4d1b8ef3f95a2fdf72e59907c7a8f725e95877"
+    },
+    {
+      "case_id": "SONARQUBE-016",
+      "rule_id": "python:S8392",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/xxe_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "51f8958a37cd4e8ad07f452fe8f156cf64f9978df14cc938174046d9b8d87931"
+    },
+    {
+      "case_id": "SONARQUBE-017",
+      "rule_id": "typescript:S1523",
+      "corpus": "juice-shop",
+      "path": "routes/userProfile.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "e087c9c154dc6c8d2e0533d50bd1b22394d8bf003be9c9377ed0e956eafdbe7a"
+    },
+    {
+      "case_id": "SONARQUBE-018",
+      "rule_id": "python:S2245",
+      "corpus": "microservices-demo",
+      "path": "src/recommendationservice/recommendation_server.py",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "f5407dcc0ce7be67125c9ea2c5621f80c142a983736c727ad7e0fd364580a527"
+    },
+    {
+      "case_id": "SONARQUBE-019",
+      "rule_id": "typescript:S6437",
+      "corpus": "juice-shop",
+      "path": "lib/insecurity.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "9da86572dd976b065fe0f449d8246a91b3990ed9600192b647f615502eb2d3f2"
+    },
+    {
+      "case_id": "SONARQUBE-020",
+      "rule_id": "typescript:S6268",
+      "corpus": "juice-shop",
+      "path": "frontend/src/app/last-login-ip/last-login-ip.component.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "a016b7a873980b3f9af0cea795cf89a45527d129175e1890657bc18875de52c9"
+    },
+    {
+      "case_id": "SONARQUBE-021",
+      "rule_id": "python:S4790",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/crypto_failure_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "6f64828a5b895f9f2cceefa1d145cfff322a4d1dd70165093ff2bf7dbb2e72c0"
+    },
+    {
+      "case_id": "SONARQUBE-022",
+      "rule_id": "typescript:S2068",
+      "corpus": "juice-shop",
+      "path": "test/api/erasure-request.test.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "8e3f56b7e00e84103efa06605e385ae854830bb80f9f0df8f5aaf1b5bdd05bc7"
+    },
+    {
+      "case_id": "SONARQUBE-023",
+      "rule_id": "python:S4502",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/insufficient_logging_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "86c1eb41572bdbbe3399ba5b17fb17a21b6337462b59c9de65e5ec5e51e7a0ae"
+    },
+    {
+      "case_id": "SONARQUBE-024",
+      "rule_id": "java:S2068",
+      "corpus": "WebGoat",
+      "path": "src/it/java/org/owasp/webgoat/integration/GeneralLessonIntegrationTest.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "008787018b404ec2c7cd58e52723955a403677ed345ff7e9c4cf45251be91e0d"
+    },
+    {
+      "case_id": "SONARQUBE-025",
+      "rule_id": "java:S2077",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/sqlinjection/introduction/SqlInjectionLesson8.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "8a6140935bf7d4df84a27eeaaa04faa21ff56566b5ff7f11f9db0dcfe6a17df1"
+    },
+    {
+      "case_id": "SONARQUBE-026",
+      "rule_id": "typescript:S6418",
+      "corpus": "juice-shop",
+      "path": "test/server/currentUser.unit.test.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "97dba56546e0ef88088cf55a0c2867f3706900e548cccb473b805601343e46ab"
+    },
+    {
+      "case_id": "SONARQUBE-027",
+      "rule_id": "java:S2245",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/challenges/challenge7/PasswordResetLink.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "f500e7d9b50fc22fab04c2e280ed1dc16494a9bb815274115f2a61113697ede8"
+    },
+    {
+      "case_id": "SONARQUBE-028",
+      "rule_id": "java:S6418",
+      "corpus": "WebGoat",
+      "path": "src/test/java/org/owasp/webgoat/lessons/jwt/JWTRefreshEndpointTest.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "7d5f8d9913bf41a3054e947973e5f20dcc287050e244acfa0ac4a8b8b14206a4"
+    },
+    {
+      "case_id": "SONARQUBE-029",
+      "rule_id": "python:S8392",
+      "corpus": "pygoat",
+      "path": "challenge/labs/security_headers_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "8dd16a0f8688d2fb350f10b0b9012ed7b4f3b9304dc93b8132f2b047d610a022"
+    },
+    {
+      "case_id": "SONARQUBE-030",
+      "rule_id": "typescript:S1523",
+      "corpus": "juice-shop",
+      "path": "routes/b2bOrder.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "4dbba38a3661d4945cfc25d8944fea69e203bc8752b1d5660235ba3a8add7e6e"
+    },
+    {
+      "case_id": "SONARQUBE-031",
+      "rule_id": "python:S2245",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/insecure_design_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "90204000f800bb8267087c76ae99ba98f831e46dd78cb860f60958af470c98ad"
+    },
+    {
+      "case_id": "SONARQUBE-032",
+      "rule_id": "typescript:S6268",
+      "corpus": "juice-shop",
+      "path": "frontend/src/app/search-result/search-result.component.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "a341cc96fd1b9f59aa806d0d4c90368f466b0433a8cab41274c71b7f1b4f014c"
+    },
+    {
+      "case_id": "SONARQUBE-033",
+      "rule_id": "typescript:S2068",
+      "corpus": "juice-shop",
+      "path": "test/api/password.test.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "caf4e28e97735f1b007a0545358b66a4aec00de0573ba354c90b1dbe956de477"
+    },
+    {
+      "case_id": "SONARQUBE-034",
+      "rule_id": "python:S4502",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/dependency_attack_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "abada771f6ac0b669e568a804cc3d1ecbe818310eb2d4fe5aed6a1ccbb7e57b8"
+    },
+    {
+      "case_id": "SONARQUBE-035",
+      "rule_id": "java:S2068",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/insecurelogin/InsecureLoginTask.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "a5ac3152bef08b8a9491981614c208bb9f175eab8fd1744330a0fa0640b4004a"
+    },
+    {
+      "case_id": "SONARQUBE-036",
+      "rule_id": "java:S2077",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/sqlinjection/introduction/SqlInjectionLesson5b.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "d3d23cc029945f00ec1d8c5db09f14276caeca87f72e83eb91a8f071c7612830"
+    },
+    {
+      "case_id": "SONARQUBE-037",
+      "rule_id": "java:S2245",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/cryptography/HashingAssignment.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "4c46ed0cdc20660b9f841231d4025f90a594aceb9f8aad5c0c58a1c18c7f3b87"
+    },
+    {
+      "case_id": "SONARQUBE-038",
+      "rule_id": "java:S6418",
+      "corpus": "WebGoat",
+      "path": "src/test/java/org/owasp/webgoat/lessons/deserialization/DeserializeTest.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "a14414f256352fd32f6cf9b9d9fe09a488b0cf0ef9657b6696b0780d73c2c732"
+    },
+    {
+      "case_id": "SONARQUBE-039",
+      "rule_id": "python:S8392",
+      "corpus": "pygoat",
+      "path": "challenge/labs/business_logic_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "48021044a4a3809cbdd53947768a63d8b6aeda64ce7463af43a3635be77df7e5"
+    },
+    {
+      "case_id": "SONARQUBE-040",
+      "rule_id": "typescript:S1523",
+      "corpus": "juice-shop",
+      "path": "test/cypress/e2e/contact.spec.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "9f101c3fa4fd03abbff278c2b1f654a15a4c781e7593aadf924a9444dbeb53cf"
+    },
+    {
+      "case_id": "SONARQUBE-041",
+      "rule_id": "python:S2245",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/auth_failure_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "e0b5e52352ee04400df4ef7e8295a004258baa93d1192336b1b15293d8db31f6"
+    },
+    {
+      "case_id": "SONARQUBE-042",
+      "rule_id": "typescript:S6268",
+      "corpus": "juice-shop",
+      "path": "frontend/src/app/track-result/track-result.component.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "acd8f28dc223cf8a1151c899f6f0c70148001fcb7927ed9834ebb450713dbaa4"
+    },
+    {
+      "case_id": "SONARQUBE-043",
+      "rule_id": "typescript:S2068",
+      "corpus": "juice-shop",
+      "path": "test/api/user.test.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "b04bc3674f36b4c5cd3cc4a172578b82b4b692b96cca86f49319566fbc8e3f92"
+    },
+    {
+      "case_id": "SONARQUBE-044",
+      "rule_id": "python:S4502",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/command_injection_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "932403efd9674160a9aa77276f18bf854d1a4be63a47163a3934390eddf14e74"
+    },
+    {
+      "case_id": "SONARQUBE-045",
+      "rule_id": "java:S2068",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/idor/IDORLogin.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "b6662845c86134de0808f4ab30677e0eec26545a0757ffe60ea18547dece12f6"
+    },
+    {
+      "case_id": "SONARQUBE-046",
+      "rule_id": "java:S2077",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/sqlinjection/introduction/SqlInjectionLesson10.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "83209627e2d7de20a9e9e7be3b7c0688384082de754fd0ef0a7fe2eecfad3031"
+    },
+    {
+      "case_id": "SONARQUBE-047",
+      "rule_id": "java:S2245",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/cryptography/timing/InsecureHmacValidator.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "9a78b36641ea520d2216d187fa593e752db7cb5c1714afb4b7487560092c2aaf"
+    },
+    {
+      "case_id": "SONARQUBE-048",
+      "rule_id": "python:S8392",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/command_injection_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "e5bfc795e869ab9970945d00296ffa9c18f2bf641ce20b7d7e37e722c8c784e2"
+    },
+    {
+      "case_id": "SONARQUBE-049",
+      "rule_id": "typescript:S1523",
+      "corpus": "juice-shop",
+      "path": "routes/fileUpload.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "199ded4c140489b0f07e6322590be1e1b4a50110ef0129334ddbb1af689fbbf0"
+    },
+    {
+      "case_id": "SONARQUBE-050",
+      "rule_id": "python:S2245",
+      "corpus": "microservices-demo",
+      "path": "src/loadgenerator/locustfile.py",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "69b8b31d41ec05463ddb19cdaf31293c37c9daafd87373c494db10aa226c8009"
+    },
+    {
+      "case_id": "SONARQUBE-051",
+      "rule_id": "typescript:S6268",
+      "corpus": "juice-shop",
+      "path": "frontend/src/app/administration/administration.component.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "927dcea66002d566846e0a325778ccea290f8a0a7d9e89c0364e4e70963b0441"
+    },
+    {
+      "case_id": "SONARQUBE-052",
+      "rule_id": "typescript:S2068",
+      "corpus": "juice-shop",
+      "path": "test/api/user-profile.test.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "904d74c7e81a8fbdb98c84562c9600266ae85713967120dc3311b7ca6791a889"
+    },
+    {
+      "case_id": "SONARQUBE-053",
+      "rule_id": "python:S4502",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/a9_uckv_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "c3a4df5219dcbec2d99d416b83ee49481c09f1d12f997eaede58830c19e1ff9c"
+    },
+    {
+      "case_id": "SONARQUBE-054",
+      "rule_id": "java:S2068",
+      "corpus": "WebGoat",
+      "path": "src/test/java/org/owasp/webgoat/lessons/spoofcookie/SpoofCookieAssignmentTest.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "dac79016fbf9a7d12d7f7a716dca3a7b6b5e92d5a5ad8eaced56b5af1848f8e4"
+    },
+    {
+      "case_id": "SONARQUBE-055",
+      "rule_id": "java:S2077",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/sqlinjection/advanced/SqlInjectionChallenge.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "dd1032665c20be97cd03ee88205f7fde9c16ae3188dda50c75b7b7f0d2d93972"
+    },
+    {
+      "case_id": "SONARQUBE-056",
+      "rule_id": "java:S2245",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/cryptography/EncodingAssignment.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "8694166ebdb76e732b218fc1cde0de99217ef9ad70d8758688b4410ce49a5445"
+    },
+    {
+      "case_id": "SONARQUBE-057",
+      "rule_id": "python:S8392",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/dependency_attack_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "e700eb84bcc35cd77a4ad19318a70db8557fee98a57209b6dcfcbd1b2394a247"
+    },
+    {
+      "case_id": "SONARQUBE-058",
+      "rule_id": "typescript:S1523",
+      "corpus": "juice-shop",
+      "path": "routes/captcha.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "cbbb03d525f475b158073eb3246056b789405527116c25625204c3dd3982f4c6"
+    },
+    {
+      "case_id": "SONARQUBE-059",
+      "rule_id": "python:S2245",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/sensitive_data_exposure/dataexposure/views.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "2d6c4f560b141f9353c74c9d83e1294362dbb654c16c0acfa1ac06b5a2993c91"
+    },
+    {
+      "case_id": "SONARQUBE-060",
+      "rule_id": "typescript:S6268",
+      "corpus": "juice-shop",
+      "path": "frontend/src/app/score-board/score-board.component.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "dc70e683ee3135052058637f1e0bfac761655115b0ed6d9ca7b7719831341c63"
+    },
+    {
+      "case_id": "SONARQUBE-061",
+      "rule_id": "typescript:S2068",
+      "corpus": "juice-shop",
+      "path": "test/cypress/e2e/changePassword.spec.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "6bfc7dadb551e8a022cc985e6e4b5ef8a3ca57b9db338e4d12aba4eeff4e9173"
+    },
+    {
+      "case_id": "SONARQUBE-062",
+      "rule_id": "python:S4502",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/broken_access_lab/main.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "83f92c289a3315eedf2902a15b9b0f846076d2239e30448861df72d398a3765a"
+    },
+    {
+      "case_id": "SONARQUBE-063",
+      "rule_id": "java:S2068",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/missingac/MissingFunctionAC.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "524a263eeb1b2f8810ed0f161cd24100f7b415c03fa753f58a696b62a59ae2f6"
+    },
+    {
+      "case_id": "SONARQUBE-064",
+      "rule_id": "python:S8392",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/xss_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "0ee8c4d806fb1b69f0d303b5e5372871117ead0ba671af5ae11404fbb6a829bd"
+    },
+    {
+      "case_id": "SONARQUBE-065",
+      "rule_id": "typescript:S1523",
+      "corpus": "juice-shop",
+      "path": "lib/xml.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "a81c56b00661ce2818ac5710aa2cf65476bb05977afdc78c162837f9946064a2"
+    },
+    {
+      "case_id": "SONARQUBE-066",
+      "rule_id": "python:S2245",
+      "corpus": "pygoat",
+      "path": "introduction/views.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "5871ce15045f008d7a8f4a0821d3c6b0ac14cbbe34043dcd0a7bc75066ec9ca0"
+    },
+    {
+      "case_id": "SONARQUBE-067",
+      "rule_id": "typescript:S6268",
+      "corpus": "juice-shop",
+      "path": "frontend/src/app/about/about.component.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "5ce5882fb720a37d545816b8f781597101e3a4e3c1708d5f776457b4ee65a70b"
+    },
+    {
+      "case_id": "SONARQUBE-068",
+      "rule_id": "typescript:S2068",
+      "corpus": "juice-shop",
+      "path": "frontend/src/app/change-password/change-password.component.spec.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "a9ffe9ba5dfd147024c2e9bda9f8285c73d6b647dc5b5c576541c82f3cedd9c4"
+    },
+    {
+      "case_id": "SONARQUBE-069",
+      "rule_id": "python:S4502",
+      "corpus": "pygoat",
+      "path": "introduction/views.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "9e197d7fb395a9a6240ae4193d58726c21cdb1a7c0266639e02e23df621a9f5c"
+    },
+    {
+      "case_id": "SONARQUBE-070",
+      "rule_id": "java:S2068",
+      "corpus": "WebGoat",
+      "path": "src/test/java/org/owasp/webgoat/lessons/hijacksession/HijackSessionAssignmentTest.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "14a744fb2be59d75c72731c34585e0b5ca7a05893f5c76a2a6e25f3dcc072f7a"
+    },
+    {
+      "case_id": "SONARQUBE-071",
+      "rule_id": "python:S8392",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/ssrf_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "92fc5714de130623c3a515c1fb0852738716f809ebebc9d38137a163d96bd7ad"
+    },
+    {
+      "case_id": "SONARQUBE-072",
+      "rule_id": "typescript:S6268",
+      "corpus": "juice-shop",
+      "path": "frontend/src/app/data-export/data-export.component.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "ca0eb9c1ec3dd3d382faa6847d01f0e796e3a054160721d934450d34b558573d"
+    },
+    {
+      "case_id": "SONARQUBE-073",
+      "rule_id": "typescript:S2068",
+      "corpus": "juice-shop",
+      "path": "test/api/basket.test.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "8f6102f29dee050ed6a8771e8acdb68fa7108a587552343801d38fbba6a37839"
+    },
+    {
+      "case_id": "SONARQUBE-074",
+      "rule_id": "python:S4502",
+      "corpus": "pygoat",
+      "path": "challenge/labs/security_headers_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "9e7c2ece764ac35ce03a5c801ed7eb9110322b5549e0713dc603c31a2727335f"
+    },
+    {
+      "case_id": "SONARQUBE-075",
+      "rule_id": "java:S2068",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/passwordstorage/PasswordStorageService.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "d135120d81e532a82a0b633a57c259c21fdabfcde36672624577085daf5cd4c8"
+    },
+    {
+      "case_id": "SONARQUBE-076",
+      "rule_id": "python:S8392",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/a9_uckv_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "363b19c5a7e97c13a573ff4de5634e9aa784c02c31fe428d79db530d064a107e"
+    },
+    {
+      "case_id": "SONARQUBE-077",
+      "rule_id": "typescript:S2068",
+      "corpus": "juice-shop",
+      "path": "test/api/product-review.test.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "9de8e1e575e7e7a8160235948ff2dd3b09a34d57438cc3c8a6f6cbc99ab9a3f5"
+    },
+    {
+      "case_id": "SONARQUBE-078",
+      "rule_id": "python:S4502",
+      "corpus": "pygoat",
+      "path": "challenge/labs/business_logic_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "7f137dc78ef85ef6a7b4aff489ba4499eecc9d9ce8cb13113ce7fc74f20df474"
+    },
+    {
+      "case_id": "SONARQUBE-079",
+      "rule_id": "java:S2068",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/challenges/challenge7/Assignment7.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "591df21927fceaa35cd2528ae6e07c499e28d45592536d3d847199b712097557"
+    },
+    {
+      "case_id": "SONARQUBE-080",
+      "rule_id": "python:S8392",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/broken_auth_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "aa5cbe1fd4febbd9c911d33148535c824500c3c749eaaf53781bf456b37f91bc"
+    },
+    {
+      "case_id": "SONARQUBE-081",
+      "rule_id": "typescript:S2068",
+      "corpus": "juice-shop",
+      "path": "test/api/delivery.test.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "60380859e34169c0ecf7c469f7127c2417b80cf9a80ab5e59968814aa9ff9c2b"
+    },
+    {
+      "case_id": "SONARQUBE-082",
+      "rule_id": "python:S4502",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/insecure_design_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "9357b2f2bbdbc736713ffb3616c6f5794959e0b3d26c6770eff7f41f317e9ad3"
+    },
+    {
+      "case_id": "SONARQUBE-083",
+      "rule_id": "java:S2068",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/jwt/JWTRefreshEndpoint.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "92021a1649782b12f4a7449dd2b8958bc5fa02d1315fd8f31ffab4da0bbe8bae"
+    },
+    {
+      "case_id": "SONARQUBE-084",
+      "rule_id": "python:S8392",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/auth_failure_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "1bf1634ea44627418dd0ed4b777bf3ab453f4d90b7962c1623f65759acbbd67f"
+    },
+    {
+      "case_id": "SONARQUBE-085",
+      "rule_id": "typescript:S2068",
+      "corpus": "juice-shop",
+      "path": "test/api/deluxe.test.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "06459f83364704bc77ee81ef5b89ee1064d4c6c9a1b8eb94ab72c629f8d02006"
+    },
+    {
+      "case_id": "SONARQUBE-086",
+      "rule_id": "python:S4502",
+      "corpus": "pygoat",
+      "path": "challenge/labs/bopla_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "bad4721b770dbdaa871ee93c5d96923cfa8eff44cefffcac0849a1dbd65b9209"
+    },
+    {
+      "case_id": "SONARQUBE-087",
+      "rule_id": "java:S2068",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/passwordreset/ResetLinkAssignment.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "06f0c7025028ef1f9d618b20e24a29ea54fd1cb3512fceb6776fd25281c66996"
+    },
+    {
+      "case_id": "SONARQUBE-088",
+      "rule_id": "python:S8392",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/sec_misconfig/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "2d866d6ebd2d04aa2f0e2fa6b83116ef0f0fa48ad4f9b6a66bd84f55ce2f1a11"
+    },
+    {
+      "case_id": "SONARQUBE-089",
+      "rule_id": "typescript:S2068",
+      "corpus": "juice-shop",
+      "path": "frontend/src/app/oauth/oauth.component.spec.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "6dcfb1224604d44fe2e8920acf20c41a7dfd089020805379614cf2223a3d22d5"
+    },
+    {
+      "case_id": "SONARQUBE-090",
+      "rule_id": "python:S4502",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/xxe_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "775ef6b1968027c3b6d318b63cff589aaa386b52f4bf777ada9d69f7579f8a1b"
+    },
+    {
+      "case_id": "SONARQUBE-091",
+      "rule_id": "python:S8392",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/insec_des_lab/main.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "76c94d6d9a0dfc8436e578b2be469b824fc1594f6b4cab50b2a7765dae09a105"
+    },
+    {
+      "case_id": "SONARQUBE-092",
+      "rule_id": "typescript:S2068",
+      "corpus": "juice-shop",
+      "path": "test/api/login.test.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "180bd5eedad196b0c9efdb504cec070a083ae3ad32db6e38181ff33a76048a3f"
+    },
+    {
+      "case_id": "SONARQUBE-093",
+      "rule_id": "python:S4502",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/crypto_failure_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "d6af8e1e112309648754eac742219b87a5e3dceb223d49c4cb223898baf2797d"
+    },
+    {
+      "case_id": "SONARQUBE-094",
+      "rule_id": "python:S8392",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/broken_access_lab/main.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "248e080f066e5e3879fa3982f6a9ce8020cc8948990e3baab663155c3e36391b"
+    },
+    {
+      "case_id": "SONARQUBE-095",
+      "rule_id": "typescript:S2068",
+      "corpus": "juice-shop",
+      "path": "frontend/src/app/manage-passkeys/manage-passkeys.component.spec.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "f1803a062ee4f89ed1a7b4ae05bac492ee9b63af5fd0033f3d98b92cd888d465"
+    },
+    {
+      "case_id": "SONARQUBE-096",
+      "rule_id": "python:S4502",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/ssrf_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "c522c875ff653215a72eb28c5a1d6b1171e34942e97cc5db36cf356debb25eb8"
+    },
+    {
+      "case_id": "SONARQUBE-097",
+      "rule_id": "python:S8392",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/software_integrity_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "0d42a76692f8bc57a20d73c2e4b948b1bc5a9115b0c991dc6bfba7a1f2a016aa"
+    },
+    {
+      "case_id": "SONARQUBE-098",
+      "rule_id": "typescript:S2068",
+      "corpus": "juice-shop",
+      "path": "test/cypress/e2e/register.spec.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "b1ee45e190306fbe393782e6152545b46f19781411d4da473219586cfc3ebccd"
+    },
+    {
+      "case_id": "SONARQUBE-099",
+      "rule_id": "python:S4502",
+      "corpus": "microservices-demo",
+      "path": "src/shoppingassistantservice/shoppingassistantservice.py",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "22e3de7973becc4a4bb105237953007a43914ff03567fa11e38e06c3666ad930"
+    },
+    {
+      "case_id": "SONARQUBE-100",
+      "rule_id": "python:S8392",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/insecure_design_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "1df25c66d8e1e93811fc7f942346721e99951516d58ba752c4e592d9a486ddbf"
+    }
+  ]
+}

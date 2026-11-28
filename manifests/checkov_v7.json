@@ -1,0 +1,869 @@
+{
+  "seed": 42,
+  "max_lines": 400,
+  "per_rule_cap": 15,
+  "corpora": {
+    "juice-shop": {
+      "url": "https://github.com/juice-shop/juice-shop",
+      "license": "MIT"
+    },
+    "WebGoat": {
+      "url": "https://github.com/WebGoat/WebGoat",
+      "license": "GPL-2.0-or-later"
+    },
+    "microservices-demo": {
+      "url": "https://github.com/GoogleCloudPlatform/microservices-demo",
+      "license": "Apache-2.0"
+    },
+    "pygoat": {
+      "url": "https://github.com/adeyosemanputra/pygoat",
+      "license": "MIT"
+    },
+    "terragoat": {
+      "url": "https://github.com/bridgecrewio/terragoat",
+      "license": "Apache-2.0"
+    },
+    "vulpy": {
+      "url": "https://github.com/fportantier/vulpy",
+      "license": "MIT"
+    },
+    "VAmPI": {
+      "url": "https://github.com/erev0s/VAmPI",
+      "license": "MIT"
+    },
+    "dvpwa": {
+      "url": "https://github.com/anxolerd/dvpwa",
+      "license": "MIT-style, see LICENSE"
+    },
+    "awesome-compose": {
+      "url": "https://github.com/docker/awesome-compose",
+      "license": "CC0, see LICENSE"
+    },
+    "example-voting-app": {
+      "url": "https://github.com/dockersamples/example-voting-app",
+      "license": "Apache-2.0"
+    },
+    "python-docs-samples": {
+      "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+      "license": "Apache-2.0"
+    }
+  },
+  "scanners": {
+    "checkov": {
+      "version": "3.4.11",
+      "files_staged": 152,
+      "candidates": 821,
+      "selected": 100,
+      "distinct_rules": 100,
+      "corpus_commits": {
+        "juice-shop": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+        "WebGoat": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+        "microservices-demo": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+        "pygoat": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+        "terragoat": "729f8da62c6a85ce4af5ad3d123de97776d954c4"
+      }
+    }
+  },
+  "cases": [
+    {
+      "case_id": "CHECKOV-001",
+      "rule_id": "CKV_AWS_91",
+      "corpus": "juice-shop",
+      "path": "data/static/codefixes/iacLeakedKeyChallenge_2.tf",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "b380f14075d66461253362ff0db9250e3c361d371e0b449d59d869ff9ba67d02"
+    },
+    {
+      "case_id": "CHECKOV-002",
+      "rule_id": "CKV_AZURE_78",
+      "corpus": "terragoat",
+      "path": "terraform/azure/app_service.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "4f906dc953f40b0b098117f637ebdecdd686a1213840ee608f32a01cef5e0772"
+    },
+    {
+      "case_id": "CHECKOV-003",
+      "rule_id": "CKV_GCP_106",
+      "corpus": "terragoat",
+      "path": "terraform/gcp/networks.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "e4738c6dd4b99d289929b95d6aa168ff957ba7361822967a4fb008ebfa2ad3ce"
+    },
+    {
+      "case_id": "CHECKOV-004",
+      "rule_id": "CKV_AWS_44",
+      "corpus": "terragoat",
+      "path": "terraform/aws/neptune.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "66d2c962617b7874924f500f5bed760795d2221ec94f2e3c865fbe32e1a6b498"
+    },
+    {
+      "case_id": "CHECKOV-005",
+      "rule_id": "CKV_AWS_7",
+      "corpus": "terragoat",
+      "path": "terraform/aws/kms.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "847d0d2030faad3af529f4ec5d679171d536b8a3cc5166ad377ca154f9890b16"
+    },
+    {
+      "case_id": "CHECKOV-006",
+      "rule_id": "CKV_AZURE_213",
+      "corpus": "terragoat",
+      "path": "terraform/azure/app_service.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "a683867baff69315d7970bf23516f7760b2e16cb2f21823b31db3ebaaf545b98"
+    },
+    {
+      "case_id": "CHECKOV-007",
+      "rule_id": "CKV_AZURE_128",
+      "corpus": "terragoat",
+      "path": "terraform/azure/sql.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "c0a27b9e0c0301d086f018d7b123eca30f27690dd5e7d201658d05128d0bf76d"
+    },
+    {
+      "case_id": "CHECKOV-008",
+      "rule_id": "CKV_AZURE_59",
+      "corpus": "terragoat",
+      "path": "terraform/azure/mssql.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "09b059efc37546ee27434bfb44bea1f16401c9b407705e35c7623e0aafa911e7"
+    },
+    {
+      "case_id": "CHECKOV-009",
+      "rule_id": "CKV_AWS_130",
+      "corpus": "juice-shop",
+      "path": "terraform/networking.tf",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "34452a3fe8972047850ef88f6d7f3f95a94e8d78a53701244ba353f97cfe8934"
+    },
+    {
+      "case_id": "CHECKOV-010",
+      "rule_id": "CKV_AWS_279",
+      "corpus": "terragoat",
+      "path": "terraform/aws/neptune.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "48fabfd95ad652ec1df8b3fc32f34e67f16cc2949676dfc65688a5bed7873206"
+    },
+    {
+      "case_id": "CHECKOV-011",
+      "rule_id": "CKV_AWS_394",
+      "corpus": "juice-shop",
+      "path": "data/static/codefixes/iacLeakedKeyChallenge_2.tf",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "833cdeb19a1c79cb9032f342292bbb2985146eafec39af2f26b0d79d858e048d"
+    },
+    {
+      "case_id": "CHECKOV-012",
+      "rule_id": "CKV_AWS_23",
+      "corpus": "juice-shop",
+      "path": "data/static/codefixes/iacLeakedKeyChallenge_2.tf",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "e21e3464469d52e75f1c58d65a627b64f7412e2fa0bfeafb872fac7d67ef92e2"
+    },
+    {
+      "case_id": "CHECKOV-013",
+      "rule_id": "CKV_AZURE_93",
+      "corpus": "terragoat",
+      "path": "terraform/azure/storage.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "ec9728705c30c43f95580244e0ec3cd7f7d738a2a16dde9e59ad43bd15b1f0ef"
+    },
+    {
+      "case_id": "CHECKOV-014",
+      "rule_id": "CKV_AWS_326",
+      "corpus": "terragoat",
+      "path": "terraform/aws/rds.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "451a8a59b50255a67365f09466e8f6e11318ba7c0d48505c209d58ad5c9f7a33"
+    },
+    {
+      "case_id": "CHECKOV-015",
+      "rule_id": "CKV_AWS_333",
+      "corpus": "juice-shop",
+      "path": "terraform/main.tf",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "1c170e6acf5392cd9252643b6eb00c3eb1df75854bab27def8a6bacf4718e415"
+    },
+    {
+      "case_id": "CHECKOV-016",
+      "rule_id": "CKV_AWS_363",
+      "corpus": "terragoat",
+      "path": "terraform/aws/lambda.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "b4a3654616bd4ab69c6a0593bbf1a8c79f03a5a9a75b6f85032e6641e4214c49"
+    },
+    {
+      "case_id": "CHECKOV-017",
+      "rule_id": "CKV_AWS_272",
+      "corpus": "terragoat",
+      "path": "terraform/aws/lambda.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "3b1d962d7ec6fca81e4f5baeb3d9f6842ff5495b299d25599ab22f38906dacfc"
+    },
+    {
+      "case_id": "CHECKOV-018",
+      "rule_id": "CKV_AZURE_113",
+      "corpus": "terragoat",
+      "path": "terraform/azure/mssql.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "eafeda098303a5557c8b5fef17eaa8c0dabf05d54f28e74c2f151f6c98dbe1b4"
+    },
+    {
+      "case_id": "CHECKOV-019",
+      "rule_id": "CKV_AWS_336",
+      "corpus": "juice-shop",
+      "path": "infrastructure/terraform/main.tf",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "af730a959c78c161d6bf143d24bc55654610d36c9bb9c406d589be3efbb7be67"
+    },
+    {
+      "case_id": "CHECKOV-020",
+      "rule_id": "CKV_K8S_43",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/loadgenerator.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "c697660121161b03bd548223426f34f5b551ea1cfaea9d2f13b2444a7350d034"
+    },
+    {
+      "case_id": "CHECKOV-021",
+      "rule_id": "CKV2_AWS_20",
+      "corpus": "juice-shop",
+      "path": "terraform/networking.tf",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "081535b8dcf445992be9c538786b55f3f607ccb001dc0967a2cd868858977920"
+    },
+    {
+      "case_id": "CHECKOV-022",
+      "rule_id": "CKV_AZURE_115",
+      "corpus": "terragoat",
+      "path": "terraform/azure/aks.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "ee268449e33a6c29762c448a8376961ae6875599d9ab821bf39b8c30bffa237d"
+    },
+    {
+      "case_id": "CHECKOV-023",
+      "rule_id": "CKV_AZURE_66",
+      "corpus": "terragoat",
+      "path": "terraform/azure/app_service.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "72fb56409e98cb1389ef1d6d6e9c3e0b5436181312c953e92a2976b945c4bce7"
+    },
+    {
+      "case_id": "CHECKOV-024",
+      "rule_id": "CKV_K8S_38",
+      "corpus": "microservices-demo",
+      "path": "kustomize/components/shopping-assistant/shoppingassistantservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "59287e49dcf3793416f73f1907c2a5a62085f92978553d0fb3919945c167d56e"
+    },
+    {
+      "case_id": "CHECKOV-025",
+      "rule_id": "CKV_GCP_8",
+      "corpus": "terragoat",
+      "path": "terraform/gcp/gke.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "50a65f90fe964e3e336ddf652601664ceea311703d948481c7218592adf42b57"
+    },
+    {
+      "case_id": "CHECKOV-026",
+      "rule_id": "CKV_K8S_21",
+      "corpus": "microservices-demo",
+      "path": "kustomize/components/without-loadgenerator/delete-loadgenerator.patch.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "bdd483ae0dcb0483f09c343c77108b6c93aed6590aa2072483dac6ce893d3e3f"
+    },
+    {
+      "case_id": "CHECKOV-027",
+      "rule_id": "CKV_AZURE_42",
+      "corpus": "terragoat",
+      "path": "terraform/azure/key_vault.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "ff33cc7d92d9dd19ac63ff0fee809d9e3f0ea41c2b5b91a443a2fcaf39e49c1f"
+    },
+    {
+      "case_id": "CHECKOV-028",
+      "rule_id": "CKV_GCP_15",
+      "corpus": "terragoat",
+      "path": "terraform/gcp/big_data.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "c78516b8b9b4d19e3aa4407917f4e964296de14af3bd316752d3388c280ce49e"
+    },
+    {
+      "case_id": "CHECKOV-029",
+      "rule_id": "CKV_ALI_1",
+      "corpus": "terragoat",
+      "path": "terraform/alicloud/bucket.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "f99443e90fd71053030aa68af58524eaba9265dd51a201ddc14a104ed493cd94"
+    },
+    {
+      "case_id": "CHECKOV-030",
+      "rule_id": "CKV_GCP_69",
+      "corpus": "terragoat",
+      "path": "terraform/gcp/gke.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "c3d023fbb7d847e6df31b05a5faa6740175df7e62b6ef9c23cc3c0c1bf69f6a3"
+    },
+    {
+      "case_id": "CHECKOV-031",
+      "rule_id": "CKV_K8S_40",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/loadgenerator.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "4a7e671474be842937050ee05dfa08b6dd7eb551948ca1e1f3bf855f1704e93c"
+    },
+    {
+      "case_id": "CHECKOV-032",
+      "rule_id": "CKV_AWS_5",
+      "corpus": "terragoat",
+      "path": "terraform/aws/es.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "bad1b28cb7c59dd34d38f0110ee32a4b028dd2620d1128fc49c7a7cbc71a7d68"
+    },
+    {
+      "case_id": "CHECKOV-033",
+      "rule_id": "CKV_AZURE_178",
+      "corpus": "terragoat",
+      "path": "terraform/azure/instance.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "f92b00a05f4d68b40ee8f2af6a534bd57909e6da30b9ccd9ccb1fc93df19273e"
+    },
+    {
+      "case_id": "CHECKOV-034",
+      "rule_id": "CKV_AZURE_102",
+      "corpus": "terragoat",
+      "path": "terraform/azure/sql.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "76a9bbeeb66ed944ba759a32bf7ea9021fd5b72b8f6a454b77a781a51356526e"
+    },
+    {
+      "case_id": "CHECKOV-035",
+      "rule_id": "CKV_GCP_81",
+      "corpus": "terragoat",
+      "path": "terraform/gcp/big_data.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "61185028c7210e59c5298418a8c28484a11fafe9c12463eece8e7b8b5512dc67"
+    },
+    {
+      "case_id": "CHECKOV-036",
+      "rule_id": "CKV_AWS_46",
+      "corpus": "terragoat",
+      "path": "terraform/aws/ec2.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "24f1c165349954e8ac331bf650f9018cbf5d6e4ef6027db358258d0a6895dc11"
+    },
+    {
+      "case_id": "CHECKOV-037",
+      "rule_id": "CKV_AWS_79",
+      "corpus": "terragoat",
+      "path": "terraform/aws/ec2.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "860e6e67b677abcef8dfdb81ec22fa2b871ada6d95da87c224b21538e3a6028e"
+    },
+    {
+      "case_id": "CHECKOV-038",
+      "rule_id": "CKV_AZURE_44",
+      "corpus": "terragoat",
+      "path": "terraform/azure/mssql.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "044376a98a1702891de69d798cf5a0c6674514522cc8623c55f217a688e32117"
+    },
+    {
+      "case_id": "CHECKOV-039",
+      "rule_id": "CKV2_AWS_12",
+      "corpus": "terragoat",
+      "path": "terraform/aws/eks.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "f315d2bfc79bdc6c3cbd3b47b05eb62f2f72af37d6408af2381371d1f4fce3b1"
+    },
+    {
+      "case_id": "CHECKOV-040",
+      "rule_id": "CKV_AWS_92",
+      "corpus": "terragoat",
+      "path": "terraform/aws/elb.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "0b59797bbdb89f479ba64249dc7f2e2dca7847dfd1bc4b0a9576975776da96ed"
+    },
+    {
+      "case_id": "CHECKOV-041",
+      "rule_id": "CKV2_AWS_62",
+      "corpus": "terragoat",
+      "path": "terraform/aws/s3.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "51494bf767afd8690ff698e078160089b56b9931b38f5fdc8f82d09d49e3c31f"
+    },
+    {
+      "case_id": "CHECKOV-042",
+      "rule_id": "CKV_AZURE_36",
+      "corpus": "terragoat",
+      "path": "terraform/azure/storage.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "b0087f6638a987b3b0dcd315628f1c4ed0498843dbfe738c12e3620590204d1c"
+    },
+    {
+      "case_id": "CHECKOV-043",
+      "rule_id": "CKV_AZURE_41",
+      "corpus": "terragoat",
+      "path": "terraform/azure/key_vault.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "18466f68a235b4852c756aee1ea3d6bbb9ac7c4cff8056c8db761bd5c66e742d"
+    },
+    {
+      "case_id": "CHECKOV-044",
+      "rule_id": "CKV_AWS_145",
+      "corpus": "terragoat",
+      "path": "terraform/aws/ec2.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "e5597ca93b7ecf7537c43ffab51a5322c3f041e467231dfbe465f18f84974c96"
+    },
+    {
+      "case_id": "CHECKOV-045",
+      "rule_id": "CKV_GCP_114",
+      "corpus": "terragoat",
+      "path": "terraform/gcp/gcs.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "b65dd15d09af078b5ce86e9fcf55a23312a1606117cb4f709f9ff56061f4ab4e"
+    },
+    {
+      "case_id": "CHECKOV-046",
+      "rule_id": "CKV_AWS_287",
+      "corpus": "terragoat",
+      "path": "terraform/aws/iam.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "8443972bca289bf08386d116ffd02bc91d277359ca301867e8d8acba9c4e315e"
+    },
+    {
+      "case_id": "CHECKOV-047",
+      "rule_id": "CKV2_AZURE_33",
+      "corpus": "terragoat",
+      "path": "terraform/azure/storage.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "3c8b1c607bfbf00b716be4ceef1f06f08efe69e818515caf9b91d485ebb084da"
+    },
+    {
+      "case_id": "CHECKOV-048",
+      "rule_id": "CKV_GCP_32",
+      "corpus": "terragoat",
+      "path": "terraform/gcp/instances.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "d54f69d935a864926edf71bad266057393c1176cc8d28dfbef446a3ff30dd79e"
+    },
+    {
+      "case_id": "CHECKOV-049",
+      "rule_id": "CKV_AWS_362",
+      "corpus": "terragoat",
+      "path": "terraform/aws/neptune.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "ccbbc6d59d4f4e31c6bbf23abb2ccba12a1af5aaaa23d80cf4ed3f4da807f084"
+    },
+    {
+      "case_id": "CHECKOV-050",
+      "rule_id": "CKV2_AZURE_29",
+      "corpus": "terragoat",
+      "path": "terraform/azure/aks.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "cecbe100335590eb107c2c44793c912713d3b306ccbc851b274b88a47a391388"
+    },
+    {
+      "case_id": "CHECKOV-051",
+      "rule_id": "CKV_AWS_38",
+      "corpus": "terragoat",
+      "path": "terraform/aws/eks.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "469f87cfdb071126543e898d36a3a5222c0b602691cf2bd4036cb0fbda5a22e8"
+    },
+    {
+      "case_id": "CHECKOV-052",
+      "rule_id": "CKV_GCP_7",
+      "corpus": "terragoat",
+      "path": "terraform/gcp/gke.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "18c85a1934d5b078e60874b63517d8e8982c30fc78b8346ffa903b35a6ad1d4f"
+    },
+    {
+      "case_id": "CHECKOV-053",
+      "rule_id": "CKV_AWS_109",
+      "corpus": "terragoat",
+      "path": "terraform/aws/es.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "e00412b1d0d98e6ce7b0737da199fbf69934e2d74cf9d0025e7352e11bafbeed"
+    },
+    {
+      "case_id": "CHECKOV-054",
+      "rule_id": "CKV_AZURE_130",
+      "corpus": "terragoat",
+      "path": "terraform/azure/sql.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "1b3b2dac6ca11d5f99ea3ad7b8fd19df30d6906f49880d8fcfb65eb0fa844bda"
+    },
+    {
+      "case_id": "CHECKOV-055",
+      "rule_id": "CKV_AWS_116",
+      "corpus": "terragoat",
+      "path": "terraform/aws/lambda.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "ea0de0a1fcba72f185508716b055d6857f4d00cc955746403b28977ccc90677c"
+    },
+    {
+      "case_id": "CHECKOV-056",
+      "rule_id": "CKV2_GCP_13",
+      "corpus": "terragoat",
+      "path": "terraform/gcp/big_data.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "fc02325e0548ce8e52604954604dd4927d6971dcdb78e5d7be86c0ac6b8c9561"
+    },
+    {
+      "case_id": "CHECKOV-057",
+      "rule_id": "CKV_GCP_62",
+      "corpus": "terragoat",
+      "path": "terraform/gcp/gcs.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "46dd2f8e4f9b4ab58da28623ac9fd51b854ef65a2d21ddb323e443febaf197c9"
+    },
+    {
+      "case_id": "CHECKOV-058",
+      "rule_id": "CKV_GCP_61",
+      "corpus": "microservices-demo",
+      "path": "terraform/main.tf",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "df81604038d17bbcd3bf4ea788593a48296d54d9ed9c5774902a8002a43d8be2"
+    },
+    {
+      "case_id": "CHECKOV-059",
+      "rule_id": "CKV_ALI_6",
+      "corpus": "terragoat",
+      "path": "terraform/alicloud/bucket.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "eeddef950ae86126c726f009c33c35cdd50565aacb0776258ac79af36fa7a223"
+    },
+    {
+      "case_id": "CHECKOV-060",
+      "rule_id": "CKV_AWS_289",
+      "corpus": "terragoat",
+      "path": "terraform/aws/iam.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "be956ddfd452605e9252733c384a9158aab6dd71eb5930bd4751b4586c85c2a8"
+    },
+    {
+      "case_id": "CHECKOV-061",
+      "rule_id": "CKV_AWS_137",
+      "corpus": "terragoat",
+      "path": "terraform/aws/es.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "7f057b0c5fc64e6f104af19fa5889d724b1a665a0a80c8800af718a162a5a712"
+    },
+    {
+      "case_id": "CHECKOV-062",
+      "rule_id": "CKV_GCP_29",
+      "corpus": "terragoat",
+      "path": "terraform/gcp/gcs.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "6a99257d100af72928a1be9f60ee6d2b7e17043b245200c5e583261c8776a71e"
+    },
+    {
+      "case_id": "CHECKOV-063",
+      "rule_id": "CKV_AZURE_226",
+      "corpus": "terragoat",
+      "path": "terraform/azure/aks.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "eb553d686761637f18d4ff22e8cd5644c5bb2f885747f676c15760740a736a10"
+    },
+    {
+      "case_id": "CHECKOV-064",
+      "rule_id": "CKV_ALI_25",
+      "corpus": "terragoat",
+      "path": "terraform/alicloud/rds.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "260937cf54b63c25e6a2ccebe2317092f7400090d251cd8e9c44798ed5ef8063"
+    },
+    {
+      "case_id": "CHECKOV-065",
+      "rule_id": "CKV_AWS_273",
+      "corpus": "terragoat",
+      "path": "terraform/aws/iam.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "b3396e1fd31fd8c717ec87970bbf8ea9d623c53a61779ebf04352ff924d92e4e"
+    },
+    {
+      "case_id": "CHECKOV-066",
+      "rule_id": "CKV_AZURE_114",
+      "corpus": "terragoat",
+      "path": "terraform/azure/key_vault.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "90addbd1cfbe9fe30263db39774f8cb48746e80799d76afe70e6308a65631ee1"
+    },
+    {
+      "case_id": "CHECKOV-067",
+      "rule_id": "CKV_GCP_37",
+      "corpus": "terragoat",
+      "path": "terraform/gcp/instances.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "8d3be8cded1404eae8f02e33e9392046cf5713eff6b7c1ad38a5c34b0f7b3e4a"
+    },
+    {
+      "case_id": "CHECKOV-068",
+      "rule_id": "CKV_AZURE_149",
+      "corpus": "terragoat",
+      "path": "terraform/azure/instance.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "df3d79d50b83e2042f4e014291ef39578411aa5eb506cd94e187c2f20c1a048f"
+    },
+    {
+      "case_id": "CHECKOV-069",
+      "rule_id": "CKV_AZURE_20",
+      "corpus": "terragoat",
+      "path": "terraform/azure/security_center.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "4601bf54acaa410a50146a2c35778bdf74a60dcb13f40ebc58834e07bc45aa9d"
+    },
+    {
+      "case_id": "CHECKOV-070",
+      "rule_id": "CKV_OCI_8",
+      "corpus": "terragoat",
+      "path": "terraform/oracle/bucket.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "e81af808c787d236f748ed54ccfe829431f62722286e05cde814c70369d7ac0c"
+    },
+    {
+      "case_id": "CHECKOV-071",
+      "rule_id": "CKV_K8S_29",
+      "corpus": "microservices-demo",
+      "path": "kustomize/components/without-loadgenerator/delete-loadgenerator.patch.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "6c38bb05292fc8d44f0d33b11a351d2c3007c641b43f9eb913741eef4d06c480"
+    },
+    {
+      "case_id": "CHECKOV-072",
+      "rule_id": "CKV_GCP_20",
+      "corpus": "microservices-demo",
+      "path": "terraform/main.tf",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "cd3f1f7b303c2f07414987c94263d81b52b200062b90e53150c85ff51b3c88d7"
+    },
+    {
+      "case_id": "CHECKOV-073",
+      "rule_id": "CKV_AWS_51",
+      "corpus": "terragoat",
+      "path": "terraform/aws/ecr.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "e82a0b37ca17e41358f654ea54692b2327155082a48bb3a03cc61b9f734a8a70"
+    },
+    {
+      "case_id": "CHECKOV-074",
+      "rule_id": "CKV_AWS_260",
+      "corpus": "juice-shop",
+      "path": "terraform/networking.tf",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "5a7f1e4b16cce0252a6de25c1b55bd2b205631e619ad762a2a744a676b238b87"
+    },
+    {
+      "case_id": "CHECKOV-075",
+      "rule_id": "CKV_ALI_5",
+      "corpus": "terragoat",
+      "path": "terraform/alicloud/trail.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "8a97dbe18e27431b3c86f6401dca0f206659f522b5972d919360b80bde556cc4"
+    },
+    {
+      "case_id": "CHECKOV-076",
+      "rule_id": "CKV_K8S_13",
+      "corpus": "microservices-demo",
+      "path": "kustomize/components/google-cloud-operations/otel-collector.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "905431892dad5c8b21e16106e9f7840310a5ef3b9e54ccfbada67d4ce6c8b33a"
+    },
+    {
+      "case_id": "CHECKOV-077",
+      "rule_id": "CKV_AZURE_50",
+      "corpus": "terragoat",
+      "path": "terraform/azure/instance.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "4d615e7a814842a3233e5e473d70a6854197c6b496a23778a07796f090b01ef9"
+    },
+    {
+      "case_id": "CHECKOV-078",
+      "rule_id": "CKV_AWS_103",
+      "corpus": "juice-shop",
+      "path": "infrastructure/terraform/networking.tf",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "912247c96966d721405f59cde6fdaabcc3c9e1bf2972183274998f02d5f7e372"
+    },
+    {
+      "case_id": "CHECKOV-079",
+      "rule_id": "CKV_K8S_14",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/productcatalogservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "e9cbd84ebb50575b9b16de734d873d261b9bdecde18c0fb6e3a2cdcf509ed1b2"
+    },
+    {
+      "case_id": "CHECKOV-080",
+      "rule_id": "CKV_GCP_40",
+      "corpus": "terragoat",
+      "path": "terraform/gcp/instances.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "62c69b6a6c8addec8a5db6ccf80dffc60287f78ec0f114fa7e3cd63d49716524"
+    },
+    {
+      "case_id": "CHECKOV-081",
+      "rule_id": "CKV_AZURE_37",
+      "corpus": "terragoat",
+      "path": "terraform/azure/logging.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "11cb1e26a5f0a1ec8e97ca62a8c398b811a1aad7082063a38aadd71d07508eb2"
+    },
+    {
+      "case_id": "CHECKOV-082",
+      "rule_id": "CKV_AZURE_10",
+      "corpus": "terragoat",
+      "path": "terraform/azure/networking.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "2999bfed7703c12be83c264604bdcdda3f23b8fbed6eb977553ec168d735cfcb"
+    },
+    {
+      "case_id": "CHECKOV-083",
+      "rule_id": "CKV_AZURE_22",
+      "corpus": "terragoat",
+      "path": "terraform/azure/security_center.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "ac41676a84a4ae474786d7f726d0697516a151b0b8bb9998053cbc6db980ab0c"
+    },
+    {
+      "case_id": "CHECKOV-084",
+      "rule_id": "CKV_AWS_21",
+      "corpus": "terragoat",
+      "path": "terraform/aws/s3.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "bcb12a2b6f1ec5fd7515fb1f9767bbd9da72677598b291c88aca18cfb13d8005"
+    },
+    {
+      "case_id": "CHECKOV-085",
+      "rule_id": "CKV_AWS_41",
+      "corpus": "terragoat",
+      "path": "terraform/aws/providers.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "48c8862d9db2a88b137b8b3e4ae84d704d38c26875b78b5f238b1a27aef68b7d"
+    },
+    {
+      "case_id": "CHECKOV-086",
+      "rule_id": "CKV2_AWS_8",
+      "corpus": "terragoat",
+      "path": "terraform/aws/rds.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "7453091172f5a8b3b0175f22ac8fd06e6a538907cec382cc2b2c91090a3c6ed7"
+    },
+    {
+      "case_id": "CHECKOV-087",
+      "rule_id": "CKV_AWS_162",
+      "corpus": "terragoat",
+      "path": "terraform/aws/rds.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "27fcc94325ae752cc11321aaf370a05d5cc1f196418fe1d4bf30003aa1f98217"
+    },
+    {
+      "case_id": "CHECKOV-088",
+      "rule_id": "CKV_AWS_338",
+      "corpus": "juice-shop",
+      "path": "terraform/main.tf",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "c49091bbcc3f8d7db6b2c6b3e2e7a3ffd0568335de3431bc0328efc971294c35"
+    },
+    {
+      "case_id": "CHECKOV-089",
+      "rule_id": "CKV_ALI_9",
+      "corpus": "terragoat",
+      "path": "terraform/alicloud/rds.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "a7f78efa0a209cc12a26033975ffb854c1ea0cbdde8cf4e1b27b9ea3636f470e"
+    },
+    {
+      "case_id": "CHECKOV-090",
+      "rule_id": "CKV_AWS_131",
+      "corpus": "juice-shop",
+      "path": "infrastructure/terraform/networking.tf",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "75aa06a1faf34b0a3be8e1a6c55673bf3972ce3322feba5727d3e8cca9ddf39c"
+    },
+    {
+      "case_id": "CHECKOV-091",
+      "rule_id": "CKV_GCP_97",
+      "corpus": "microservices-demo",
+      "path": "terraform/memorystore.tf",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "aa7b7738ae9e9213c7d2d799ebdedf4084f83659e6ac9d0a8d5a006feca0f7f5"
+    },
+    {
+      "case_id": "CHECKOV-092",
+      "rule_id": "CKV_K8S_11",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/loadgenerator.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "08490d087e51f4228342fdefe334af0b580101dc4c34d275d6ae551747deaf47"
+    },
+    {
+      "case_id": "CHECKOV-093",
+      "rule_id": "CKV_AWS_163",
+      "corpus": "terragoat",
+      "path": "terraform/aws/ecr.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "8e2c41218755e3be91139467e8f39f1acbfbabf5ad0001adee4dddfc30011bab"
+    },
+    {
+      "case_id": "CHECKOV-094",
+      "rule_id": "CKV_GCP_25",
+      "corpus": "microservices-demo",
+      "path": "terraform/main.tf",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "2e7ae2f073a957e83f1293165af65486cae548cdec6b7e62673eea21d21d4b8b"
+    },
+    {
+      "case_id": "CHECKOV-095",
+      "rule_id": "CKV_AZURE_120",
+      "corpus": "terragoat",
+      "path": "terraform/azure/application_gateway.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "54a70687c569d1133da68e66af85e6e38f212f9f552ba8e6d95ea4776e605df8"
+    },
+    {
+      "case_id": "CHECKOV-096",
+      "rule_id": "CKV_AZURE_9",
+      "corpus": "terragoat",
+      "path": "terraform/azure/networking.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "5f5e8a6c2e57ebd30a25a5a93ef3ab8ac855c5e2e55b98b46707f5622fee7bff"
+    },
+    {
+      "case_id": "CHECKOV-097",
+      "rule_id": "CKV_AWS_136",
+      "corpus": "terragoat",
+      "path": "terraform/aws/ecr.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "20b473b8bf6a1bbd2e83a64076056da715572305084994461344e7dda048abd1"
+    },
+    {
+      "case_id": "CHECKOV-098",
+      "rule_id": "CKV_K8S_9",
+      "corpus": "microservices-demo",
+      "path": "kustomize/components/shopping-assistant/shoppingassistantservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "394e1dc35d2d1f1a0d546edb414bd47e06365512e19089c38900483e1df49a68"
+    },
+    {
+      "case_id": "CHECKOV-099",
+      "rule_id": "CKV_AZURE_38",
+      "corpus": "terragoat",
+      "path": "terraform/azure/logging.tf",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "f1162094dc1ca0040129e96b0921884ff856d8a702d6872f466dd4f1bb1ecfc8"
+    },
+    {
+      "case_id": "CHECKOV-100",
+      "rule_id": "CKV_GCP_21",
+      "corpus": "microservices-demo",
+      "path": ".github/terraform/main.tf",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "0c9b1fd25baef33d9a53dd5af4843e02959b1c0363ead447c2f732f47fdaa01c"
+    }
+  ]
+}

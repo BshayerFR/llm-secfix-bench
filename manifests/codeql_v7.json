@@ -1,0 +1,349 @@
+{
+  "seed": 42,
+  "max_lines": 400,
+  "per_rule_cap": 15,
+  "corpora": {
+    "juice-shop": {
+      "url": "https://github.com/juice-shop/juice-shop",
+      "license": "MIT"
+    },
+    "WebGoat": {
+      "url": "https://github.com/WebGoat/WebGoat",
+      "license": "GPL-2.0-or-later"
+    },
+    "microservices-demo": {
+      "url": "https://github.com/GoogleCloudPlatform/microservices-demo",
+      "license": "Apache-2.0"
+    },
+    "pygoat": {
+      "url": "https://github.com/adeyosemanputra/pygoat",
+      "license": "MIT"
+    },
+    "terragoat": {
+      "url": "https://github.com/bridgecrewio/terragoat",
+      "license": "Apache-2.0"
+    },
+    "vulpy": {
+      "url": "https://github.com/fportantier/vulpy",
+      "license": "MIT"
+    },
+    "VAmPI": {
+      "url": "https://github.com/erev0s/VAmPI",
+      "license": "MIT"
+    },
+    "dvpwa": {
+      "url": "https://github.com/anxolerd/dvpwa",
+      "license": "MIT-style, see LICENSE"
+    },
+    "awesome-compose": {
+      "url": "https://github.com/docker/awesome-compose",
+      "license": "CC0, see LICENSE"
+    },
+    "example-voting-app": {
+      "url": "https://github.com/dockersamples/example-voting-app",
+      "license": "Apache-2.0"
+    },
+    "python-docs-samples": {
+      "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+      "license": "Apache-2.0"
+    }
+  },
+  "scanners": {
+    "codeql": {
+      "version": "CodeQL command-line toolchain release 2.27.6.",
+      "files_staged": 1388,
+      "candidates": 48,
+      "selected": 35,
+      "distinct_rules": 16,
+      "corpus_commits": {
+        "juice-shop": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+        "WebGoat": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+        "microservices-demo": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+        "pygoat": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+        "terragoat": "729f8da62c6a85ce4af5ad3d123de97776d954c4"
+      }
+    }
+  },
+  "cases": [
+    {
+      "case_id": "CODEQL-001",
+      "rule_id": "py/log-injection",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/a9_uckv_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "5b76bd5d0b3803f29d300f17cd1348038f0bc3550cabdd8790863c0ae848e6dc"
+    },
+    {
+      "case_id": "CODEQL-002",
+      "rule_id": "py/path-injection",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/ssrf_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "7669e569d86d8cb7ae26e9ff996931c075fb5332003a7a68a8b645d189dc997b"
+    },
+    {
+      "case_id": "CODEQL-003",
+      "rule_id": "py/cookie-injection",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/crypto_failure_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "6a628703eb0e32aa099793ee2842380d0cdac51465898a841801121073f5741b"
+    },
+    {
+      "case_id": "CODEQL-004",
+      "rule_id": "py/unsafe-deserialization",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/software_integrity_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "dbbdef1a64ff5a6122175b4d7f15c627f6050d2a51a0741c5d95bd45bcac0172"
+    },
+    {
+      "case_id": "CODEQL-005",
+      "rule_id": "py/stack-trace-exposure",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/template_injection_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "a644f78d12ccf1bce4ab40ef1ba7b76ae9d60cfe07ff9eb693042dcf5847e30f"
+    },
+    {
+      "case_id": "CODEQL-006",
+      "rule_id": "py/xxe",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/xxe_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "0d5fd9d3ee252c27c8bef013bc3d2f1288d38885a47f755f9db7634ad7bc7101"
+    },
+    {
+      "case_id": "CODEQL-007",
+      "rule_id": "py/code-injection",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/command_injection_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "d1807074e26d2a04cc7597862ae370383c624c0c963cc46824522bb8de956bd6"
+    },
+    {
+      "case_id": "CODEQL-008",
+      "rule_id": "py/weak-sensitive-data-hashing",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/auth_failure_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "cecef64fc8c89b969c5209ca8026d46b94626d0fe86c39b23d3605a8591a692f"
+    },
+    {
+      "case_id": "CODEQL-009",
+      "rule_id": "py/full-ssrf",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/ssrf_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "e561f828016fd2e718bd6c2587902125c2203dcd2fdab92c604b8cfea40bc15f"
+    },
+    {
+      "case_id": "CODEQL-010",
+      "rule_id": "py/insecure-cookie",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/auth_failure_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "6dc358264228fae732840c581f8614b685c4db670d1423339029e19210ebead7"
+    },
+    {
+      "case_id": "CODEQL-011",
+      "rule_id": "py/command-line-injection",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/command_injection_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "981cf7445b25d90d1962ce89358904875b5e23847304034af23b162ddc80920e"
+    },
+    {
+      "case_id": "CODEQL-012",
+      "rule_id": "py/client-exposed-cookie",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/auth_failure_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "b5759e4d477ea540473f25308d77e0868325bd217996a5a5cba0ded8026b36ee"
+    },
+    {
+      "case_id": "CODEQL-013",
+      "rule_id": "py/url-redirection",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/xss_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "ad527afb33f829055320a77a654198ac4ca3c217d5248a3dc5c31aee46946c19"
+    },
+    {
+      "case_id": "CODEQL-014",
+      "rule_id": "py/flask-debug",
+      "corpus": "pygoat",
+      "path": "challenge/labs/bopla_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "3c46c95fcc92a9a529dceff70b316e7bb50797dbaeb07d3567c86c02aa7e00f9"
+    },
+    {
+      "case_id": "CODEQL-015",
+      "rule_id": "py/sql-injection",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/sql_injection_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "c0d5d5fffd7551f3cbcdc6baf8321702f853c5de13a1f3bd7a0d33ff39e5e3d2"
+    },
+    {
+      "case_id": "CODEQL-016",
+      "rule_id": "py/xml-bomb",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/xxe_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "1651e2f0c327fcd7d1b6b3fafe38363632083dfc93c73a55b4e68c6e1d85ee34"
+    },
+    {
+      "case_id": "CODEQL-017",
+      "rule_id": "py/cookie-injection",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/broken_auth_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "2466d25306fa4e1b896e61ae768e76e85a1d6427d8a7d50eb714204771c80774"
+    },
+    {
+      "case_id": "CODEQL-018",
+      "rule_id": "py/unsafe-deserialization",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/a9_uckv_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "8c045c5163c11872dbc189fd3029a74d485cf178be88b92e29f0a0b624931daa"
+    },
+    {
+      "case_id": "CODEQL-019",
+      "rule_id": "py/weak-sensitive-data-hashing",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/crypto_failure_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "f38cab722ad3ad0d9a1195bcc85b34d2c2def6a7f5ad07ed2e22ef0e5058cb05"
+    },
+    {
+      "case_id": "CODEQL-020",
+      "rule_id": "py/url-redirection",
+      "corpus": "pygoat",
+      "path": "challenge/labs/security_headers_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "67b6844d0458143b00b08f49cbfb9be16567e062fe2c18030f18329e833a4b79"
+    },
+    {
+      "case_id": "CODEQL-021",
+      "rule_id": "py/flask-debug",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/dependency_attack_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "ad7ba027849d3c19d1bb73d1df88bafa0106e211902ab299430308380d1ccf13"
+    },
+    {
+      "case_id": "CODEQL-022",
+      "rule_id": "py/unsafe-deserialization",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/insec_des_lab/main.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "e5d76241f840e021ac04949397cdc4e70bfc49a5e992e3bafe6ad366a5bf2228"
+    },
+    {
+      "case_id": "CODEQL-023",
+      "rule_id": "py/flask-debug",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/command_injection_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "ea4b7dc713cc48bf0beffb99b929427f1c6a4d2498ee75ba975d18226c170dfe"
+    },
+    {
+      "case_id": "CODEQL-024",
+      "rule_id": "py/flask-debug",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/sql_injection_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "d1ff9d31ef533aa4e33484fb709d6f6cc29b096945f2be133256be1fdef2831e"
+    },
+    {
+      "case_id": "CODEQL-025",
+      "rule_id": "py/flask-debug",
+      "corpus": "pygoat",
+      "path": "challenge/labs/security_headers_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "eafdff48522f27737f45a4ccc186220f60b2986fc80f4df7e08a833b537d31ff"
+    },
+    {
+      "case_id": "CODEQL-026",
+      "rule_id": "py/flask-debug",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/open_source_library_attack_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "73c02902c37e595b7cc4befeb2b82d675fe4f5454cae3a61cc2e86c39f6b4e4c"
+    },
+    {
+      "case_id": "CODEQL-027",
+      "rule_id": "py/flask-debug",
+      "corpus": "pygoat",
+      "path": "challenge/labs/business_logic_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "5df6ae74cf690e40524981c9c4ed2ebb1f4dd8813f8163ed3fb6bf7882836f62"
+    },
+    {
+      "case_id": "CODEQL-028",
+      "rule_id": "py/flask-debug",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/insufficient_logging_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "ad0c0fab8d79d55b7b7385063bb4871e104af9c929c18d93b9e5100acdaeff4f"
+    },
+    {
+      "case_id": "CODEQL-029",
+      "rule_id": "py/flask-debug",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/template_injection_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "ae97ad0e0c8ba6d583314825a414f2e4b11b819f56c905a233b5403716c55f21"
+    },
+    {
+      "case_id": "CODEQL-030",
+      "rule_id": "py/flask-debug",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/package_injection_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "dea4dc58fe9df9c8b2e3417fd9537918cadee3e7c3a9441b7346dafaede01913"
+    },
+    {
+      "case_id": "CODEQL-031",
+      "rule_id": "py/flask-debug",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/broken_auth_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "5b3086b4716aaf79eaf4c882b7c2f93098b5a06d29d85290008bd79f91c3194e"
+    },
+    {
+      "case_id": "CODEQL-032",
+      "rule_id": "py/flask-debug",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/xxe_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "295fe46d4d039f13eca7c5c264a4c6c1a442fdb2a3852d60ee812d7b93c1d43f"
+    },
+    {
+      "case_id": "CODEQL-033",
+      "rule_id": "py/flask-debug",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/software_integrity_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "be492e1dc612bc8a2e69110c3d18540d3920f8f6606889e5bdaf59fe5dd1deef"
+    },
+    {
+      "case_id": "CODEQL-034",
+      "rule_id": "py/flask-debug",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/sde/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "fa20877c545e24ef65c24b332a5c01255dda75c30fce5a553046789617207565"
+    },
+    {
+      "case_id": "CODEQL-035",
+      "rule_id": "py/flask-debug",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/insecure_design_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "53c168a7476f9f5d2388dd6ca8b32ce2a75d9f84f3c5b767e5dd74edb8933f37"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "HADOLINT-031",
+  "scanner": "Hadolint",
+  "rule_id": "DL3008",
+  "rule_name": "DL3008",
+  "rule_description": "Pin versions in apt get install. Instead of `apt-get install <package>` use `apt-get install <package>=<version>`",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 5,
+  "vulnerable_code": "# base defines a base stage that uses the official python runtime base image\nFROM python:3.11-slim AS base\n\n# Add curl for healthcheck\nRUN apt-get update && \\\n    apt-get install -y --no-install-recommends curl && \\\n    rm -rf /var/lib/apt/lists/*\n\n# Set the application directory\nWORKDIR /usr/local/app\n\n# Install our requirements.txt\nCOPY requirements.txt ./requirements.txt\nRUN pip install --no-cache-dir -r requirements.txt\n\n# dev defines a stage for development, where it'll watch for filesystem changes\nFROM base AS dev\nRUN pip install watchdog\nENV FLASK_ENV=development\nCMD [\"python\", \"app.py\"]\n\n# final defines the stage that will bundle the application for production\nFROM base AS final\n\n# Copy our code from the current folder to the working directory inside the container\nCOPY . .\n\n# Make port 80 available for links and/or publish\nEXPOSE 80\n\n# Define our command to be run when launching the container\nCMD [\"gunicorn\", \"app:app\", \"-b\", \"0.0.0.0:80\", \"--log-file\", \"-\", \"--access-logfile\", \"-\", \"--workers\", \"4\", \"--keep-alive\", \"0\"]\n",
+  "source": {
+    "corpus": "example-voting-app",
+    "url": "https://github.com/dockersamples/example-voting-app",
+    "commit": "63e9150ca17af4ed05880d4245e486481f73fcb4",
+    "path": "vote/Dockerfile",
+    "license": "Apache-2.0"
+  }
+}

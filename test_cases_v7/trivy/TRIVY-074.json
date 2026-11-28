@@ -1,0 +1,18 @@
+{
+  "case_id": "TRIVY-074",
+  "scanner": "Trivy",
+  "rule_id": "CVE-2026-112397:pillow",
+  "rule_name": "CVE-2026-112397 in pillow",
+  "rule_description": "pillow: pillow: Denial of Service via out-of-bounds memory access on zero-width images in pillow. Installed 12.3.0, fixed in 13.0.0.",
+  "language": "text",
+  "file": "requirements.txt",
+  "line": 1,
+  "vulnerable_code": "pillow==12.3.0; python_version >= \"3.10\"\napache-beam[gcp]==2.74.0\nrasterio==1.3.10\ntensorflow==2.21.0  # Check TensorFlow/CUDA compatibility with Dockerfile: https://www.tensorflow.org/install/source#gpu\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+    "path": "dataflow/gpu-examples/tensorflow-landsat/requirements.txt",
+    "license": "Apache-2.0"
+  }
+}

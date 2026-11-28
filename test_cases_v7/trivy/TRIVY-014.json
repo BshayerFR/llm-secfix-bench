@@ -1,0 +1,18 @@
+{
+  "case_id": "TRIVY-014",
+  "scanner": "Trivy",
+  "rule_id": "CVE-2023-22887:apache-airflow",
+  "rule_name": "CVE-2023-22887 in apache-airflow",
+  "rule_description": "Apache Airflow Path Traversal vulnerability in apache-airflow. Installed 1.10.15, fixed in 2.6.3.",
+  "language": "text",
+  "file": "requirements.txt",
+  "line": 1,
+  "vulnerable_code": "# be sure to update the constraints file to match\n# see https://airflow.apache.org/docs/apache-airflow/stable/installation/installing-from-pypi.html#constraints-files\napache-airflow[gcp]==1.10.15\napache-airflow-backport-providers-google==2021.3.3\napache-airflow-backport-providers-cncf-kubernetes==2021.3.3\nkubernetes==11.0.0\nscipy==1.4.1; python_version > '3.0'\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+    "path": "composer/airflow_1_samples/requirements.txt",
+    "license": "Apache-2.0"
+  }
+}

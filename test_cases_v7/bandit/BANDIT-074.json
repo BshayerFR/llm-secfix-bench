@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-074",
+  "scanner": "Bandit",
+  "rule_id": "B602",
+  "rule_name": "subprocess_popen_with_shell_equals_true",
+  "rule_description": "subprocess call with shell=True identified, security issue.",
+  "language": "python",
+  "file": "app.py",
+  "line": 76,
+  "vulnerable_code": "# Copyright 2020 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#    http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\nimport os\nimport subprocess\nimport uuid\n\nimport backoff\nfrom google.api_core.exceptions import (\n    Aborted,\n    InternalServerError,\n    NotFound,\n    ServiceUnavailable,\n)\nfrom google.cloud import dataproc_v1 as dataproc\n\nimport submit_pyspark_job_to_driver_node_group_cluster\n\nPROJECT_ID = os.environ[\"GOOGLE_CLOUD_PROJECT\"]\nREGION = \"us-central1\"\nCLUSTER_NAME = f\"py-ps-test-{str(uuid.uuid4())}\"\n\ncluster_client = dataproc.ClusterControllerClient(\n    client_options={\"api_endpoint\": f\"{REGION}-dataproc.googleapis.com:443\"}\n)\n\n\n@backoff.on_exception(backoff.expo, (Exception), max_tries=5)\ndef teardown():\n    try:\n        operation = cluster_client.delete_cluster(\n            request={\n                \"project_id\": PROJECT_ID,\n                \"region\": REGION,\n                \"cluster_name\": CLUSTER_NAME,\n            }\n        )\n        # Wait for cluster to delete\n        operation.result()\n    except NotFound:\n        print(\"Cluster already deleted\")\n\n\n@backoff.on_exception(\n    backoff.expo,\n    (\n        InternalServerError,\n        ServiceUnavailable,\n        Aborted,\n    ),\n    max_tries=5,\n)\ndef test_workflows(capsys):\n    try:\n        # Setup driver node group cluster. TODO: cleanup b/424371877\n        command = f\"\"\"gcloud dataproc clusters create {CLUSTER_NAME} \\\n                --region {REGION} \\\n                --project {PROJECT_ID} \\\n                --driver-pool-size=1 \\\n                --driver-pool-id=pytest\"\"\"\n\n        output = subprocess.run(\n            command,\n            capture_output=True,\n            shell=True,\n            check=True,\n        )\n        print(output)\n\n        # Wrapper function for client library function\n        submit_pyspark_job_to_driver_node_group_cluster.submit_job(\n            PROJECT_ID, REGION, CLUSTER_NAME\n        )\n\n        out, _ = capsys.readouterr()\n        assert \"Job finished successfully\" in out\n    finally:\n        teardown()\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+    "path": "dataproc/snippets/submit_pyspark_job_to_driver_node_group_cluster_test.py",
+    "license": "Apache-2.0"
+  }
+}

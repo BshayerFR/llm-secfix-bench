@@ -1,0 +1,18 @@
+{
+  "case_id": "HADOLINT-001",
+  "scanner": "Hadolint",
+  "rule_id": "DL1000",
+  "rule_name": "DL1000",
+  "rule_description": "unexpected '#'\nexpecting a new line followed by the next instruction",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 26,
+  "vulnerable_code": "# syntax=docker/dockerfile:1.4\nFROM --platform=$BUILDPLATFORM node:14.4.0-alpine AS development\n\nRUN mkdir /project\nWORKDIR /project\n\nCOPY . .\n\nRUN yarn global add @vue/cli\nCOPY .npmrc .\nCOPY .yarnrc.yml .\nRUN yarn install --immutable\nENV HOST=0.0.0.0\nCMD [\"yarn\", \"run\", \"serve\"]\n\nFROM development as dev-envs\nRUN <<EOF\napk update\napk add git\nEOF\n\nRUN <<EOF\naddgroup -S docker\nadduser -S --shell /bin/bash --ingroup docker vscode\nEOF\n# install Docker tools (cli, buildx, compose)\nCOPY --from=gloursdocker/docker / /\nCMD [\"yarn\", \"run\", \"serve\"]\n",
+  "source": {
+    "corpus": "awesome-compose",
+    "url": "https://github.com/docker/awesome-compose",
+    "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+    "path": "vuejs/vuejs/Dockerfile",
+    "license": "CC0, see LICENSE"
+  }
+}

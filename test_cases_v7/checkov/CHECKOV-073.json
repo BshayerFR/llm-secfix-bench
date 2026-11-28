@@ -1,0 +1,18 @@
+{
+  "case_id": "CHECKOV-073",
+  "scanner": "Checkov",
+  "rule_id": "CKV_AWS_51",
+  "rule_name": "Ensure ECR Image Tags are immutable",
+  "rule_description": "Ensure ECR Image Tags are immutable",
+  "language": "terraform",
+  "file": "main.tf",
+  "line": 1,
+  "vulnerable_code": "resource aws_ecr_repository \"repository\" {\n  name                 = \"${local.resource_prefix.value}-repository\"\n  image_tag_mutability = \"MUTABLE\"\n\n\n  tags = merge({\n    Name = \"${local.resource_prefix.value}-repository\"\n    }, {\n    git_commit           = \"e6d83b21346fe85d4fe28b16c0b2f1e0662eb1d7\"\n    git_file             = \"terraform/aws/ecr.tf\"\n    git_last_modified_at = \"2023-04-27 12:47:51\"\n    git_last_modified_by = \"nadler@paloaltonetworks.com\"\n    git_modifiers        = \"nadler/nimrodkor\"\n    git_org              = \"bridgecrewio\"\n    git_repo             = \"terragoat\"\n    yor_trace            = \"7a3ec657-fa54-4aa2-8467-5d08d6c90bc2\"\n  })\n}\n\nlocals {\n  docker_image = \"${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.region}.amazonaws.com/${aws_ecr_repository.repository.name}\"\n}\n\n\nresource null_resource \"push_image\" {\n  provisioner \"local-exec\" {\n    working_dir = \"${path.module}/resources\"\n    command     = <<BASH\n    aws ecr get-login-password --region ${var.region} | docker login --username AWS --password-stdin ${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.region}.amazonaws.com\n    docker build -t ${aws_ecr_repository.repository.name} .\n    docker tag ${aws_ecr_repository.repository.name} ${local.docker_image}\n    docker push ${local.docker_image}\n    BASH\n  }\n}\n",
+  "source": {
+    "corpus": "terragoat",
+    "url": "https://github.com/bridgecrewio/terragoat",
+    "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+    "path": "terraform/aws/ecr.tf",
+    "license": "Apache-2.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "CHECKOV-095",
+  "scanner": "Checkov",
+  "rule_id": "CKV_AZURE_120",
+  "rule_name": "Ensure that Application Gateway enables WAF",
+  "rule_description": "Ensure that Application Gateway enables WAF",
+  "language": "terraform",
+  "file": "main.tf",
+  "line": 1,
+  "vulnerable_code": "resource \"azurerm_application_gateway\" \"network\" {\n  name                = \"example-appgateway\"\n  resource_group_name = \"example-resourceGroup\"\n  location            = \"example --West-US\"\n\n  sku {\n    name     = \"Standard_Small\"\n    tier     = \"Standard\"\n    capacity = 2\n  }\n\n  gateway_ip_configuration {\n    name      = \"my-gateway-ip-configuration\"\n    subnet_id = \"your subnet id\"\n  }\n\n  frontend_port {\n    name = \"name\"\n    port = \"port-no\"\n  }\n  ####Missing WAF block: As per azure best practices, it is important to have a web application firewall enabled at application gateway.\n\n\n  frontend_ip_configuration {\n    name                 = \"name\"\n    public_ip_address_id = \"Ip-address\"\n  }\n\n  backend_address_pool {\n    name = local.backend_address_pool_name\n  }\n\n  backend_http_settings {\n    name                  = local.http_setting_name\n    cookie_based_affinity = \"Disabled\"\n    path                  = \"/path1/\"\n    port                  = 80\n    protocol              = \"Http\"\n    request_timeout       = 60\n  }\n\n  http_listener {\n    name                           = local.listener_name\n    frontend_ip_configuration_name = local.frontend_ip_configuration_name\n    frontend_port_name             = local.frontend_port_name\n    protocol                       = \"Http\"\n  }\n\n  request_routing_rule {\n    name                       = local.request_routing_rule_name\n    rule_type                  = \"Basic\"\n    http_listener_name         = local.listener_name\n    backend_address_pool_name  = local.backend_address_pool_name\n    backend_http_settings_name = local.http_setting_name\n  }\n  tags = {\n    git_commit           = \"b07a42ebd74b8f0ba647e20b872474b1c29b4814\"\n    git_file             = \"terraform/azure/application_gateway.tf\"\n    git_last_modified_at = \"2021-05-02 10:08:55\"\n    git_last_modified_by = \"nimrodkor@users.noreply.github.com\"\n    git_modifiers        = \"harkiratbhardwaj/nimrodkor\"\n    git_org              = \"bridgecrewio\"\n    git_repo             = \"terragoat\"\n    yor_trace            = \"3f62753b-3d20-4fa7-b402-b780234a14d8\"\n  }\n}\n",
+  "source": {
+    "corpus": "terragoat",
+    "url": "https://github.com/bridgecrewio/terragoat",
+    "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+    "path": "terraform/azure/application_gateway.tf",
+    "license": "Apache-2.0"
+  }
+}

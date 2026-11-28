@@ -1,0 +1,18 @@
+{
+  "case_id": "TRIVY-073",
+  "scanner": "Trivy",
+  "rule_id": "CVE-2024-6827:gunicorn",
+  "rule_name": "CVE-2024-6827 in gunicorn",
+  "rule_description": "gunicorn: HTTP Request Smuggling in benoitc/gunicorn in gunicorn. Installed 20.0.4, fixed in 22.0.0.",
+  "language": "text",
+  "file": "requirements.txt",
+  "line": 1,
+  "vulnerable_code": "Flask==1.1.1\ngunicorn==20.0.4\n",
+  "source": {
+    "corpus": "awesome-compose",
+    "url": "https://github.com/docker/awesome-compose",
+    "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+    "path": "nginx-wsgi-flask/flask/requirements.txt",
+    "license": "CC0, see LICENSE"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "SEMGREP-082",
+  "scanner": "Semgrep",
+  "rule_id": "java.spring.security.unrestricted-request-mapping.unrestricted-request-mapping",
+  "rule_name": "unrestricted-request-mapping",
+  "rule_description": "Detected a method annotated with 'RequestMapping' that does not specify the HTTP method. CSRF protections are not enabled for GET, HEAD, TRACE, or OPTIONS, and by default all HTTP methods are allowed when the HTTP method is not explicitly specified. This means that a method that performs state changes could be vulnerable to CSRF attacks. To mitigate, add the 'method' field and specify the HTTP method (such as 'RequestMethod.POST').",
+  "language": "java",
+  "file": "Main.java",
+  "line": 35,
+  "vulnerable_code": "/*\n * SPDX-FileCopyrightText: Copyright © 2014 WebGoat authors\n * SPDX-License-Identifier: GPL-2.0-or-later\n */\npackage org.owasp.webgoat.container.service;\n\nimport java.util.Map;\nimport lombok.AllArgsConstructor;\nimport lombok.extern.slf4j.Slf4j;\nimport org.owasp.webgoat.container.session.LabelDebugger;\nimport org.springframework.http.HttpStatus;\nimport org.springframework.http.MediaType;\nimport org.springframework.http.ResponseEntity;\nimport org.springframework.stereotype.Controller;\nimport org.springframework.web.bind.annotation.RequestMapping;\nimport org.springframework.web.bind.annotation.RequestParam;\nimport org.springframework.web.bind.annotation.ResponseBody;\n\n@Controller\n@Slf4j\n@AllArgsConstructor\npublic class LabelDebugService {\n\n  private static final String URL_DEBUG_LABELS_MVC = \"/service/debug/labels.mvc\";\n  private static final String KEY_ENABLED = \"enabled\";\n  private static final String KEY_SUCCESS = \"success\";\n\n  private LabelDebugger labelDebugger;\n\n  /**\n   * Checks if debugging of labels is enabled or disabled\n   *\n   * @return a {@link org.springframework.http.ResponseEntity} object.\n   */\n  @RequestMapping(path = URL_DEBUG_LABELS_MVC, produces = MediaType.APPLICATION_JSON_VALUE)\n  public @ResponseBody ResponseEntity<Map<String, Object>> checkDebuggingStatus() {\n    log.debug(\"Checking label debugging, it is {}\", labelDebugger.isEnabled());\n    Map<String, Object> result = createResponse(labelDebugger.isEnabled());\n    return new ResponseEntity<>(result, HttpStatus.OK);\n  }\n\n  /**\n   * Sets the enabled flag on the label debugger to the given parameter\n   *\n   * @param enabled {@link org.owasp.webgoat.container.session.LabelDebugger} object\n   * @return a {@link org.springframework.http.ResponseEntity} object.\n   */\n  @RequestMapping(\n      value = URL_DEBUG_LABELS_MVC,\n      produces = MediaType.APPLICATION_JSON_VALUE,\n      params = KEY_ENABLED)\n  public @ResponseBody ResponseEntity<Map<String, Object>> setDebuggingStatus(\n      @RequestParam(\"enabled\") Boolean enabled) {\n    log.debug(\"Setting label debugging to {} \", labelDebugger.isEnabled());\n    Map<String, Object> result = createResponse(enabled);\n    labelDebugger.setEnabled(enabled);\n    return new ResponseEntity<>(result, HttpStatus.OK);\n  }\n\n  /**\n   * @param enabled {@link org.owasp.webgoat.container.session.LabelDebugger} object\n   * @return a {@link java.util.Map} object.\n   */\n  private Map<String, Object> createResponse(Boolean enabled) {\n    return Map.of(KEY_SUCCESS, Boolean.TRUE, KEY_ENABLED, enabled);\n  }\n}\n",
+  "source": {
+    "corpus": "WebGoat",
+    "url": "https://github.com/WebGoat/WebGoat",
+    "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+    "path": "src/main/java/org/owasp/webgoat/container/service/LabelDebugService.java",
+    "license": "GPL-2.0-or-later"
+  }
+}

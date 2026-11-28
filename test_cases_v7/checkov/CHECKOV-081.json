@@ -1,0 +1,18 @@
+{
+  "case_id": "CHECKOV-081",
+  "scanner": "Checkov",
+  "rule_id": "CKV_AZURE_37",
+  "rule_name": "Ensure that Activity Log Retention is set 365 days or greater",
+  "rule_description": "Ensure that Activity Log Retention is set 365 days or greater",
+  "language": "terraform",
+  "file": "main.tf",
+  "line": 1,
+  "vulnerable_code": "resource azurerm_monitor_log_profile \"logging_profile\" {\n  storage_account_id = azurerm_storage_account.example.id\n  categories         = [\"Action\"]\n  locations          = [var.location]\n  name               = \"terragoat-${var.environment}\"\n  retention_policy {\n    enabled = true\n    days    = 30\n  }\n}\n",
+  "source": {
+    "corpus": "terragoat",
+    "url": "https://github.com/bridgecrewio/terragoat",
+    "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+    "path": "terraform/azure/logging.tf",
+    "license": "Apache-2.0"
+  }
+}

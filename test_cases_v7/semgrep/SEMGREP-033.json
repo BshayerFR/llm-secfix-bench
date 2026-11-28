@@ -1,0 +1,18 @@
+{
+  "case_id": "SEMGREP-033",
+  "scanner": "Semgrep",
+  "rule_id": "java.spring.security.audit.spring-unvalidated-redirect.spring-unvalidated-redirect",
+  "rule_name": "spring-unvalidated-redirect",
+  "rule_description": "Application redirects a user to a destination URL specified by a user supplied parameter that is not validated.",
+  "language": "java",
+  "file": "Main.java",
+  "line": 18,
+  "vulnerable_code": "/*\n * SPDX-FileCopyrightText: Copyright © 2025 WebGoat authors\n * SPDX-License-Identifier: GPL-2.0-or-later\n */\npackage org.owasp.webgoat.lessons.openredirect;\n\nimport org.springframework.stereotype.Controller;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RequestParam;\nimport org.springframework.web.servlet.ModelAndView;\n\n/**\n * Provides a real 302 redirect for experimentation separate from assignment scoring.\n */\n@Controller\npublic class OpenRedirectRealRedirect {\n\n  @GetMapping(\"/OpenRedirect/realRedirect\")\n  public ModelAndView real(@RequestParam(\"url\") String url) {\n    // Intentionally vulnerable: no validation\n    return new ModelAndView(\"redirect:\" + url);\n  }\n}\n",
+  "source": {
+    "corpus": "WebGoat",
+    "url": "https://github.com/WebGoat/WebGoat",
+    "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+    "path": "src/main/java/org/owasp/webgoat/lessons/openredirect/OpenRedirectRealRedirect.java",
+    "license": "GPL-2.0-or-later"
+  }
+}

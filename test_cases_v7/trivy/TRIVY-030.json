@@ -1,0 +1,18 @@
+{
+  "case_id": "TRIVY-030",
+  "scanner": "Trivy",
+  "rule_id": "CVE-2023-46215:apache-airflow",
+  "rule_name": "CVE-2023-46215 in apache-airflow",
+  "rule_description": "Apache Airflow Celery provider Insertion of Sensitive Information into Log File vulnerability in apache-airflow. Installed 1.10.15, fixed in 2.7.0.",
+  "language": "text",
+  "file": "requirements.txt",
+  "line": 1,
+  "vulnerable_code": "# be sure to update the constraints file to match\n# see https://airflow.apache.org/docs/apache-airflow/stable/installation/installing-from-pypi.html#constraints-files\napache-airflow[gcp]==1.10.15 # updates beyond 1.10.15 are untested with this code\napache-airflow-backport-providers-google==2021.3.3\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+    "path": "composer/blog/gcp-tech-blog/unit-test-dags-cloud-build/requirements.txt",
+    "license": "Apache-2.0"
+  }
+}

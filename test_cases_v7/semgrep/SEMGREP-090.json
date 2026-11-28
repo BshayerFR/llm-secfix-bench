@@ -1,0 +1,18 @@
+{
+  "case_id": "SEMGREP-090",
+  "scanner": "Semgrep",
+  "rule_id": "java.lang.security.audit.crypto.weak-random.weak-random",
+  "rule_name": "weak-random",
+  "rule_description": "Detected use of the functions `Math.random()` or `java.util.Random()`. These are both not cryptographically strong random number generators (RNGs). If you are using these RNGs to create passwords or secret tokens, use `java.security.SecureRandom` instead.",
+  "language": "java",
+  "file": "Main.java",
+  "line": 25,
+  "vulnerable_code": "/*\n * SPDX-FileCopyrightText: Copyright © 2021 WebGoat authors\n * SPDX-License-Identifier: GPL-2.0-or-later\n */\npackage org.owasp.webgoat.lessons.hijacksession.cas;\n\nimport java.time.Instant;\nimport java.util.LinkedList;\nimport java.util.Queue;\nimport java.util.Random;\nimport java.util.concurrent.ThreadLocalRandom;\nimport java.util.function.DoublePredicate;\nimport java.util.function.Supplier;\nimport org.apache.commons.lang3.StringUtils;\nimport org.springframework.stereotype.Component;\nimport org.springframework.web.context.annotation.ApplicationScope;\n\n// weak id value and mechanism\n\n@ApplicationScope\n@Component\npublic class HijackSessionAuthenticationProvider implements AuthenticationProvider<Authentication> {\n\n  private Queue<String> sessions = new LinkedList<>();\n  private static long id = new Random().nextLong() & Long.MAX_VALUE;\n  protected static final int MAX_SESSIONS = 50;\n\n  private static final DoublePredicate PROBABILITY_DOUBLE_PREDICATE = pr -> pr < 0.75;\n  private static final Supplier<String> GENERATE_SESSION_ID =\n      () -> ++id + \"-\" + Instant.now().toEpochMilli();\n  public static final Supplier<Authentication> AUTHENTICATION_SUPPLIER =\n      () -> Authentication.builder().id(GENERATE_SESSION_ID.get()).build();\n\n  @Override\n  public Authentication authenticate(Authentication authentication) {\n    if (authentication == null) {\n      return AUTHENTICATION_SUPPLIER.get();\n    }\n\n    if (StringUtils.isNotEmpty(authentication.getId())\n        && sessions.contains(authentication.getId())) {\n      authentication.setAuthenticated(true);\n      return authentication;\n    }\n\n    if (StringUtils.isEmpty(authentication.getId())) {\n      authentication.setId(GENERATE_SESSION_ID.get());\n    }\n\n    authorizedUserAutoLogin();\n\n    return authentication;\n  }\n\n  protected void authorizedUserAutoLogin() {\n    if (!PROBABILITY_DOUBLE_PREDICATE.test(ThreadLocalRandom.current().nextDouble())) {\n      Authentication authentication = AUTHENTICATION_SUPPLIER.get();\n      authentication.setAuthenticated(true);\n      addSession(authentication.getId());\n    }\n  }\n\n  protected boolean addSession(String sessionId) {\n    if (sessions.size() >= MAX_SESSIONS) {\n      sessions.remove();\n    }\n    return sessions.add(sessionId);\n  }\n\n  protected int getSessionsSize() {\n    return sessions.size();\n  }\n}\n",
+  "source": {
+    "corpus": "WebGoat",
+    "url": "https://github.com/WebGoat/WebGoat",
+    "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+    "path": "src/main/java/org/owasp/webgoat/lessons/hijacksession/cas/HijackSessionAuthenticationProvider.java",
+    "license": "GPL-2.0-or-later"
+  }
+}

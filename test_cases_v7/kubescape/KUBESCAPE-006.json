@@ -1,0 +1,18 @@
+{
+  "case_id": "KUBESCAPE-006",
+  "scanner": "Kubescape",
+  "rule_id": "C-0263",
+  "rule_name": "Ingress uses TLS",
+  "rule_description": "This control detect Ingress resources that do not use TLS\n\nAffected fields:\nspec.tls=<your-tls-definition>",
+  "language": "yaml",
+  "file": "manifest.yaml",
+  "line": 24,
+  "vulnerable_code": "# Copyright 2024 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#      https://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\napiVersion: networking.k8s.io/v1\nkind: Ingress\nmetadata:\n  name: frontend-ingress\n  annotations:\n    kubernetes.io/ingress.global-static-ip-name: online-boutique-ip\n    networking.gke.io/managed-certificates: online-boutique-certificate\n    networking.gke.io/v1beta1.FrontendConfig: frontend-frontend-config\nspec:\n  defaultBackend:\n    service:\n      name: frontend\n      port:\n        number: 80\n  rules:\n  - http:\n      paths:\n      - path: /*\n        pathType: ImplementationSpecific\n        backend:\n          service:\n            name: frontend\n            port:\n              number: 80\n",
+  "source": {
+    "corpus": "microservices-demo",
+    "url": "https://github.com/GoogleCloudPlatform/microservices-demo",
+    "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+    "path": ".github/release-cluster/frontend-ingress.yaml",
+    "license": "Apache-2.0"
+  }
+}

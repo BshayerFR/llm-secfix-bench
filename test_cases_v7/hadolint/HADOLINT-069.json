@@ -1,0 +1,18 @@
+{
+  "case_id": "HADOLINT-069",
+  "scanner": "Hadolint",
+  "rule_id": "DL1000",
+  "rule_name": "DL1000",
+  "rule_description": "unexpected '#'\nexpecting a new line followed by the next instruction",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 22,
+  "vulnerable_code": "# syntax=docker/dockerfile:1.4\n\nFROM --platform=$BUILDPLATFORM maven:3.8.5-eclipse-temurin-17 AS builder\nWORKDIR /workdir/server\nCOPY pom.xml /workdir/server/pom.xml\nRUN mvn dependency:go-offline\n\nCOPY src /workdir/server/src\nRUN mvn install\n\nFROM builder AS dev-envs\nRUN <<EOF\napt-get update\napt-get install -y --no-install-recommends git\nEOF\n\nRUN <<EOF\nuseradd -s /bin/bash -m vscode\ngroupadd docker\nusermod -aG docker vscode\nEOF\n# install Docker tools (cli, buildx, compose)\nCOPY --from=gloursdocker/docker / /\nCMD [\"mvn\", \"spring-boot:run\"]\n\nFROM builder as prepare-production\nRUN mkdir -p target/dependency\nWORKDIR /workdir/server/target/dependency\nRUN jar -xf ../*.jar\n\nFROM eclipse-temurin:17-jre-focal\n\nEXPOSE 8080\nVOLUME /tmp\nARG DEPENDENCY=/workdir/server/target/dependency\nCOPY --from=prepare-production ${DEPENDENCY}/BOOT-INF/lib /app/lib\nCOPY --from=prepare-production ${DEPENDENCY}/META-INF /app/META-INF\nCOPY --from=prepare-production ${DEPENDENCY}/BOOT-INF/classes /app\nENTRYPOINT [\"java\",\"-cp\",\"app:app/lib/*\",\"com.company.project.Application\"]\n",
+  "source": {
+    "corpus": "awesome-compose",
+    "url": "https://github.com/docker/awesome-compose",
+    "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+    "path": "spring-postgres/backend/Dockerfile",
+    "license": "CC0, see LICENSE"
+  }
+}

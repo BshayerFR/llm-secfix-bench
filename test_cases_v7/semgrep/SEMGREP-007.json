@@ -1,0 +1,18 @@
+{
+  "case_id": "SEMGREP-007",
+  "scanner": "Semgrep",
+  "rule_id": "java.lang.security.audit.crypto.weak-random.weak-random",
+  "rule_name": "weak-random",
+  "rule_description": "Detected use of the functions `Math.random()` or `java.util.Random()`. These are both not cryptographically strong random number generators (RNGs). If you are using these RNGs to create passwords or secret tokens, use `java.security.SecureRandom` instead.",
+  "language": "java",
+  "file": "Main.java",
+  "line": 21,
+  "vulnerable_code": "/*\n * SPDX-FileCopyrightText: Copyright © 2020 WebGoat authors\n * SPDX-License-Identifier: GPL-2.0-or-later\n */\npackage org.owasp.webgoat.lessons.challenges.challenge1;\n\nimport static org.springframework.web.bind.annotation.RequestMethod.GET;\nimport static org.springframework.web.bind.annotation.RequestMethod.POST;\n\nimport java.io.IOException;\nimport java.util.Random;\nimport org.springframework.core.io.ClassPathResource;\nimport org.springframework.http.MediaType;\nimport org.springframework.web.bind.annotation.RequestMapping;\nimport org.springframework.web.bind.annotation.ResponseBody;\nimport org.springframework.web.bind.annotation.RestController;\n\n@RestController\npublic class ImageServlet {\n\n  public static final int PINCODE = new Random().nextInt(10000);\n\n  @RequestMapping(\n      method = {GET, POST},\n      value = \"/challenge/logo\",\n      produces = MediaType.IMAGE_PNG_VALUE)\n  @ResponseBody\n  public byte[] logo() throws IOException {\n    byte[] in =\n        new ClassPathResource(\"lessons/challenges/images/webgoat2.png\")\n            .getInputStream()\n            .readAllBytes();\n\n    String pincode = String.format(\"%04d\", PINCODE);\n\n    in[81216] = (byte) pincode.charAt(0);\n    in[81217] = (byte) pincode.charAt(1);\n    in[81218] = (byte) pincode.charAt(2);\n    in[81219] = (byte) pincode.charAt(3);\n\n    return in;\n  }\n}\n",
+  "source": {
+    "corpus": "WebGoat",
+    "url": "https://github.com/WebGoat/WebGoat",
+    "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+    "path": "src/main/java/org/owasp/webgoat/lessons/challenges/challenge1/ImageServlet.java",
+    "license": "GPL-2.0-or-later"
+  }
+}

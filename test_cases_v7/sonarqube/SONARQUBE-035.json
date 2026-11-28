@@ -1,0 +1,18 @@
+{
+  "case_id": "SONARQUBE-035",
+  "scanner": "SonarQube",
+  "rule_id": "java:S2068",
+  "rule_name": "'password' detected in this expression, review this potentially hard-coded password.",
+  "rule_description": "'password' detected in this expression, review this potentially hard-coded password.",
+  "language": "java",
+  "file": "Main.java",
+  "line": 21,
+  "vulnerable_code": "/*\n * SPDX-FileCopyrightText: Copyright © 2014 WebGoat authors\n * SPDX-License-Identifier: GPL-2.0-or-later\n */\npackage org.owasp.webgoat.lessons.insecurelogin;\n\nimport static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;\nimport static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;\n\nimport org.owasp.webgoat.container.assignments.AssignmentEndpoint;\nimport org.owasp.webgoat.container.assignments.AttackResult;\nimport org.springframework.http.HttpStatus;\nimport org.springframework.web.bind.annotation.*;\n\n@RestController\npublic class InsecureLoginTask implements AssignmentEndpoint {\n\n  @PostMapping(\"/InsecureLogin/task\")\n  @ResponseBody\n  public AttackResult completed(@RequestParam String username, @RequestParam String password) {\n    if (\"CaptainJack\".equals(username) && \"BlackPearl\".equals(password)) {\n      return success(this).build();\n    }\n    return failed(this).build();\n  }\n\n  @PostMapping(\"/InsecureLogin/login\")\n  @ResponseStatus(HttpStatus.ACCEPTED)\n  public void login() {\n    // only need to exists as the JS needs to call an existing endpoint\n  }\n}\n",
+  "source": {
+    "corpus": "WebGoat",
+    "url": "https://github.com/WebGoat/WebGoat",
+    "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+    "path": "src/main/java/org/owasp/webgoat/lessons/insecurelogin/InsecureLoginTask.java",
+    "license": "GPL-2.0-or-later"
+  }
+}

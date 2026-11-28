@@ -1,0 +1,18 @@
+{
+  "case_id": "HADOLINT-067",
+  "scanner": "Hadolint",
+  "rule_id": "DL3008",
+  "rule_name": "DL3008",
+  "rule_description": "Pin versions in apt get install. Instead of `apt-get install <package>` use `apt-get install <package>=<version>`",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 27,
+  "vulnerable_code": "# Copyright 2021 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#      http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\nFROM mcr.microsoft.com/dotnet/sdk:10.0@sha256:ea8bde36c11b6e7eec2656d0e59101d4462f6bd630730f2c8201ed0572b295d5 AS build\nWORKDIR /app\nCOPY . .\nRUN dotnet restore cartservice.csproj\nRUN dotnet build \"./cartservice.csproj\" -c Debug -o /out\n\nFROM build AS publish\nRUN dotnet publish cartservice.csproj -c Debug -o /out\n\n# Building final image used in running container\nFROM mcr.microsoft.com/dotnet/aspnet:10.0@sha256:7644f992230d35cf230017189d4038c0ae0f7388b13f4f7ae1900a155bafb597 AS final\n# Installing procps on the container to enable debugging of .NET Core\nRUN apt-get update \\\n    && apt-get install -y unzip procps wget\nWORKDIR /app\nCOPY --from=publish /out .\nENV ASPNETCORE_HTTP_PORTS=7070\n\nENTRYPOINT [\"dotnet\", \"cartservice.dll\"]\n",
+  "source": {
+    "corpus": "microservices-demo",
+    "url": "https://github.com/GoogleCloudPlatform/microservices-demo",
+    "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+    "path": "src/cartservice/src/Dockerfile.debug",
+    "license": "Apache-2.0"
+  }
+}

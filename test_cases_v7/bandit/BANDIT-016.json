@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-016",
+  "scanner": "Bandit",
+  "rule_id": "B113",
+  "rule_name": "request_without_timeout",
+  "rule_description": "Call to requests without timeout",
+  "language": "python",
+  "file": "app.py",
+  "line": 77,
+  "vulnerable_code": "# Copyright 2024 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the 'License');\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#     http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an 'AS IS' BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n\nimport uuid\n\nimport google.auth\nimport google.auth.transport.requests\nfrom google.cloud.functions_v2 import FunctionServiceClient\nfrom google.iam.v1 import iam_policy_pb2, policy_pb2\nimport google.oauth2.id_token\nimport pytest\nimport requests\n\nfrom deploy_function import (\n    create_and_upload_function,\n    create_cloud_function,\n    delete_bucket,\n    delete_function,\n)\n\n\ndef test_create_cloud_function(capsys: \"pytest.CaptureFixture[str]\"):\n    PROJECT = google.auth.default()[1]\n    BUCKET_NAME = f\"samples-functions-test-bucket-{uuid.uuid4().hex[:10]}\"\n    FOLDER_NAME = f\"samples-functions-test-folder-{uuid.uuid4().hex[:10]}\"\n    FILE_NAME = \"my_function.zip\"\n    object_name = f\"{FOLDER_NAME}/{FILE_NAME}\"\n    function_id = f\"test-function-{uuid.uuid4()}\"\n    RUNTIME = \"python310\"\n    LOCATION_ID = \"us-central1\"\n    resource_name = (\n        f\"projects/{PROJECT}/locations/{LOCATION_ID}/functions/{function_id}\"\n    )\n\n    try:\n        create_and_upload_function(BUCKET_NAME, object_name)\n        create_cloud_function(\n            project_id=PROJECT,\n            bucket_name=BUCKET_NAME,\n            location_id=LOCATION_ID,\n            function_id=function_id,\n            entry_point=\"my_function_entry\",\n            function_archive=object_name,\n            runtime=RUNTIME,\n        )\n\n        client = FunctionServiceClient()\n\n        get_policy_request = iam_policy_pb2.GetIamPolicyRequest(resource=resource_name)\n        current_policy = client.get_iam_policy(request=get_policy_request)\n\n        new_binding = policy_pb2.Binding(\n            role=\"roles/cloudfunctions.invoker\", members=[\"allUsers\"]\n        )\n        current_policy.bindings.append(new_binding)\n\n        set_policy_request = iam_policy_pb2.SetIamPolicyRequest(\n            resource=resource_name, policy=current_policy\n        )\n        client.set_iam_policy(request=set_policy_request)\n\n        function_url = (\n            f\"https://{LOCATION_ID}-{PROJECT}.cloudfunctions.net/{function_id}\"\n        )\n        response = requests.get(function_url)\n\n        assert response.status_code == 200\n        assert response.text == \"ok\"\n    finally:\n        delete_function(PROJECT, LOCATION_ID, function_id)\n        delete_bucket(PROJECT, BUCKET_NAME)\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+    "path": "functions/v2/deploy-function/test_deploy_function.py",
+    "license": "Apache-2.0"
+  }
+}

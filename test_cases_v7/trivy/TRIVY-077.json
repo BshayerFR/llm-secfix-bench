@@ -1,0 +1,18 @@
+{
+  "case_id": "TRIVY-077",
+  "scanner": "Trivy",
+  "rule_id": "CVE-2026-40961:apache-airflow",
+  "rule_name": "CVE-2026-40961 in apache-airflow",
+  "rule_description": "Apache Airflow: Authenticated users can bypass the `is_safe_url` check in apache-airflow. Installed 3.2.1, fixed in 3.2.2.",
+  "language": "text",
+  "file": "requirements.txt",
+  "line": 1,
+  "vulnerable_code": "# be sure to update the constraints file to match\n# see https://airflow.apache.org/docs/apache-airflow/stable/installation/installing-from-pypi.html#constraints-files\napache-airflow==3.2.1; python_version >= \"3.10\"\napache-airflow-providers-google==21.3.0; python_version >= \"3.10\"\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+    "path": "composer/2022_airflow_summit/requirements.txt",
+    "license": "Apache-2.0"
+  }
+}

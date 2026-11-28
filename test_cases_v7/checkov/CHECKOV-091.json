@@ -1,0 +1,18 @@
+{
+  "case_id": "CHECKOV-091",
+  "scanner": "Checkov",
+  "rule_id": "CKV_GCP_97",
+  "rule_name": "Ensure Memorystore for Redis uses intransit encryption",
+  "rule_description": "Ensure Memorystore for Redis uses intransit encryption",
+  "language": "terraform",
+  "file": "main.tf",
+  "line": 16,
+  "vulnerable_code": "# Copyright 2022 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#      http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n# Create the Memorystore (redis) instance\nresource \"google_redis_instance\" \"redis-cart\" {\n  name           = \"redis-cart\"\n  memory_size_gb = 1\n  region         = var.region\n\n  # count specifies the number of instances to create;\n  # if var.memorystore is true then the resource is enabled\n  count          = var.memorystore ? 1 : 0\n\n  redis_version  = \"REDIS_7_0\"\n  project        = var.gcp_project_id\n\n  depends_on = [\n    module.enable_google_apis\n  ]\n}\n\n# Edit contents of Memorystore kustomization.yaml file to target new Memorystore (redis) instance\nresource \"null_resource\" \"kustomization-update\" {\n  provisioner \"local-exec\" {\n    interpreter = [\"bash\", \"-exc\"]\n    command     = \"sed -i \\\"s/REDIS_CONNECTION_STRING/${google_redis_instance.redis-cart[0].host}:${google_redis_instance.redis-cart[0].port}/g\\\" ../kustomize/components/memorystore/kustomization.yaml\"\n  }\n\n  # count specifies the number of instances to create;\n  # if var.memorystore is true then the resource is enabled\n  count          = var.memorystore ? 1 : 0\n\n  depends_on = [\n    resource.google_redis_instance.redis-cart\n  ]\n}\n",
+  "source": {
+    "corpus": "microservices-demo",
+    "url": "https://github.com/GoogleCloudPlatform/microservices-demo",
+    "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+    "path": "terraform/memorystore.tf",
+    "license": "Apache-2.0"
+  }
+}

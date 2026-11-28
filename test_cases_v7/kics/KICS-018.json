@@ -1,0 +1,18 @@
+{
+  "case_id": "KICS-018",
+  "scanner": "KICS",
+  "rule_id": "819d50fd-1cdf-45c3-9936-be408aaad93e",
+  "rule_name": "Security Center Pricing Tier Is Not Standard",
+  "rule_description": "Make sure that the 'Standard' pricing tiers were selected.",
+  "language": "terraform",
+  "file": "main.tf",
+  "line": 2,
+  "vulnerable_code": "resource azurerm_security_center_subscription_pricing \"pricing\" {\n  tier = \"Free\"\n}\n\nresource azurerm_security_center_contact \"contact\" {\n  alert_notifications = false\n  alerts_to_admins    = false\n  email               = \"some@email.com\"\n}\n",
+  "source": {
+    "corpus": "terragoat",
+    "url": "https://github.com/bridgecrewio/terragoat",
+    "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+    "path": "terraform/azure/security_center.tf",
+    "license": "Apache-2.0"
+  }
+}

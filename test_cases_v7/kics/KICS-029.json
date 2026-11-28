@@ -1,0 +1,18 @@
+{
+  "case_id": "KICS-029",
+  "scanner": "KICS",
+  "rule_id": "c4dcdcdf-10dd-4bf4-b4a0-8f6239e6aaa0",
+  "rule_name": "SSH Access Is Not Restricted",
+  "rule_description": "Google Firewall should not allow SSH access (port 22) from the Internet (public CIDR block) to ensure the principle of least privileges",
+  "language": "terraform",
+  "file": "main.tf",
+  "line": 25,
+  "vulnerable_code": "resource \"google_compute_network\" \"vpc\" {\n  name                    = \"terragoat-${var.environment}-network\"\n  description             = \"Virtual vulnerable-by-design network\"\n  auto_create_subnetworks = false\n}\n\nresource \"google_compute_subnetwork\" \"public-subnetwork\" {\n  name          = \"terragoat-${var.environment}-public-subnetwork\"\n  ip_cidr_range = \"10.0.0.0/24\"\n  region        = var.region\n  network       = google_compute_network.vpc.id\n\n  secondary_ip_range {\n    range_name    = \"tf-test-secondary-range-update1\"\n    ip_cidr_range = \"192.168.10.0/24\"\n  }\n}\n\nresource \"google_compute_firewall\" \"allow_all\" {\n  name          = \"terragoat-${var.environment}-firewall\"\n  network       = google_compute_network.vpc.id\n  source_ranges = [\"0.0.0.0/0\"]\n  allow {\n    protocol = \"tcp\"\n    ports    = [\"0-65535\"]\n  }\n}\n",
+  "source": {
+    "corpus": "terragoat",
+    "url": "https://github.com/bridgecrewio/terragoat",
+    "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+    "path": "terraform/gcp/networks.tf",
+    "license": "Apache-2.0"
+  }
+}

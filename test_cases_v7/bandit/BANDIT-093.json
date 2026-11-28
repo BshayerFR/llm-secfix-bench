@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-093",
+  "scanner": "Bandit",
+  "rule_id": "B104",
+  "rule_name": "hardcoded_bind_all_interfaces",
+  "rule_description": "Possible binding to all interfaces.",
+  "language": "python",
+  "file": "app.py",
+  "line": 9,
+  "vulnerable_code": "from flask import Flask\napp = Flask(__name__)\n\n@app.route('/')\ndef hello():\n\treturn \"Hello World!\"\n\nif __name__ == '__main__':\n\tapp.run(host='0.0.0.0', port=8000)\n",
+  "source": {
+    "corpus": "awesome-compose",
+    "url": "https://github.com/docker/awesome-compose",
+    "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+    "path": "flask/app/app.py",
+    "license": "CC0, see LICENSE"
+  }
+}

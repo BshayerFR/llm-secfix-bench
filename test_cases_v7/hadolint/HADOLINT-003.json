@@ -1,0 +1,18 @@
+{
+  "case_id": "HADOLINT-003",
+  "scanner": "Hadolint",
+  "rule_id": "DL3016",
+  "rule_name": "DL3016",
+  "rule_description": "Pin versions in npm. Instead of `npm install <package>` use `npm install <package>@<version>`",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 11,
+  "vulnerable_code": "FROM node:18-slim\n\n# add curl for healthcheck\nRUN apt-get update && \\\n    apt-get install -y --no-install-recommends curl tini && \\\n    rm -rf /var/lib/apt/lists/*\n\nWORKDIR /usr/local/app\n\n# have nodemon available for local dev use (file watching)\nRUN npm install -g nodemon\n\nCOPY package*.json ./\n\nRUN npm ci && \\\n npm cache clean --force && \\\n mv /usr/local/app/node_modules /node_modules\n\nCOPY . .\n\nENV PORT=80\nEXPOSE 80\n\nENTRYPOINT [\"/usr/bin/tini\", \"--\"]\nCMD [\"node\", \"server.js\"]\n",
+  "source": {
+    "corpus": "example-voting-app",
+    "url": "https://github.com/dockersamples/example-voting-app",
+    "commit": "63e9150ca17af4ed05880d4245e486481f73fcb4",
+    "path": "result/Dockerfile",
+    "license": "Apache-2.0"
+  }
+}

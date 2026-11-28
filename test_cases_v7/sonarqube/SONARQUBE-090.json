@@ -1,0 +1,18 @@
+{
+  "case_id": "SONARQUBE-090",
+  "scanner": "SonarQube",
+  "rule_id": "python:S4502",
+  "rule_name": "Make sure disabling CSRF protection is safe here.",
+  "rule_description": "Make sure disabling CSRF protection is safe here.",
+  "language": "python",
+  "file": "app.py",
+  "line": 7,
+  "vulnerable_code": "from flask import Flask, render_template, request\nfrom flask_sqlalchemy import SQLAlchemy\nfrom xml.dom.pulldom import START_ELEMENT, parseString\nfrom xml.sax import make_parser\nfrom xml.sax.handler import feature_external_ges\n\napp = Flask(__name__)\napp.config[\"SECRET_KEY\"] = \"your-secret-key-here\"\napp.config[\"SQLALCHEMY_DATABASE_URI\"] = \"sqlite:///comments.db\"\napp.config[\"SQLALCHEMY_TRACK_MODIFICATIONS\"] = False\n\ndb = SQLAlchemy(app)\n\n\nclass Comment(db.Model):\n    id = db.Column(db.Integer, primary_key=True)\n    comment = db.Column(db.String(500), nullable=False)\n\n\n@app.before_first_request\ndef create_tables():\n    db.create_all()\n    # Add a default comment if none exists\n    if not Comment.query.first():\n        default_comment = Comment(comment=\"Welcome! Add your comments here.\")\n        db.session.add(default_comment)\n        db.session.commit()\n\n\n@app.route(\"/\")\ndef index():\n    \"\"\"Description page explaining the XXE lab\"\"\"\n    return render_template(\"index.html\")\n\n\n@app.route(\"/lab\")\ndef xxe_lab():\n    \"\"\"Main XXE lab page\"\"\"\n    return render_template(\"xxe_lab.html\")\n\n\n@app.route(\"/see\")\ndef xxe_see():\n    \"\"\"View stored comments\"\"\"\n    comment = Comment.query.first()\n    if comment:\n        return render_template(\"xxe_lab.html\", com=comment.comment)\n    return render_template(\"xxe_lab.html\")\n\n\n@app.route(\"/parse\", methods=[\"POST\"])\ndef xxe_parse():\n    \"\"\"Parse XML input - intentionally vulnerable to XXE\"\"\"\n    if request.method == \"POST\":\n        try:\n            # Create a vulnerable XML parser that allows external entities\n            parser = make_parser()\n            parser.setFeature(feature_external_ges, True)\n\n            # Parse the XML data\n            doc = parseString(request.data.decode(\"utf-8\"), parser=parser)\n\n            # Extract text from the XML\n            for event, node in doc:\n                if event == START_ELEMENT and node.tagName == \"text\":\n                    doc.expandNode(node)\n                    text = node.toxml()\n                    # Get text between tags\n                    start_idx = text.find(\">\")\n                    end_idx = text.find(\"<\", start_idx)\n                    text = text[start_idx + 1 : end_idx]\n\n                    # Update the comment in database\n                    comment = Comment.query.first()\n                    if comment:\n                        comment.comment = text\n                    else:\n                        comment = Comment(comment=text)\n                        db.session.add(comment)\n                    db.session.commit()\n                    break\n\n            return render_template(\"xxe_lab.html\")\n        except Exception as e:\n            print(f\"Error parsing XML: {str(e)}\")\n            return render_template(\"xxe_lab.html\", error=\"Error processing XML data\")\n\n    return render_template(\"xxe_lab.html\")\n\n@app.route(\"/health\")\ndef health_check():\n    return \"OK\", 200\n\nif __name__ == '__main__':\n    app.run(host='0.0.0.0', port=5010, debug=True)\n",
+  "source": {
+    "corpus": "pygoat",
+    "url": "https://github.com/adeyosemanputra/pygoat",
+    "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+    "path": "dockerized_labs/xxe_lab/app.py",
+    "license": "MIT"
+  }
+}

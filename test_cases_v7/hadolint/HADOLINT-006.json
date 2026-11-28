@@ -1,0 +1,18 @@
+{
+  "case_id": "HADOLINT-006",
+  "scanner": "Hadolint",
+  "rule_id": "DL3064",
+  "rule_name": "DL3064",
+  "rule_description": "Potentially sensitive data should not be used in the `ARG` or `ENV` commands",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 12,
+  "vulnerable_code": "FROM python:3.9-alpine\n\nWORKDIR /app\n\nCOPY requirements.txt .\nRUN pip install --no-cache-dir -r requirements.txt\n\nCOPY . .\n\nENV FLASK_APP=app.py\nENV FLASK_ENV=development\nENV SECRET_KEY=\"your_secret_key_here\"\nENV JWT_SECRET_KEY=\"jwt_secret_key_here\"\n\nEXPOSE 5009\n\nCMD [\"python\", \"app.py\"]\n",
+  "source": {
+    "corpus": "pygoat",
+    "url": "https://github.com/adeyosemanputra/pygoat",
+    "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+    "path": "dockerized_labs/sec_misconfig/Dockerfile",
+    "license": "MIT"
+  }
+}

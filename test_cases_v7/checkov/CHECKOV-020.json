@@ -1,0 +1,18 @@
+{
+  "case_id": "CHECKOV-020",
+  "scanner": "Checkov",
+  "rule_id": "CKV_K8S_43",
+  "rule_name": "Image should use digest",
+  "rule_description": "Image should use digest",
+  "language": "yaml",
+  "file": "manifest.yaml",
+  "line": 14,
+  "vulnerable_code": "# Copyright 2018 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#      http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\napiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: loadgenerator\n  labels:\n    app: loadgenerator\nspec:\n  selector:\n    matchLabels:\n      app: loadgenerator\n  replicas: 1\n  template:\n    metadata:\n      labels:\n        app: loadgenerator\n      annotations:\n        sidecar.istio.io/rewriteAppHTTPProbers: \"true\"\n    spec:\n      serviceAccountName: loadgenerator\n      terminationGracePeriodSeconds: 5\n      restartPolicy: Always\n      securityContext:\n        fsGroup: 1000\n        runAsGroup: 1000\n        runAsNonRoot: true\n        runAsUser: 1000\n      initContainers:\n      - command:\n        - /bin/sh\n        - -exc\n        - |\n          MAX_RETRIES=12\n          RETRY_INTERVAL=10\n          for i in $(seq 1 $MAX_RETRIES); do\n            echo \"Attempt $i: Pinging frontend: ${FRONTEND_ADDR}...\"\n            STATUSCODE=$(wget --server-response http://${FRONTEND_ADDR} 2>&1 | awk '/^  HTTP/{print $2}')\n            if [ $STATUSCODE -eq 200 ]; then\n                echo \"Frontend is reachable.\"\n                exit 0\n            fi\n            echo \"Error: Could not reach frontend - Status code: ${STATUSCODE}\"\n            sleep $RETRY_INTERVAL\n          done\n          echo \"Failed to reach frontend after $MAX_RETRIES attempts.\"\n          exit 1\n        name: frontend-check\n        securityContext:\n          allowPrivilegeEscalation: false\n          capabilities:\n            drop:\n              - ALL\n          privileged: false\n          readOnlyRootFilesystem: true\n        image: busybox:1.38.0@sha256:dc2d74b28e4cf8984fa52af1f39bc7c3d9c73760b41a74d629f5d11b1ab28616\n        env:\n        - name: FRONTEND_ADDR\n          value: \"frontend:80\"\n      containers:\n      - name: main\n        securityContext:\n          allowPrivilegeEscalation: false\n          capabilities:\n            drop:\n              - ALL\n          privileged: false\n          readOnlyRootFilesystem: true\n        image: loadgenerator\n        env:\n        - name: FRONTEND_ADDR\n          value: \"frontend:80\"\n        - name: USERS\n          value: \"10\"\n        - name: RATE\n          value: \"1\"\n        resources:\n          requests:\n            cpu: 300m\n            memory: 256Mi\n          limits:\n            cpu: 500m\n            memory: 512Mi\n---\napiVersion: v1\nkind: ServiceAccount\nmetadata:\n  name: loadgenerator\n",
+  "source": {
+    "corpus": "microservices-demo",
+    "url": "https://github.com/GoogleCloudPlatform/microservices-demo",
+    "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+    "path": "kubernetes-manifests/loadgenerator.yaml",
+    "license": "Apache-2.0"
+  }
+}

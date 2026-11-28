@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-059",
+  "scanner": "Bandit",
+  "rule_id": "B608",
+  "rule_name": "hardcoded_sql_expressions",
+  "rule_description": "Possible SQL injection vector through string-based query construction.",
+  "language": "python",
+  "file": "app.py",
+  "line": 39,
+  "vulnerable_code": "# Copyright 2026 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#     https://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n# [START bigquery_federated_query_cloud_sql]\nfrom google.cloud import bigquery\n\n\ndef federated_query_cloud_sql(\n    project_id: str,\n    connection_id: str,\n) -> None:\n    \"\"\"Runs a federated query from BigQuery to Cloud SQL using EXTERNAL_QUERY.\n\n    Args:\n        project_id: Google Cloud project ID (for example, 'example-project').\n        connection_id: Fully qualified BigQuery Cloud SQL connection ID\n            (for example, 'example-project.us.example-cloudsql-conn').\n    \"\"\"\n    client = bigquery.Client(project=project_id)\n    # EXTERNAL_QUERY pushes the order aggregation and filter down to Cloud SQL,\n    # then joins the summarized results with the public theLook eCommerce users table\n    # in bigquery-public-data (https://cloud.google.com/bigquery/public-data).\n    external_sql = (\n        \"SELECT user_id, COUNT(order_id) AS completed_orders, \"\n        \"MIN(created_at) AS first_order_date \"\n        \"FROM orders WHERE status = 'Complete' GROUP BY user_id\"\n    )\n    query = f\"\"\"\n        SELECT\n          u.id AS user_id,\n          u.country,\n          rq.completed_orders,\n          rq.first_order_date\n        FROM EXTERNAL_QUERY('{connection_id}', \"{external_sql}\") AS rq\n        INNER JOIN `bigquery-public-data.thelook_ecommerce.users` AS u\n          ON u.id = rq.user_id\n        ORDER BY user_id ASC\n        LIMIT 10;\n    \"\"\"\n\n    print(f\"Running Cloud SQL federated query via connection: {connection_id}\")\n    query_job = client.query(query)\n    rows = list(query_job.result())\n\n    print(f\"Resource ID: {connection_id}\")\n    print(f\"Job ID: {query_job.job_id}\")\n    print(f\"Rows Returned: {len(rows)}\")\n\n\n# [END bigquery_federated_query_cloud_sql]\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+    "path": "bigquery/federated_queries/bigquery_federated_query_cloud_sql.py",
+    "license": "Apache-2.0"
+  }
+}

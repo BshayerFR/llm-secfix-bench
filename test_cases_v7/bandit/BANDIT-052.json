@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-052",
+  "scanner": "Bandit",
+  "rule_id": "B608",
+  "rule_name": "hardcoded_sql_expressions",
+  "rule_description": "Possible SQL injection vector through string-based query construction.",
+  "language": "python",
+  "file": "app.py",
+  "line": 51,
+  "vulnerable_code": "# Copyright 2026 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#     https://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n# [START bigquery_query_biglake_gcs_temp_table]\nfrom google.cloud import bigquery\n\n\ndef query_biglake_gcs_temp_table(\n    project_id: str,\n    connection_id: str,\n) -> None:\n    \"\"\"Configures and queries a temporary BigLake table backed by Cloud Storage.\n\n    Args:\n        project_id: Google Cloud project ID (for example, 'example-project').\n        connection_id: Fully qualified BigQuery Cloud Resource connection ID\n            (for example, 'projects/example-project/locations/us/connections/example-conn').\n    \"\"\"\n    client = bigquery.Client(project=project_id)\n    temp_table_name = \"example_us_states_temp\"\n    source_uri = \"gs://cloud-samples-data/bigquery/us-states/us-states.csv\"\n    prefix_filter = \"W%\"\n\n    # Bind the Cloud Resource connection and explicit schema to a temporary CSV ExternalConfig.\n    external_config = bigquery.ExternalConfig(\"CSV\")\n    external_config.source_uris = [source_uri]\n    external_config.connection_id = connection_id\n    external_config.schema = [\n        bigquery.SchemaField(\"name\", \"STRING\"),\n        bigquery.SchemaField(\"post_abbr\", \"STRING\"),\n    ]\n    external_config.csv_options.skip_leading_rows = 1\n\n    job_config = bigquery.QueryJobConfig(\n        table_definitions={temp_table_name: external_config},\n        query_parameters=[\n            bigquery.ScalarQueryParameter(\"prefix_filter\", \"STRING\", prefix_filter),\n        ],\n    )\n    sql = f\"\"\"\n        SELECT\n          name,\n          post_abbr\n        FROM `{temp_table_name}`\n        WHERE post_abbr LIKE @prefix_filter\n        ORDER BY post_abbr ASC\n        LIMIT 10;\n    \"\"\"\n\n    print(f\"Querying temporary BigLake table {temp_table_name} via {connection_id}\")\n    query_job = client.query(sql, job_config=job_config)\n    rows = list(query_job.result())\n\n    print(f\"Resource ID: {connection_id}\")\n    print(f\"Job ID: {query_job.job_id}\")\n    print(f\"Rows Returned: {len(rows)}\")\n    print(f\"Source URI: {source_uri}\")\n\n\n# [END bigquery_query_biglake_gcs_temp_table]\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+    "path": "bigquery/biglake/bigquery_query_biglake_gcs_temp_table.py",
+    "license": "Apache-2.0"
+  }
+}

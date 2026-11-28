@@ -1,0 +1,18 @@
+{
+  "case_id": "HADOLINT-064",
+  "scanner": "Hadolint",
+  "rule_id": "DL3020",
+  "rule_name": "DL3020",
+  "rule_description": "Use COPY instead of ADD for files and folders",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 12,
+  "vulnerable_code": "# The Google App Engine python runtime is Debian Jessie with Python installed\n# and various os-level packages to allow installation of popular Python\n# libraries. The source is on github at:\n#   https://github.com/GoogleCloudPlatform/python-docker\nFROM gcr.io/google_appengine/python\n\nRUN apt-get update && \\\n    apt-get install -y python2.7 python-pip && \\\n    apt-get clean && \\\n    rm /var/lib/apt/lists/*_*\n\nADD . /app\nWORKDIR /app\n\nRUN pip install -r requirements.txt\nENTRYPOINT [\"gunicorn\", \"-b\", \":8080\", \"main:app\"]\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+    "path": "endpoints/getting-started/Dockerfile.custom",
+    "license": "Apache-2.0"
+  }
+}

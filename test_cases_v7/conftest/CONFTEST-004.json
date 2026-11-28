@@ -1,0 +1,18 @@
+{
+  "case_id": "CONFTEST-004",
+  "scanner": "Conftest",
+  "rule_id": "DF004",
+  "rule_name": "Download piped into shell",
+  "rule_description": "RUN pipes a downloaded script straight into a shell",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 1,
+  "vulnerable_code": "# Copyright 2026 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#      http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n# Use a slim version to keep the image small\nFROM python:3.12-slim\n\n# Set working directory\nWORKDIR /app\n\n# Prevent Python from writing .pyc files and enable unbuffered logging\nENV PYTHONDONTWRITEBYTECODE=1\nENV PYTHONUNBUFFERED=1\n\n# Install system dependencies\n# - 'curl' is required to download the gcloud SDK installer\n# - 'build-essential' is kept in case any Python packages need compiling\n# Note: We dropped 'jq' because Python's requests library handles JSON parsing now!\nRUN apt-get update && apt-get install -y --no-install-recommends \\\n    curl \\\n    build-essential \\\n    && curl -sSL https://sdk.cloud.google.com | bash -s -- --disable-prompts \\\n    && apt-get clean \\\n    && rm -rf /var/lib/apt/lists/*\n\n# Set up the Cloud SDK path so Python's subprocess can find 'gcloud'\nENV PATH=\"/root/google-cloud-sdk/bin:${PATH}\"\n\n# Install Python packages\nCOPY requirements.txt .\nRUN pip install --no-cache-dir -r requirements.txt\n\n# Copy app code into container\nCOPY . .\n\n# Cloud Run sets the $PORT environment variable automatically\n# We use exec form for the CMD to handle signals properly\nCMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 app:app\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+    "path": "alm/ui-examples/Dockerfile",
+    "license": "Apache-2.0"
+  }
+}

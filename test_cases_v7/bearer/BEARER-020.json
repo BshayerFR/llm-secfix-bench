@@ -1,0 +1,18 @@
+{
+  "case_id": "BEARER-020",
+  "scanner": "Bearer",
+  "rule_id": "javascript_express_helmet_missing",
+  "rule_name": "Missing Helmet configuration on HTTP headers",
+  "rule_description": "## Description\n\nHelmet can help protect your app from some well-known web vulnerabilities by setting HTTP headers appropriately. Failing to configure Helmet for HTTP headers leaves your application vulnerable to several web attacks.\n\n## Remediations\n\n- **Do** use Helmet middleware to secure your app by adding it to your application's middleware.\n  ```javascript\n  const helmet = require(\"helmet\");\n  app.use(helmet());\n  ```\n\n## References\n\n- [Express Security Best Practices: Use Helmet](https://expressjs.com/en/advanced/best-practice-security.html#use-helmet)",
+  "language": "typescript",
+  "file": "app.ts",
+  "line": 13,
+  "vulnerable_code": "/*\n * Copyright (c) 2014-2026 Bjoern Kimminich & the OWASP Juice Shop contributors.\n * SPDX-License-Identifier: MIT\n */\n\nimport request from 'supertest'\nimport { generateSync } from 'otplib'\nimport type { Express } from 'express'\nimport * as security from '../../../lib/insecurity'\n\nconst jsonHeader = { 'content-type': 'application/json' }\n\nexport async function login (app: Express, { email, password, totpSecret }: { email: string, password: string, totpSecret?: string }) {\n  const loginRes = await request(app)\n    .post('/rest/user/login')\n    .set(jsonHeader)\n    .send({ email, password })\n\n  if (loginRes.status !== 200 && loginRes.body?.status !== 'totp_token_required') {\n    throw new Error(`Failed to login '${email}': ${loginRes.status}`)\n  }\n\n  if (loginRes.body.status && loginRes.body.status === 'totp_token_required') {\n    if (!totpSecret) {\n      throw new Error('login with totp required but no totp secret provided to login function')\n    }\n\n    const totpRes = await request(app)\n      .post('/rest/2fa/verify')\n      .set(jsonHeader)\n      .send({\n        tmpToken: loginRes.body.data.tmpToken,\n        totpToken: generateSync({ secret: totpSecret })\n      })\n\n    return totpRes.body.authentication\n  }\n\n  return loginRes.body.authentication\n}\n\nexport async function register (app: Express, { email, password, totpSecret }: { email: string, password: string, totpSecret?: string }) {\n  const res = await request(app)\n    .post('/api/Users/')\n    .set(jsonHeader)\n    .send({\n      email,\n      password,\n      passwordRepeat: password,\n      securityQuestion: null,\n      securityAnswer: null\n    })\n\n  if (res.status !== 201 && res.status !== 200) {\n    throw new Error(`Failed to register '${email}': ${res.status}`)\n  }\n\n  if (totpSecret) {\n    const { token } = await login(app, { email, password })\n\n    const setupRes = await request(app)\n      .post('/rest/2fa/setup')\n      .set({\n        Authorization: 'Bearer ' + token,\n        'content-type': 'application/json'\n      })\n      .send({\n        password,\n        setupToken: security.authorize({\n          secret: totpSecret,\n          type: 'totp_setup_secret'\n        }),\n        initialToken: generateSync({ secret: totpSecret })\n      })\n\n    if (setupRes.status !== 200) {\n      throw new Error(`Failed to enable 2fa for user: '${email}'`)\n    }\n  }\n\n  return res\n}\n",
+  "source": {
+    "corpus": "juice-shop",
+    "url": "https://github.com/juice-shop/juice-shop",
+    "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+    "path": "test/api/helpers/auth.ts",
+    "license": "MIT"
+  }
+}

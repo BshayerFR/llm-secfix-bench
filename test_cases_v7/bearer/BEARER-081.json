@@ -1,0 +1,18 @@
+{
+  "case_id": "BEARER-081",
+  "scanner": "Bearer",
+  "rule_id": "java_lang_hardcoded_secret",
+  "rule_name": "Usage of hard-coded secret",
+  "rule_description": "## Description\n\nApplications should store secret values securely and not as literal values\nin the source code.\n\n## Remediations\n\n✅ Retrieve secrets from a secure location at runtime\n\n## Resources\n- [OWASP hardcoded passwords](https://owasp.org/www-community/vulnerabilities/Use_of_hard-coded_password)\n- [OWASP secrets management cheat sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html#21-high-availability)\n",
+  "language": "java",
+  "file": "Main.java",
+  "line": 25,
+  "vulnerable_code": "/*\n * SPDX-FileCopyrightText: Copyright © 2014 WebGoat authors\n * SPDX-License-Identifier: GPL-2.0-or-later\n */\npackage org.owasp.webgoat.lessons.challenges.challenge7;\n\nimport static org.hamcrest.Matchers.equalTo;\nimport static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;\nimport static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;\nimport static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;\n\nimport org.hamcrest.CoreMatchers;\nimport org.junit.jupiter.api.DisplayName;\nimport org.junit.jupiter.api.Test;\nimport org.owasp.webgoat.container.plugins.LessonTest;\nimport org.springframework.beans.factory.annotation.Value;\nimport org.springframework.http.HttpStatus;\nimport org.springframework.test.context.bean.override.mockito.MockitoBean;\nimport org.springframework.test.web.servlet.ResultActions;\nimport org.springframework.test.web.servlet.request.MockMvcRequestBuilders;\nimport org.springframework.web.client.RestTemplate;\n\nclass Assignment7Test extends LessonTest {\n  private static final String CHALLENGE_PATH = \"/challenge/7\";\n  private static final String RESET_PASSWORD_PATH = CHALLENGE_PATH + \"/reset-password\";\n  private static final String GIT_PATH = CHALLENGE_PATH + \"/.git\";\n\n  @MockitoBean private RestTemplate restTemplate;\n\n  @Value(\"${webgoat.mail.url}\")\n  String mailURL;\n\n  @Test\n  @DisplayName(\"Reset password test\")\n  void resetPasswordTest() throws Exception {\n    ResultActions result =\n        mockMvc.perform(MockMvcRequestBuilders.get(RESET_PASSWORD_PATH + \"/any\"));\n    result.andExpect(status().is(equalTo(HttpStatus.I_AM_A_TEAPOT.value())));\n\n    result =\n        mockMvc.perform(\n            MockMvcRequestBuilders.get(\n                RESET_PASSWORD_PATH + \"/\" + Assignment7.ADMIN_PASSWORD_LINK));\n    result.andExpect(status().is(equalTo(HttpStatus.ACCEPTED.value())));\n  }\n\n  @Test\n  @DisplayName(\"Send password reset link test\")\n  void sendPasswordResetLinkTest() throws Exception {\n    ResultActions result =\n        mockMvc.perform(\n            MockMvcRequestBuilders.post(CHALLENGE_PATH)\n                .param(\"email\", \"webgoat@webgoat-cloud.net\"));\n    result.andExpect(status().isOk());\n    result.andExpect(jsonPath(\"$.lessonCompleted\", CoreMatchers.is(true)));\n  }\n\n  @Test\n  @DisplayName(\"git test\")\n  void gitTest() throws Exception {\n    ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get(GIT_PATH));\n    result.andExpect(content().contentType(\"application/zip\"));\n  }\n}\n",
+  "source": {
+    "corpus": "WebGoat",
+    "url": "https://github.com/WebGoat/WebGoat",
+    "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+    "path": "src/test/java/org/owasp/webgoat/lessons/challenges/challenge7/Assignment7Test.java",
+    "license": "GPL-2.0-or-later"
+  }
+}

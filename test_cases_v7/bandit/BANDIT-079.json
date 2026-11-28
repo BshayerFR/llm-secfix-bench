@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-079",
+  "scanner": "Bandit",
+  "rule_id": "B104",
+  "rule_name": "hardcoded_bind_all_interfaces",
+  "rule_description": "Possible binding to all interfaces.",
+  "language": "python",
+  "file": "app.py",
+  "line": 69,
+  "vulnerable_code": "# Copyright 2021 Google LLC\n\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n\n#     https://www.apache.org/licenses/LICENSE-2.0\n\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n# [START monitoring_sli_metrics_prometheus_setup]\nimport random\nimport time\n\nfrom flask import Flask\n\nfrom prometheus_client import (\n    Counter,\n    generate_latest,\n    Histogram,\n    REGISTRY,\n)\n\n# [END monitoring_sli_metrics_prometheus_setup]\n\napp = Flask(__name__)\n# [START monitoring_sli_metrics_prometheus_create_metrics]\nPYTHON_REQUESTS_COUNTER = Counter(\"python_requests\", \"total requests\")\nPYTHON_FAILED_REQUESTS_COUNTER = Counter(\"python_failed_requests\", \"failed requests\")\nPYTHON_LATENCIES_HISTOGRAM = Histogram(\n    \"python_request_latency\", \"request latency by path\"\n)\n# [END monitoring_sli_metrics_prometheus_create_metrics]\n\n\n@app.route(\"/\")\n# [START monitoring_sli_metrics_prometheus_latency]\n@PYTHON_LATENCIES_HISTOGRAM.time()\n# [END monitoring_sli_metrics_prometheus_latency]\ndef homePage():\n    # count request\n    # [START monitoring_sli_metrics_prometheus_counts]\n    PYTHON_REQUESTS_COUNTER.inc()\n    # fail 10% of the time\n    if random.randint(0, 100) > 90:\n        PYTHON_FAILED_REQUESTS_COUNTER.inc()\n        # [END monitoring_sli_metrics_prometheus_counts]\n        return (\"error!\", 500)\n    else:\n        random_delay = random.randint(0, 5000) / 1000\n        # delay for a bit to vary latency measurement\n        time.sleep(random_delay)\n        return \"home page\"\n\n\n# [START monitoring_sli_metrics_prometheus_metrics_endpoint]\n@app.route(\"/metrics\", methods=[\"GET\"])\ndef stats():\n    return generate_latest(REGISTRY), 200\n\n\n# [END monitoring_sli_metrics_prometheus_metrics_endpoint]\n\n\nif __name__ == \"__main__\":\n    app.run(debug=True, host=\"0.0.0.0\", port=8080)\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+    "path": "monitoring/prometheus/main.py",
+    "license": "Apache-2.0"
+  }
+}

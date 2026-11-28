@@ -1,0 +1,18 @@
+{
+  "case_id": "KICS-050",
+  "scanner": "KICS",
+  "rule_id": "965a08d7-ef86-4f14-8792-4a3b2098937e",
+  "rule_name": "Apt Get Install Pin Version Not Defined",
+  "rule_description": "When installing a package, its pin version should be defined",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 37,
+  "vulnerable_code": "# Copyright 2022 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#      http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n# NOTE: The KafkaIO connector for Python requires the JRE to be installed\n# in the execution environment. This Dockerfile enables the\n# \"dataflow_kafka_read\" snippet to be tested without installing the JRE\n# on the host machine. This Dockerfile is derived from the\n# dataflow/custom-containers/ubuntu sample.\n\nFROM python:3.13-slim\n\n# Install JRE\nCOPY --from=eclipse-temurin:25-jre /opt/java/openjdk /opt/java/openjdk\nENV JAVA_HOME /opt/java/openjdk\nRUN update-alternatives --install /usr/bin/java java /opt/java/openjdk/bin/java 10\n\nWORKDIR /pipeline\n\n# Copy files from official SDK image.\nCOPY --from=apache/beam_python3.13_sdk:2.76.0 /opt/apache/beam /opt/apache/beam\n# Set the entrypoint to Apache Beam SDK launcher.\nENTRYPOINT [ \"/opt/apache/beam/boot\" ]\n\n# Install Docker.\nRUN apt-get update\nRUN apt-get install -y --no-install-recommends docker.io\n\n# Install dependencies.\nRUN pip3 install --no-cache-dir apache-beam[gcp]==2.76.0\nRUN pip install --no-cache-dir kafka-python==3.0.11\n\n# Verify that the image does not have conflicting dependencies.\nRUN pip check\n\n# Copy the snippets to test.\nCOPY read_kafka.py ./\nCOPY read_kafka_multi_topic.py ./\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+    "path": "dataflow/snippets/Dockerfile",
+    "license": "Apache-2.0"
+  }
+}

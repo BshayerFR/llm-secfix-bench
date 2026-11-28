@@ -1,0 +1,18 @@
+{
+  "case_id": "HADOLINT-045",
+  "scanner": "Hadolint",
+  "rule_id": "DL1000",
+  "rule_name": "DL1000",
+  "rule_description": "unexpected '#'\nexpecting a new line followed by the next instruction",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 41,
+  "vulnerable_code": "# syntax=docker/dockerfile:1.4\n\n# Create image based on the official Node image from dockerhub\nFROM node:lts-buster AS development\n\n# Create app directory\nWORKDIR /usr/src/app\n\n# Copy dependency definitions\nCOPY package.json /usr/src/app\nCOPY package-lock.json /usr/src/app\n\n# Install dependecies\n#RUN npm set progress=false \\\n#    && npm config set depth 0 \\\n#    && npm i install\nCOPY .npmrc .\nCOPY .yarnrc.yml .\nRUN npm ci\n\n# Get all the code needed to run the app\nCOPY . /usr/src/app\n\n# Expose the port the app runs in\nEXPOSE 3000\n\n# Serve the app\nCMD [\"npm\", \"start\"]\n\nFROM development as dev-envs\nRUN <<EOF\napt-get update\napt-get install -y --no-install-recommends git\nEOF\n\nRUN <<EOF\nuseradd -s /bin/bash -m vscode\ngroupadd docker\nusermod -aG docker vscode\nEOF\n# install Docker tools (cli, buildx, compose)\nCOPY --from=gloursdocker/docker / /\nCMD [ \"npm\", \"start\" ]\n",
+  "source": {
+    "corpus": "awesome-compose",
+    "url": "https://github.com/docker/awesome-compose",
+    "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+    "path": "react-express-mongodb/frontend/Dockerfile",
+    "license": "CC0, see LICENSE"
+  }
+}

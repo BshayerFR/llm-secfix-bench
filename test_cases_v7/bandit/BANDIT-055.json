@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-055",
+  "scanner": "Bandit",
+  "rule_id": "B310",
+  "rule_name": "blacklist",
+  "rule_description": "Audit url open for permitted schemes. Allowing use of file:/ or custom schemes is often unexpected.",
+  "language": "python",
+  "file": "app.py",
+  "line": 53,
+  "vulnerable_code": "# Copyright 2023 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#      http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n# [START bigquery_remote_function_document]\nimport urllib.request\n\nimport flask\nimport functions_framework\nfrom google.api_core.client_options import ClientOptions\nfrom google.cloud import documentai\n\n_PROJECT_ID = \"YOUR_PROJECT_ID\"\n_LOCATION = \"us\"  # Change to \"eu\"\n_PROCESSOR_ID = \"YOUR_PROCESSOR_ID\"\n\n\n@functions_framework.http\ndef document_ocr(request: flask.Request) -> flask.Response:\n    \"\"\"BigQuery remote function to process document using Document AI OCR.\n\n    For complete Document AI use cases:\n    https://cloud.google.com/document-ai/docs/samples/documentai-process-ocr-document\n\n    Args:\n        request: HTTP request from BigQuery\n        https://cloud.google.com/bigquery/docs/reference/standard-sql/remote-functions#input_format\n\n    Returns:\n        HTTP response to BigQuery\n        https://cloud.google.com/bigquery/docs/reference/standard-sql/remote-functions#output_format\n    \"\"\"\n    try:\n        client = documentai.DocumentProcessorServiceClient(\n            client_options=ClientOptions(\n                api_endpoint=f\"{_LOCATION}-documentai.googleapis.com\"\n            )\n        )\n        processor_name = client.processor_path(_PROJECT_ID, _LOCATION, _PROCESSOR_ID)\n        calls = request.get_json()[\"calls\"]\n        replies = []\n        for call in calls:\n            content = urllib.request.urlopen(call[0]).read()\n            content_type = call[1]\n            results = client.process_document(\n                {\n                    \"name\": processor_name,\n                    \"raw_document\": {\"content\": content, \"mime_type\": content_type},\n                }\n            )\n            replies.append({\"text\": results.document.text})\n        return flask.make_response(flask.jsonify({\"replies\": replies}))\n    except Exception as e:  # Check error message if GoogleAPIException\n        return flask.make_response(flask.jsonify({\"errorMessage\": str(e)}), 400)\n\n\n# [END bigquery_remote_function_document]\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+    "path": "bigquery/remote-function/document/document_function.py",
+    "license": "Apache-2.0"
+  }
+}

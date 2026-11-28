@@ -1,0 +1,18 @@
+{
+  "case_id": "KICS-081",
+  "scanner": "KICS",
+  "rule_id": "20018359-6fd7-4d05-ab26-d4dffccbdf79",
+  "rule_name": "ELB Access Log Disabled",
+  "rule_description": "ELB should have logging enabled to help on error investigation",
+  "language": "terraform",
+  "file": "main.tf",
+  "line": 2,
+  "vulnerable_code": "# Create a new load balancer\nresource \"aws_elb\" \"weblb\" {\n  name = \"weblb-terraform-elb\"\n\n  listener {\n    instance_port     = 8000\n    instance_protocol = \"http\"\n    lb_port           = 80\n    lb_protocol       = \"http\"\n  }\n\n  health_check {\n    healthy_threshold   = 2\n    unhealthy_threshold = 2\n    timeout             = 3\n    target              = \"HTTP:8000/\"\n    interval            = 30\n  }\n\n  subnets                     = [aws_subnet.web_subnet.id]\n  security_groups             = [aws_security_group.web-node.id]\n  instances                   = [aws_instance.web_host.id]\n  cross_zone_load_balancing   = true\n  idle_timeout                = 400\n  connection_draining         = true\n  connection_draining_timeout = 400\n\n  tags = merge({\n    Name = \"foobar-terraform-elb\"\n    }, {\n    git_commit           = \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\"\n    git_file             = \"terraform/aws/elb.tf\"\n    git_last_modified_at = \"2020-06-16 14:46:24\"\n    git_last_modified_by = \"nimrodkor@gmail.com\"\n    git_modifiers        = \"nimrodkor\"\n    git_org              = \"bridgecrewio\"\n    git_repo             = \"terragoat\"\n    yor_trace            = \"b4a83ce9-9a45-43b4-b6d9-1783c282f702\"\n  })\n}\n",
+  "source": {
+    "corpus": "terragoat",
+    "url": "https://github.com/bridgecrewio/terragoat",
+    "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+    "path": "terraform/aws/elb.tf",
+    "license": "Apache-2.0"
+  }
+}

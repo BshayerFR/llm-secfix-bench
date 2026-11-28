@@ -1,0 +1,875 @@
+{
+  "seed": 42,
+  "max_lines": 400,
+  "per_rule_cap": 15,
+  "corpora": {
+    "juice-shop": {
+      "url": "https://github.com/juice-shop/juice-shop",
+      "license": "MIT"
+    },
+    "WebGoat": {
+      "url": "https://github.com/WebGoat/WebGoat",
+      "license": "GPL-2.0-or-later"
+    },
+    "microservices-demo": {
+      "url": "https://github.com/GoogleCloudPlatform/microservices-demo",
+      "license": "Apache-2.0"
+    },
+    "pygoat": {
+      "url": "https://github.com/adeyosemanputra/pygoat",
+      "license": "MIT"
+    },
+    "terragoat": {
+      "url": "https://github.com/bridgecrewio/terragoat",
+      "license": "Apache-2.0"
+    },
+    "vulpy": {
+      "url": "https://github.com/fportantier/vulpy",
+      "license": "MIT"
+    },
+    "VAmPI": {
+      "url": "https://github.com/erev0s/VAmPI",
+      "license": "MIT"
+    },
+    "dvpwa": {
+      "url": "https://github.com/anxolerd/dvpwa",
+      "license": "MIT-style, see LICENSE"
+    },
+    "awesome-compose": {
+      "url": "https://github.com/docker/awesome-compose",
+      "license": "CC0, see LICENSE"
+    },
+    "example-voting-app": {
+      "url": "https://github.com/dockersamples/example-voting-app",
+      "license": "Apache-2.0"
+    },
+    "python-docs-samples": {
+      "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+      "license": "Apache-2.0"
+    }
+  },
+  "scanners": {
+    "trivy": {
+      "version": "Version: 0.76.2",
+      "files_staged": 801,
+      "candidates": 966,
+      "selected": 100,
+      "distinct_rules": 100,
+      "corpus_commits": {
+        "juice-shop": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+        "WebGoat": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+        "microservices-demo": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+        "pygoat": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+        "terragoat": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+        "vulpy": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+        "VAmPI": "f16052dce83f05847133ec98f01c5193a41de7d8",
+        "dvpwa": "4a8f4a43fafcc1b304f1b97d0f0a8dea755a7756",
+        "awesome-compose": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+        "example-voting-app": "63e9150ca17af4ed05880d4245e486481f73fcb4",
+        "python-docs-samples": "3df3ff2ae7c8e1313456afa4e662244f6a275f65"
+      }
+    }
+  },
+  "cases": [
+    {
+      "case_id": "TRIVY-001",
+      "rule_id": "CVE-2026-48526:PyJWT",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/sec_misconfig/requirements.txt",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "2bcec1dd0dff6de7f18f0582d96d61ff94f6f98991ec256b40d962e789110246"
+    },
+    {
+      "case_id": "TRIVY-002",
+      "rule_id": "CVE-2024-34069:Werkzeug",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/insecure_design_lab/requirements.txt",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "ccff3294415f50855f91b2f37195ce42f47df45324f5c465ac968c645e42815a"
+    },
+    {
+      "case_id": "TRIVY-003",
+      "rule_id": "CVE-2020-14343:pyyaml",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/a9_uckv_lab/requirements.txt",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "2d3f65c05a310b8f07afb71b77e1fac4105262ae271b801636cafe627d12bdc4"
+    },
+    {
+      "case_id": "TRIVY-004",
+      "rule_id": "CVE-2026-32274:black",
+      "corpus": "pygoat",
+      "path": "requirements.txt",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "9d1296030d074b837de9930b651166d52bfb51da0e2ee3e5f65b9928cdcb1473"
+    },
+    {
+      "case_id": "TRIVY-005",
+      "rule_id": "CVE-2026-21441:urllib3",
+      "corpus": "pygoat",
+      "path": "requirements.txt",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "bd6f2892f0451e6b06c9ac00dffa92054830a0e3d6b839ecb8595a2970894f3d"
+    },
+    {
+      "case_id": "TRIVY-006",
+      "rule_id": "CVE-2023-46695:django",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/sensitive_data_exposure/requirements.txt",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "86a8bd46ad5a40032e278cafdca61cf7353473bd81edf5513db731a5329abe6d"
+    },
+    {
+      "case_id": "TRIVY-007",
+      "rule_id": "CVE-2026-119197:pyasn1",
+      "corpus": "microservices-demo",
+      "path": "src/recommendationservice/requirements.txt",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "75b22005793ef0e8b8adb52ff3eb0db305642aa123ff779ea91e6e3c322bbcf4"
+    },
+    {
+      "case_id": "TRIVY-008",
+      "rule_id": "CVE-2021-27923:pillow",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/a9_uckv_lab/requirements.txt",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "edac2d1ce6129887a330331d5426420443538401de56f2fda379c2f9fbdcfb5f"
+    },
+    {
+      "case_id": "TRIVY-009",
+      "rule_id": "CVE-2023-31047:Django",
+      "corpus": "pygoat",
+      "path": "requirements.txt",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "06a9c631d99d445814758bbc1131b5b3ed15419f62cc2f4da87782ac37b1c824"
+    },
+    {
+      "case_id": "TRIVY-010",
+      "rule_id": "GHSA-6v7p-g79w-8964:msgpack",
+      "corpus": "microservices-demo",
+      "path": "src/loadgenerator/requirements.txt",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "ffb002b44e7c60701441c5473e251bd00a2e543379d3a60a712b98286435dc90"
+    },
+    {
+      "case_id": "TRIVY-011",
+      "rule_id": "CVE-2021-44228:org.apache.logging.log4j:log4j-core",
+      "corpus": "terragoat",
+      "path": "packages/sub/pom.xml",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "01f3fd460992cd12e498d658f006e36a6c318cb5d86f3432a5d6174237c81b3c"
+    },
+    {
+      "case_id": "TRIVY-012",
+      "rule_id": "CVE-2026-112406:pillow",
+      "corpus": "python-docs-samples",
+      "path": "generative_ai/extensions/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "b5956784e599640378b757d96dfd69c6c9fc14b579f98c6160fd583d31e7d8d2"
+    },
+    {
+      "case_id": "TRIVY-013",
+      "rule_id": "GHSA-6q48-6c7w-9gw2:certifi",
+      "corpus": "microservices-demo",
+      "path": "src/emailservice/requirements.txt",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "1b2e60e7b60432db19de01e61d1ea34cd6e042eba02e1655e10fff509f0690df"
+    },
+    {
+      "case_id": "TRIVY-014",
+      "rule_id": "CVE-2023-22887:apache-airflow",
+      "corpus": "python-docs-samples",
+      "path": "composer/airflow_1_samples/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "6b58eae3d3cacfd4fd12740d5ba9ff244c6eb1c58d3dbe8400c29fda4eef5cd9"
+    },
+    {
+      "case_id": "TRIVY-015",
+      "rule_id": "CVE-2023-43665:django",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/sensitive_data_exposure/requirements.txt",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "3ecb3514c95ac1b89ee7df24884e08eaf14a0168af8fc7bd5a1a371f0d954c4d"
+    },
+    {
+      "case_id": "TRIVY-016",
+      "rule_id": "CVE-2026-41084:apache-airflow",
+      "corpus": "python-docs-samples",
+      "path": "composer/cicd_sample/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "b2e88accc9371022a33befab33236c508c65e5daf4462230ede3ef5923ab9069"
+    },
+    {
+      "case_id": "TRIVY-017",
+      "rule_id": "CVE-2026-59200:pillow",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/a9_uckv_lab/requirements.txt",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "e6f88647b8e943a6605b7c292ac29f2f5c8f99128ddf489a46c9030b4ebc3408"
+    },
+    {
+      "case_id": "TRIVY-018",
+      "rule_id": "CVE-2026-91776:com.fasterxml.jackson.core:jackson-databind",
+      "corpus": "terragoat",
+      "path": "packages/sub/pom.xml",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "afbb73425b3f45ab834e3cb6a7d79fb0aca72531c39f470ce625121c3516dd02"
+    },
+    {
+      "case_id": "TRIVY-019",
+      "rule_id": "CVE-2023-42781:apache-airflow",
+      "corpus": "python-docs-samples",
+      "path": "composer/airflow_1_samples/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "055675deb5f1a9045f32f2196d65cba289d5eb09b98e89e8e0f3e59665e455e1"
+    },
+    {
+      "case_id": "TRIVY-020",
+      "rule_id": "CVE-2026-59885:pyasn1",
+      "corpus": "microservices-demo",
+      "path": "src/recommendationservice/requirements.txt",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "f4f60770b50cb668bbef38ddb435539cfb77ffdead3e2eba3ba9249c49dc45dd"
+    },
+    {
+      "case_id": "TRIVY-021",
+      "rule_id": "CVE-2026-44432:urllib3",
+      "corpus": "microservices-demo",
+      "path": "src/loadgenerator/requirements.txt",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "67def3fd59e4342f0ad86063e7e3149b5f7b2e67c41616bab5ca2f3921c3bf23"
+    },
+    {
+      "case_id": "TRIVY-022",
+      "rule_id": "CVE-2012-3443:django",
+      "corpus": "terragoat",
+      "path": "packages/sub/.hidden/requirements.txt",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "a253620dae058ef7affe1e2e9a1fa79fb523b23df4aeb960d49706611dc7e372"
+    },
+    {
+      "case_id": "TRIVY-023",
+      "rule_id": "GHSA-f4xh-w4cj-qxq8:langsmith",
+      "corpus": "microservices-demo",
+      "path": "src/shoppingassistantservice/requirements.txt",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "b99b77506122d76d1eeeda2ffda1f5d17bb76630a8d1dc5ac7e374b663a17447"
+    },
+    {
+      "case_id": "TRIVY-024",
+      "rule_id": "CVE-2025-64458:Django",
+      "corpus": "awesome-compose",
+      "path": "django/app/requirements.txt",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "82a1e7f7c36c8e3cfb6db97bf8ce4f0e7e7bd2a4c65ead26370f523ea097ce60"
+    },
+    {
+      "case_id": "TRIVY-025",
+      "rule_id": "CVE-2026-44843:langchain-core",
+      "corpus": "microservices-demo",
+      "path": "src/shoppingassistantservice/requirements.txt",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "8744cfc54e7f8d37fccacbfb9edd5b2d9f226acd9569ddb273e0aa351e3c55a8"
+    },
+    {
+      "case_id": "TRIVY-026",
+      "rule_id": "CVE-2024-24680:Django",
+      "corpus": "awesome-compose",
+      "path": "django/app/requirements.txt",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "db97863cf9883b4314eb9715858ddf3c9b337039149e94ee6d933888099cb64b"
+    },
+    {
+      "case_id": "TRIVY-027",
+      "rule_id": "CVE-2021-45046:org.apache.logging.log4j:log4j-core",
+      "corpus": "terragoat",
+      "path": "packages/sub/pom.xml",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "8f236695e3c6de850cf0fe777129831c0b3ee9f606709eda74b72736c18ac189"
+    },
+    {
+      "case_id": "TRIVY-028",
+      "rule_id": "CVE-2011-0696:django",
+      "corpus": "terragoat",
+      "path": "packages/requirements.txt",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "d3808dee5140623082c58a1ca9bec253d2ccd3fa4c406dc33f205705beacc91d"
+    },
+    {
+      "case_id": "TRIVY-029",
+      "rule_id": "CVE-2026-112404:pillow",
+      "corpus": "python-docs-samples",
+      "path": "genai/bounding_box/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "c7ce982a8b0a989da7f5297bc546d790bbed74fda7a19f3f1c0b85e3f10a7a51"
+    },
+    {
+      "case_id": "TRIVY-030",
+      "rule_id": "CVE-2023-46215:apache-airflow",
+      "corpus": "python-docs-samples",
+      "path": "composer/blog/gcp-tech-blog/unit-test-dags-cloud-build/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "bbe489d35d6693008104e446dd29318228e1357336f3a22f31ae820810acb629"
+    },
+    {
+      "case_id": "TRIVY-031",
+      "rule_id": "CVE-2026-33264:apache-airflow",
+      "corpus": "python-docs-samples",
+      "path": "composer/workflows/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "8efb10439d567e410b6064f5441471de4dbc3693b44bc6a93df3a3cfe4b8bb9d"
+    },
+    {
+      "case_id": "TRIVY-032",
+      "rule_id": "CVE-2011-4139:django",
+      "corpus": "terragoat",
+      "path": "packages/requirements.txt",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "7d9f747083f9dfd53d0417b8e374ef7155dc5f0131af638717951ec6835b494a"
+    },
+    {
+      "case_id": "TRIVY-033",
+      "rule_id": "CVE-2020-7471:django",
+      "corpus": "terragoat",
+      "path": "packages/sub/.hidden/requirements.txt",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "9a8f6475f128fea0499a9a18664bfa5838d8f33b0b88218e7c04875dee196986"
+    },
+    {
+      "case_id": "TRIVY-034",
+      "rule_id": "CVE-2015-5144:django",
+      "corpus": "terragoat",
+      "path": "packages/requirements.txt",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "b0ab1437d8eb160fa70bd5c66f4d5f9c438c1dc23afd6a4f424dd6c1c0ae4d3a"
+    },
+    {
+      "case_id": "TRIVY-035",
+      "rule_id": "CVE-2026-112894:pillow",
+      "corpus": "python-docs-samples",
+      "path": "genai/tools/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "3fe1da495231293a4f7263499f762b84d3025b144992883d5234716564649c92"
+    },
+    {
+      "case_id": "TRIVY-036",
+      "rule_id": "CVE-2026-112896:pillow",
+      "corpus": "python-docs-samples",
+      "path": "dataflow/gpu-examples/tensorflow-landsat-prime/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "06ecb9194903502836d73bddb798a04506ec3326f1550bb191422d833d29455a"
+    },
+    {
+      "case_id": "TRIVY-037",
+      "rule_id": "CVE-2026-32597:PyJWT",
+      "corpus": "VAmPI",
+      "path": "requirements.txt",
+      "commit": "f16052dce83f05847133ec98f01c5193a41de7d8",
+      "sha256": "fb6343216d1eb2bce3b8041df05eec765d3e1723d3e72f9a86c27f465969fdbd"
+    },
+    {
+      "case_id": "TRIVY-038",
+      "rule_id": "CVE-2026-96637:pillow",
+      "corpus": "python-docs-samples",
+      "path": "genai/bounding_box/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "08bbc66e6c5b9131b3cbeb9e1cab6b240016cc1f23aaacefaef73479cfe5b516"
+    },
+    {
+      "case_id": "TRIVY-039",
+      "rule_id": "CVE-2023-36053:Django",
+      "corpus": "awesome-compose",
+      "path": "django/app/requirements.txt",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "49b875d400f3a5787bce72985ff4b551576f3760f435f2ea6d5934b192fffa98"
+    },
+    {
+      "case_id": "TRIVY-040",
+      "rule_id": "CVE-2023-40273:apache-airflow",
+      "corpus": "python-docs-samples",
+      "path": "composer/airflow_1_samples/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "0bd692ae68f3add5be2238e22b7fd80c12d178cd56a6a6eb88b1bf55fc983450"
+    },
+    {
+      "case_id": "TRIVY-041",
+      "rule_id": "CVE-2026-48809:python-engineio",
+      "corpus": "microservices-demo",
+      "path": "src/loadgenerator/requirements.txt",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "847cc9dbba76e5f86b9216ad2484d0ec0ea9cf91fa32713802b83398e5e68582"
+    },
+    {
+      "case_id": "TRIVY-042",
+      "rule_id": "CVE-2024-1135:gunicorn",
+      "corpus": "awesome-compose",
+      "path": "nginx-wsgi-flask/flask/requirements.txt",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "34ddff8efcfb19f5f474a9db637d558089944670e8ce39dafdfab3f0fe9a6fb6"
+    },
+    {
+      "case_id": "TRIVY-043",
+      "rule_id": "CVE-2025-64458:django",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/sensitive_data_exposure/requirements.txt",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "8a3708784e3fd5b61b4867b3d684a11eb66e98d3752350be5d41d196728b2840"
+    },
+    {
+      "case_id": "TRIVY-044",
+      "rule_id": "CVE-2023-50944:apache-airflow",
+      "corpus": "python-docs-samples",
+      "path": "composer/blog/gcp-tech-blog/unit-test-dags-cloud-build/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "32d62ebcd8cf2499eca35fe9df9156d6fc693d99d5482a1aa8d47b79251683e7"
+    },
+    {
+      "case_id": "TRIVY-045",
+      "rule_id": "CVE-2025-68675:apache-airflow",
+      "corpus": "python-docs-samples",
+      "path": "composer/workflows/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "b0da67aff148729b5c16eec698c9679430c6af5df442ab722dbd5d3305900834"
+    },
+    {
+      "case_id": "TRIVY-046",
+      "rule_id": "CVE-2019-12402:org.apache.commons:commons-compress",
+      "corpus": "terragoat",
+      "path": "packages/pom.xml",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "5a8046ec609501c293aca355f28a8afa5d23d0066c341b0264589aa668055074"
+    },
+    {
+      "case_id": "TRIVY-047",
+      "rule_id": "CVE-2026-96778:pillow",
+      "corpus": "python-docs-samples",
+      "path": "vision/snippets/crop_hints/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "77f819b7a201f906f2337b8a76b8b62bfad3d87933dfedbee67b10441a613c52"
+    },
+    {
+      "case_id": "TRIVY-048",
+      "rule_id": "CVE-2014-0481:django",
+      "corpus": "terragoat",
+      "path": "packages/sub/.hidden/requirements.txt",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "2a95d9254f37f024c823bb8d99ddc05768a1350ac6250938108acb3ed1c0959e"
+    },
+    {
+      "case_id": "TRIVY-049",
+      "rule_id": "CVE-2026-112893:pillow",
+      "corpus": "python-docs-samples",
+      "path": "dataflow/gpu-examples/tensorflow-landsat/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "bdd048d32db2ad8a12b83403ad491445419f869f59777c5ea0d88b3f79e05b3e"
+    },
+    {
+      "case_id": "TRIVY-050",
+      "rule_id": "CVE-2026-68968:apache-airflow",
+      "corpus": "python-docs-samples",
+      "path": "composer/cicd_sample/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "05380d8a9b47b19a2f584d931ff0b1fd42c66678afbd166373ba51498787e1ac"
+    },
+    {
+      "case_id": "TRIVY-051",
+      "rule_id": "CVE-2023-30861:flask",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/sde/requirements.txt",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "e1fd5de4a2f3909fcb6e0c6d6626e2d5f4f7d099aa5c9f334188bcb9364bc8f3"
+    },
+    {
+      "case_id": "TRIVY-052",
+      "rule_id": "CVE-2026-42252:apache-airflow",
+      "corpus": "python-docs-samples",
+      "path": "composer/cicd_sample/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "bd38026485329f28b885819ca73e55b8c2b6aecc8882eb3ffc7270c16019ec5b"
+    },
+    {
+      "case_id": "TRIVY-053",
+      "rule_id": "CVE-2026-42359:apache-airflow",
+      "corpus": "python-docs-samples",
+      "path": "composer/2022_airflow_summit/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "e1bc4d6e86dcf17181b7de1bac0a43616b07c2e1ebe173eaefc3c3104d3e740a"
+    },
+    {
+      "case_id": "TRIVY-054",
+      "rule_id": "CVE-2026-96642:pillow",
+      "corpus": "python-docs-samples",
+      "path": "genai/code_execution/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "b42937a7ea78bffb6d427e0c1171a3aaea715eba3065fdb9c44d03711305ffb2"
+    },
+    {
+      "case_id": "TRIVY-055",
+      "rule_id": "CVE-2026-112902:pillow",
+      "corpus": "python-docs-samples",
+      "path": "generative_ai/model_garden/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "6136593974c3224d59a1c5d4a5fd8b355ef848ad2d3faeb2a40521e859a8c610"
+    },
+    {
+      "case_id": "TRIVY-056",
+      "rule_id": "GHSA-pxh4-856f-4h89:PyJWT",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/sec_misconfig/requirements.txt",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "49221b5797a701cb34bc17f3025e291aec0f51b19244e79e6e0afcf7e16b44c5"
+    },
+    {
+      "case_id": "TRIVY-057",
+      "rule_id": "CVE-2020-25658:rsa",
+      "corpus": "python-docs-samples",
+      "path": "appengine/standard/endpoints-frameworks-v2/echo/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "02d341b38e1a3dcdb69b8ffcc114f4cc8c4528cb494a04755bdd9e270a0494b9"
+    },
+    {
+      "case_id": "TRIVY-058",
+      "rule_id": "CVE-2026-30922:pyasn1",
+      "corpus": "microservices-demo",
+      "path": "src/recommendationservice/requirements.txt",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "92c078a57135c3321def30c7a7c4d74e52efcf5dc01909ea7d1904c9a1a1f1f0"
+    },
+    {
+      "case_id": "TRIVY-059",
+      "rule_id": "CVE-2026-49297:apache-airflow-providers-google",
+      "corpus": "python-docs-samples",
+      "path": "composer/2022_airflow_summit/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "a2a94952ae7431fac6770233bedc956ffc11ba8dc0d8baff13825e28247db779"
+    },
+    {
+      "case_id": "TRIVY-060",
+      "rule_id": "CVE-2026-59884:pyasn1",
+      "corpus": "microservices-demo",
+      "path": "src/emailservice/requirements.txt",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "08130e03eef1c8089c1b8f6d44793c2724e6d022618ef67381b8f361bbdd94b8"
+    },
+    {
+      "case_id": "TRIVY-061",
+      "rule_id": "CVE-2024-45034:apache-airflow",
+      "corpus": "python-docs-samples",
+      "path": "composer/workflows/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "3d899b6735def068cee316a369fc057efa1caecd2a8706a7cdf94fb294c1d6d9"
+    },
+    {
+      "case_id": "TRIVY-062",
+      "rule_id": "CVE-2026-112892:pillow",
+      "corpus": "python-docs-samples",
+      "path": "vision/snippets/crop_hints/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "4c87972190256726d0ff71515cc25d065dcfe61ec2bce8167ad2e04ff7700b10"
+    },
+    {
+      "case_id": "TRIVY-063",
+      "rule_id": "CVE-2022-25647:com.google.code.gson:gson",
+      "corpus": "awesome-compose",
+      "path": "sparkjava-mysql/backend/pom.xml",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "144030c28b557fec7a7e4a8e7bc32ef7bbb766acc0716cb6e6d7b47a67887567"
+    },
+    {
+      "case_id": "TRIVY-064",
+      "rule_id": "GHSA-78g4-xqwv-q3g8:pillow",
+      "corpus": "python-docs-samples",
+      "path": "dataflow/gpu-examples/tensorflow-landsat/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "feae5ba4bea15187f2a3729773d0548cd7e248c30f8bab913a3749e344fd34a7"
+    },
+    {
+      "case_id": "TRIVY-065",
+      "rule_id": "CVE-2023-25754:apache-airflow",
+      "corpus": "python-docs-samples",
+      "path": "composer/blog/gcp-tech-blog/unit-test-dags-cloud-build/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "31d0e7b89f306f36cc9fbb32dce01a6b022bc5f851fbcd075951195ba96b0fd1"
+    },
+    {
+      "case_id": "TRIVY-066",
+      "rule_id": "CVE-2026-59886:pyasn1",
+      "corpus": "microservices-demo",
+      "path": "src/emailservice/requirements.txt",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "cf342a9f0c9ff71fb5f315cb6c9bc1944188c2c817feeba2ae0c54d4fa761b56"
+    },
+    {
+      "case_id": "TRIVY-067",
+      "rule_id": "CVE-2026-112405:pillow",
+      "corpus": "python-docs-samples",
+      "path": "genai/code_execution/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "dc37796ea8adac3f6a6cf7a3d02b3bfe1721e0b54475babe96879df2d04c341a"
+    },
+    {
+      "case_id": "TRIVY-068",
+      "rule_id": "CVE-2026-112895:pillow",
+      "corpus": "python-docs-samples",
+      "path": "dataflow/gpu-examples/tensorflow-landsat-prime/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "fdae1cf4c8d3c8a80a1969d14e7ef61e4325a99a40f0eb44e4c9dcab9da8bd9a"
+    },
+    {
+      "case_id": "TRIVY-069",
+      "rule_id": "CVE-2026-112393:pillow",
+      "corpus": "python-docs-samples",
+      "path": "people-and-planet-ai/image-classification/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "8c2bb8710b429243afb9106de72f25aee792148552f57e55935767d95c7ef18a"
+    },
+    {
+      "case_id": "TRIVY-070",
+      "rule_id": "CVE-2026-119194:pyasn1",
+      "corpus": "microservices-demo",
+      "path": "src/shoppingassistantservice/requirements.txt",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "178e2767e17a0b0bce6944eadb8fba424eddbc5797346b397afa1a6e14c65c5a"
+    },
+    {
+      "case_id": "TRIVY-071",
+      "rule_id": "CVE-2026-112402:pillow",
+      "corpus": "python-docs-samples",
+      "path": "vision/snippets/document_text/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "b4427331fcbb51e2fddd7a29b5a291b61927a5d61b39dba2966caee8bde47bdb"
+    },
+    {
+      "case_id": "TRIVY-072",
+      "rule_id": "CVE-2024-34069:werkzeug",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/broken_access_lab/requirements.txt",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "4c13030f5633323fd062f7fc70e24975a7b91f47bfee974fc8532c4b3fb3b0ae"
+    },
+    {
+      "case_id": "TRIVY-073",
+      "rule_id": "CVE-2024-6827:gunicorn",
+      "corpus": "awesome-compose",
+      "path": "nginx-wsgi-flask/flask/requirements.txt",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "8518eb39922f30b0f76151ca358ad98977626aac14d2d482bf170cf2287a5412"
+    },
+    {
+      "case_id": "TRIVY-074",
+      "rule_id": "CVE-2026-112397:pillow",
+      "corpus": "python-docs-samples",
+      "path": "dataflow/gpu-examples/tensorflow-landsat/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "da86e57e5e0c74c54c752905ae5514e87c5d2466ad482b0d0d147ca6508d3306"
+    },
+    {
+      "case_id": "TRIVY-075",
+      "rule_id": "CVE-2026-102271:PyJWT",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/sec_misconfig/requirements.txt",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "c4d33ac8d734975fe99f75e18e282d0d6f85ab77e8a1dbf98e24b1836e89e34c"
+    },
+    {
+      "case_id": "TRIVY-076",
+      "rule_id": "CVE-2023-25577:Werkzeug",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/insecure_design_lab/requirements.txt",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "7325d8142b42234a6b4e8239598889f3ba93c0a267b9bc5ae073add5beee6441"
+    },
+    {
+      "case_id": "TRIVY-077",
+      "rule_id": "CVE-2026-40961:apache-airflow",
+      "corpus": "python-docs-samples",
+      "path": "composer/2022_airflow_summit/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "1bb759c8d9e7070db57327bd51e2282b0311518a7c602f2c8dbf00a13d2c4a10"
+    },
+    {
+      "case_id": "TRIVY-078",
+      "rule_id": "CVE-2026-102267:PyJWT",
+      "corpus": "VAmPI",
+      "path": "requirements.txt",
+      "commit": "f16052dce83f05847133ec98f01c5193a41de7d8",
+      "sha256": "8654e9d771ff3a8c54a1d485d2085dee55bd58ff278f64afbad9eb11e30f1f3c"
+    },
+    {
+      "case_id": "TRIVY-079",
+      "rule_id": "CVE-2026-112399:pillow",
+      "corpus": "python-docs-samples",
+      "path": "generative_ai/model_garden/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "503086d067ca022f05fb6f6c21e856010561767c5ebc1e63da4307b7c7724d67"
+    },
+    {
+      "case_id": "TRIVY-080",
+      "rule_id": "CVE-2026-114140:nbconvert",
+      "corpus": "python-docs-samples",
+      "path": "alloydb/notebooks/requirements-test.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "501caa0c82adfd2b377e7971a15bdef5763d5b5101694cc2e83c2340c8b028b0"
+    },
+    {
+      "case_id": "TRIVY-081",
+      "rule_id": "CVE-2021-35516:org.apache.commons:commons-compress",
+      "corpus": "terragoat",
+      "path": "packages/pom.xml",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "0d7bf34b56f595fa4a084713e2da0e3abe14dec7dcf226109fe4db9eaa956a40"
+    },
+    {
+      "case_id": "TRIVY-082",
+      "rule_id": "CVE-2023-30861:Flask",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/software_integrity_lab/requirements.txt",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "6e04d32e43c6f5cb4fc2944dec3ef30152d68dfdcb52db27a39b77c93d19c7ba"
+    },
+    {
+      "case_id": "TRIVY-083",
+      "rule_id": "CVE-2021-36090:org.apache.commons:commons-compress",
+      "corpus": "terragoat",
+      "path": "packages/pom.xml",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "sha256": "289cc23a6a1676a768f5930ccec8cdf91b60c5e81ba289cced6c890f6dad616a"
+    },
+    {
+      "case_id": "TRIVY-084",
+      "rule_id": "CVE-2026-112390:pillow",
+      "corpus": "python-docs-samples",
+      "path": "vision/snippets/crop_hints/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "ca3f63218e5cab877e7b568a5a28e4bd483e1bb41abc5c74fc2f30575760be95"
+    },
+    {
+      "case_id": "TRIVY-085",
+      "rule_id": "CVE-2026-102268:PyJWT",
+      "corpus": "VAmPI",
+      "path": "requirements.txt",
+      "commit": "f16052dce83f05847133ec98f01c5193a41de7d8",
+      "sha256": "c2af451179a25e475970c06546b094d7676cd4ccaa1efa534d98829b766e3703"
+    },
+    {
+      "case_id": "TRIVY-086",
+      "rule_id": "CVE-2026-112398:pillow",
+      "corpus": "python-docs-samples",
+      "path": "dataflow/gpu-examples/tensorflow-landsat-prime/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "b288b3b9de01bc92d09cb3e1550b9c965685a78c109730d7136f320e4c15a7e4"
+    },
+    {
+      "case_id": "TRIVY-087",
+      "rule_id": "CVE-2026-96644:pillow",
+      "corpus": "python-docs-samples",
+      "path": "appengine/flexible/scipy/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "1813054dae7ffc7fe5907cbaaeb39ae60d6c2e3eb4cfc5a0db9642ec3999c3c2"
+    },
+    {
+      "case_id": "TRIVY-088",
+      "rule_id": "CVE-2026-78669:golang.org/x/net",
+      "corpus": "microservices-demo",
+      "path": "src/checkoutservice/go.mod",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "4a1279015e9ec0f35e762f249b9f2e9a441dea70bb6768bbab06d0683cc2b407"
+    },
+    {
+      "case_id": "TRIVY-089",
+      "rule_id": "CVE-2026-96639:pillow",
+      "corpus": "python-docs-samples",
+      "path": "genai/code_execution/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "7a33752343882225a9523beb5f9c2b635f15f28812479cfdbf54ef31a3431601"
+    },
+    {
+      "case_id": "TRIVY-090",
+      "rule_id": "CVE-2026-112900:pillow",
+      "corpus": "python-docs-samples",
+      "path": "genai/tools/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "01abeaac17365d0834ab6234026627dd703aa4204b12bc881b1376c227911c30"
+    },
+    {
+      "case_id": "TRIVY-091",
+      "rule_id": "CVE-2026-112392:pillow",
+      "corpus": "python-docs-samples",
+      "path": "genai/bounding_box/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "747c283a083ed5bf6d3d4f72169fd682c7eaa2cc543cbd6b2d2792e41cecafbf"
+    },
+    {
+      "case_id": "TRIVY-092",
+      "rule_id": "CVE-2026-114134:black",
+      "corpus": "python-docs-samples",
+      "path": "compute/client_library/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "e0b8ad33fde2e4365317bf2645eea4b38d4c68d1c89c96d7a81185fd508dc49f"
+    },
+    {
+      "case_id": "TRIVY-093",
+      "rule_id": "CVE-2026-112400:pillow",
+      "corpus": "python-docs-samples",
+      "path": "generative_ai/reasoning_engine/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "86944522d8cef1f84d746e636e495c36c53dfc19091f22ee5430a2874b96438b"
+    },
+    {
+      "case_id": "TRIVY-094",
+      "rule_id": "CVE-2026-96643:pillow",
+      "corpus": "python-docs-samples",
+      "path": "generative_ai/evaluation/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "3ffcf695180148686c7712e287cfa470d6eae3e43407f8a07f7bbfc28a8d505c"
+    },
+    {
+      "case_id": "TRIVY-095",
+      "rule_id": "CVE-2026-112403:pillow",
+      "corpus": "python-docs-samples",
+      "path": "generative_ai/prompts/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "5e4ed10167598d734298cc3a232a6888758ba1e5fdb6b26f807df9cafe260845"
+    },
+    {
+      "case_id": "TRIVY-096",
+      "rule_id": "CVE-2023-22102:mysql:mysql-connector-java",
+      "corpus": "awesome-compose",
+      "path": "sparkjava-mysql/backend/pom.xml",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "350ae19d196a2bfc38dd7aa1689312ca47b2b59308b67fa454d3cc80bc74d29c"
+    },
+    {
+      "case_id": "TRIVY-097",
+      "rule_id": "CVE-2023-25577:werkzeug",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/crypto_failure_lab/requirements.txt",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "71cbc68438d88992012347531181b4bad202340d62df5a5e95eea8709386b2c0"
+    },
+    {
+      "case_id": "TRIVY-098",
+      "rule_id": "CVE-2026-78661:golang.org/x/net",
+      "corpus": "microservices-demo",
+      "path": "src/frontend/go.mod",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "d742a56a19f4b125b89d1a18060ea75a16539640b608f000f7fc3672a3e29a41"
+    },
+    {
+      "case_id": "TRIVY-099",
+      "rule_id": "CVE-2026-112897:pillow",
+      "corpus": "python-docs-samples",
+      "path": "generative_ai/model_tuning/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "40b85dc164b0eda6bc858e3f950c32c0520460027b5318b59d6a6079c8c4ff43"
+    },
+    {
+      "case_id": "TRIVY-100",
+      "rule_id": "CVE-2026-96640:pillow",
+      "corpus": "python-docs-samples",
+      "path": "generative_ai/extensions/requirements.txt",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "76ccb7f5b7590c9049498691b5f8696674a39da71076e7afc34e87aa52e3c329"
+    }
+  ]
+}

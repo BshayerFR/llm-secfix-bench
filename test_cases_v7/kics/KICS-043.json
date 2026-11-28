@@ -1,0 +1,18 @@
+{
+  "case_id": "KICS-043",
+  "scanner": "KICS",
+  "rule_id": "967eb3e6-26fc-497d-8895-6428beb6e8e2",
+  "rule_name": "Elasticsearch Domain Not Encrypted Node To Node",
+  "rule_description": "Elasticsearch Domain encryption should be enabled node to node",
+  "language": "terraform",
+  "file": "main.tf",
+  "line": 1,
+  "vulnerable_code": "resource \"aws_elasticsearch_domain\" \"monitoring-framework\" {\n  domain_name           = \"tg-${var.environment}-es\"\n  elasticsearch_version = \"2.3\"\n\n  cluster_config {\n    instance_type            = \"t2.small.elasticsearch\"\n    instance_count           = 1\n    dedicated_master_enabled = false\n    dedicated_master_type    = \"m4.large.elasticsearch\"\n    dedicated_master_count   = 1\n  }\n\n\n  ebs_options {\n    ebs_enabled = true\n    volume_size = 30\n  }\n  tags = {\n    git_commit           = \"e6d83b21346fe85d4fe28b16c0b2f1e0662eb1d7\"\n    git_file             = \"terraform/aws/es.tf\"\n    git_last_modified_at = \"2023-04-27 12:47:51\"\n    git_last_modified_by = \"nadler@paloaltonetworks.com\"\n    git_modifiers        = \"nadler/nimrodkor\"\n    git_org              = \"bridgecrewio\"\n    git_repo             = \"terragoat\"\n    yor_trace            = \"95131dec-d7c9-49bb-9aff-eb0e2736603b\"\n  }\n}\n\ndata aws_iam_policy_document \"policy\" {\n  statement {\n    actions = [\"es:*\"]\n    principals {\n      type        = \"AWS\"\n      identifiers = [\"*\"]\n    }\n    resources = [\"*\"]\n  }\n}\n\nresource \"aws_elasticsearch_domain_policy\" \"monitoring-framework-policy\" {\n  domain_name     = aws_elasticsearch_domain.monitoring-framework.domain_name\n  access_policies = data.aws_iam_policy_document.policy.json\n}\n",
+  "source": {
+    "corpus": "terragoat",
+    "url": "https://github.com/bridgecrewio/terragoat",
+    "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+    "path": "terraform/aws/es.tf",
+    "license": "Apache-2.0"
+  }
+}

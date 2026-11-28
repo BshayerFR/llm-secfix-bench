@@ -1,0 +1,18 @@
+{
+  "case_id": "TRIVY-097",
+  "scanner": "Trivy",
+  "rule_id": "CVE-2023-25577:werkzeug",
+  "rule_name": "CVE-2023-25577 in werkzeug",
+  "rule_description": "python-werkzeug: high resource usage when parsing multipart form data with many fields in werkzeug. Installed 2.0.1, fixed in 2.2.3.",
+  "language": "text",
+  "file": "requirements.txt",
+  "line": 1,
+  "vulnerable_code": "argon2-cffi==21.3.0\nflask==2.0.1\nwerkzeug==2.0.1\n",
+  "source": {
+    "corpus": "pygoat",
+    "url": "https://github.com/adeyosemanputra/pygoat",
+    "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+    "path": "dockerized_labs/crypto_failure_lab/requirements.txt",
+    "license": "MIT"
+  }
+}

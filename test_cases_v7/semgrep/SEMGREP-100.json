@@ -1,0 +1,18 @@
+{
+  "case_id": "SEMGREP-100",
+  "scanner": "Semgrep",
+  "rule_id": "javascript.sequelize.security.audit.sequelize-injection-express.express-sequelize-injection",
+  "rule_name": "express-sequelize-injection",
+  "rule_description": "Detected a sequelize statement that is tainted by user-input. This could lead to SQL injection if the variable is user-controlled and is not properly sanitized. In order to prevent SQL injection, it is recommended to use parameterized queries or prepared statements.",
+  "language": "typescript",
+  "file": "app.ts",
+  "line": 6,
+  "vulnerable_code": "export function searchProducts () {\n  return (req: Request, res: Response, next: NextFunction) => {\n    let criteria: any = req.query.q === 'undefined' ? '' : req.query.q ?? ''\n    criteria = (criteria.length <= 200) ? criteria : criteria.substring(0, 200)\n    criteria.replace(/\"|'|;|and|or/i, \"\")\n    models.sequelize.query(`SELECT * FROM Products WHERE ((name LIKE '%${criteria}%' OR description LIKE '%${criteria}%') AND deletedAt IS NULL) ORDER BY name`)\n      .then(([products]: any) => {\n        const dataString = JSON.stringify(products)\n        for (let i = 0; i < products.length; i++) {\n          products[i].name = req.__(products[i].name)\n          products[i].description = req.__(products[i].description)\n          if (typeof products[i].alternateImages === 'string') {\n            products[i].alternateImages = JSON.parse(products[i].alternateImages)\n          }\n        }\n        res.json(utils.queryResultToJson(products))\n      }).catch((error: ErrorWithParent) => {\n        next(error.parent)\n      })\n  }\n}\n",
+  "source": {
+    "corpus": "juice-shop",
+    "url": "https://github.com/juice-shop/juice-shop",
+    "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+    "path": "data/static/codefixes/unionSqlInjectionChallenge_1.ts",
+    "license": "MIT"
+  }
+}

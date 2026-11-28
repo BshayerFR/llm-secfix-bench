@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-087",
+  "scanner": "Bandit",
+  "rule_id": "B608",
+  "rule_name": "hardcoded_sql_expressions",
+  "rule_description": "Possible SQL injection vector through string-based query construction.",
+  "language": "python",
+  "file": "app.py",
+  "line": 41,
+  "vulnerable_code": "# Copyright 2026 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#     https://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n# [START bigquery_get_vector_index_status]\nfrom google.cloud import bigquery\n\n\ndef get_vector_index_status(\n    project_id: str,\n    dataset_id: str,\n    table_id: str,\n) -> None:\n    \"\"\"Queries INFORMATION_SCHEMA.VECTOR_INDEXES to inspect vector index build status.\n\n    Args:\n        project_id: Google Cloud project ID (for example, 'example-project').\n        dataset_id: BigQuery dataset ID containing the indexed embeddings table\n            (for example, 'example_dataset').\n        table_id: BigQuery table ID to inspect vector indexes for\n            (for example, 'example_embeddings').\n    \"\"\"\n    client = bigquery.Client(project=project_id)\n    table_ref = f\"{project_id}.{dataset_id}.{table_id}\"\n    # Parameterize the table_name filter when querying INFORMATION_SCHEMA.VECTOR_INDEXES.\n    job_config = bigquery.QueryJobConfig(\n        query_parameters=[\n            bigquery.ScalarQueryParameter(\"table_id\", \"STRING\", table_id),\n        ]\n    )\n    sql = f\"\"\"\n        SELECT\n          index_name,\n          index_status,\n          coverage_percentage\n        FROM `{project_id}.{dataset_id}.INFORMATION_SCHEMA.VECTOR_INDEXES`\n        WHERE table_name = @table_id;\n    \"\"\"\n\n    print(f\"Checking vector index status for table: {table_ref}\")\n    query_job = client.query(sql, job_config=job_config)\n    rows = list(query_job.result())\n\n    index_name = rows[0].index_name if rows else \"NONE\"\n    index_status = rows[0].index_status if rows else \"NONE\"\n    coverage_percentage = rows[0].coverage_percentage if rows else 0\n    print(f\"Resource ID: {table_ref}\")\n    print(f\"Index Count: {len(rows)}\")\n    print(f\"Index Name: {index_name}\")\n    print(f\"Index Status: {index_status}\")\n    print(f\"Coverage Percentage: {coverage_percentage}%\")\n    print(f\"Job ID: {query_job.job_id}\")\n\n\n# [END bigquery_get_vector_index_status]\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+    "path": "bigquery/vector_search/bigquery_get_vector_index_status.py",
+    "license": "Apache-2.0"
+  }
+}

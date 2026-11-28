@@ -1,0 +1,18 @@
+{
+  "case_id": "HADOLINT-055",
+  "scanner": "Hadolint",
+  "rule_id": "DL3008",
+  "rule_name": "DL3008",
+  "rule_description": "Pin versions in apt get install. Instead of `apt-get install <package>` use `apt-get install <package>=<version>`",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 21,
+  "vulnerable_code": "# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#     http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n# This uses Ubuntu with Python 3.11 and comes with CUDA drivers for\n# GPU use.\nARG SERVING_BUILD_IMAGE=pytorch/pytorch:2.6.0-cuda11.8-cudnn9-runtime\n\nFROM ${SERVING_BUILD_IMAGE}\n\nWORKDIR /workspace\n\nRUN apt-get update \\\n    && apt-get install -y --no-install-recommends apt-utils curl wget git \\\n    && rm -rf /var/lib/apt/lists/*\n\nCOPY requirements.txt requirements.txt\nRUN pip install --no-cache-dir --upgrade pip \\\n    && git clone https://github.com/google/gemma_pytorch.git \\\n    && pip install --no-cache-dir -r requirements.txt ./gemma_pytorch\n\n# Copy SDK entrypoint binary from Apache Beam image, which makes it possible to\n# use the image as SDK container image.\n# The Beam version should match the version specified in requirements.txt\nCOPY --from=apache/beam_python3.14_sdk:2.73.0 /opt/apache/beam /opt/apache/beam\n\n# Copy Flex Template launcher binary from the launcher image, which makes it\n# possible to use the image as a Flex Template base image.\nCOPY --from=gcr.io/dataflow-templates-base/python314-template-launcher-base:latest /opt/google/dataflow/python_template_launcher /opt/google/dataflow/python_template_launcher\n\n# Copy the model directory downloaded from Kaggle and the pipeline code.\nCOPY pytorch_model pytorch_model\nCOPY custom_model_gemma.py custom_model_gemma.py\n\nENV FLEX_TEMPLATE_PYTHON_PY_FILE=\"custom_model_gemma.py\"\n\n# Set the entrypoint to Apache Beam SDK launcher.\nENTRYPOINT [\"/opt/apache/beam/boot\"]\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+    "path": "dataflow/gemma-flex-template/Dockerfile",
+    "license": "Apache-2.0"
+  }
+}

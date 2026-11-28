@@ -1,0 +1,18 @@
+{
+  "case_id": "BEARER-094",
+  "scanner": "Bearer",
+  "rule_id": "java_lang_trust_boundary_violation",
+  "rule_name": "Usage of trusted and untrusted data inside the same data structure",
+  "rule_description": "## Description\n\nCombining trusted and untrusted data within a single data structure poses a significant security risk. This practice may result in untrusted data being incorrectly regarded as trustworthy, potentially leading to security vulnerabilities.\n\n## Remediations\n\n- **Do not** mix trusted and untrusted data in the same data structure. Keeping them separate ensures that untrusted data does not accidentally gain the same level of trust as the verified data.",
+  "language": "java",
+  "file": "Main.java",
+  "line": 39,
+  "vulnerable_code": "/*\n * SPDX-FileCopyrightText: Copyright © 2017 WebGoat authors\n * SPDX-License-Identifier: GPL-2.0-or-later\n */\npackage org.owasp.webgoat.lessons.cryptography;\n\nimport static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;\nimport static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;\n\nimport jakarta.servlet.http.HttpServletRequest;\nimport java.util.Base64;\nimport java.util.Random;\nimport org.owasp.webgoat.container.assignments.AssignmentEndpoint;\nimport org.owasp.webgoat.container.assignments.AttackResult;\nimport org.springframework.http.MediaType;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.PostMapping;\nimport org.springframework.web.bind.annotation.RequestParam;\nimport org.springframework.web.bind.annotation.ResponseBody;\nimport org.springframework.web.bind.annotation.RestController;\n\n@RestController\npublic class EncodingAssignment implements AssignmentEndpoint {\n\n  public static String getBasicAuth(String username, String password) {\n    return Base64.getEncoder().encodeToString(username.concat(\":\").concat(password).getBytes());\n  }\n\n  @GetMapping(path = \"/crypto/encoding/basic\", produces = MediaType.TEXT_HTML_VALUE)\n  @ResponseBody\n  public String getBasicAuth(HttpServletRequest request) {\n\n    String basicAuth = (String) request.getSession().getAttribute(\"basicAuth\");\n    String username = request.getUserPrincipal().getName();\n    if (basicAuth == null) {\n      String password =\n          HashingAssignment.SECRETS[new Random().nextInt(HashingAssignment.SECRETS.length)];\n      basicAuth = getBasicAuth(username, password);\n      request.getSession().setAttribute(\"basicAuth\", basicAuth);\n    }\n    return \"Authorization: Basic \".concat(basicAuth);\n  }\n\n  @PostMapping(\"/crypto/encoding/basic-auth\")\n  @ResponseBody\n  public AttackResult completed(\n      HttpServletRequest request,\n      @RequestParam String answer_user,\n      @RequestParam String answer_pwd) {\n    String basicAuth = (String) request.getSession().getAttribute(\"basicAuth\");\n    if (basicAuth != null\n        && answer_user != null\n        && answer_pwd != null\n        && basicAuth.equals(getBasicAuth(answer_user, answer_pwd))) {\n      return success(this).feedback(\"crypto-encoding.success\").build();\n    } else {\n      return failed(this).feedback(\"crypto-encoding.empty\").build();\n    }\n  }\n}\n",
+  "source": {
+    "corpus": "WebGoat",
+    "url": "https://github.com/WebGoat/WebGoat",
+    "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+    "path": "src/main/java/org/owasp/webgoat/lessons/cryptography/EncodingAssignment.java",
+    "license": "GPL-2.0-or-later"
+  }
+}

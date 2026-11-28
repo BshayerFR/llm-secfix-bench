@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-022",
+  "scanner": "Bandit",
+  "rule_id": "B701",
+  "rule_name": "jinja2_autoescape_false",
+  "rule_description": "By default, jinja2 sets autoescape to False. Consider using autoescape=True or use the select_autoescape function to mitigate XSS vulnerabilities.",
+  "language": "python",
+  "file": "app.py",
+  "line": 28,
+  "vulnerable_code": "#!/usr/bin/env python\n\n# Copyright 2016 Google Inc\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#      http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n\"\"\"Generates READMEs using configuration defined in yaml.\"\"\"\n\nimport argparse\nimport io\nimport os\nimport subprocess\n\nimport jinja2\nimport yaml\n\n\njinja_env = jinja2.Environment(\n    trim_blocks=True,\n    loader=jinja2.FileSystemLoader(\n        os.path.abspath(os.path.join(os.path.dirname(__file__), \"templates\"))\n    ),\n)\n\nREADME_TMPL = jinja_env.get_template(\"README.tmpl.rst\")\n\n\ndef get_help(file):\n    return subprocess.check_output([\"python\", file, \"--help\"]).decode()\n\n\ndef main():\n    parser = argparse.ArgumentParser()\n    parser.add_argument(\"source\")\n    parser.add_argument(\"--destination\", default=\"README.rst\")\n\n    args = parser.parse_args()\n\n    source = os.path.abspath(args.source)\n    root = os.path.dirname(source)\n    destination = os.path.join(root, args.destination)\n\n    jinja_env.globals[\"get_help\"] = get_help\n\n    with io.open(source, \"r\") as f:\n        config = yaml.safe_load(f)\n\n    # This allows get_help to execute in the right directory.\n    os.chdir(root)\n\n    output = README_TMPL.render(config)\n\n    with io.open(destination, \"w\") as f:\n        f.write(output)\n\n\nif __name__ == \"__main__\":\n    main()\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+    "path": "scripts/readme-gen/readme_gen.py",
+    "license": "Apache-2.0"
+  }
+}

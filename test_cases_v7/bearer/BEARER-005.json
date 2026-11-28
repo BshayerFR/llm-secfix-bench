@@ -1,0 +1,18 @@
+{
+  "case_id": "BEARER-005",
+  "scanner": "Bearer",
+  "rule_id": "javascript_lang_manual_html_sanitization",
+  "rule_name": "Usage of manual HTML sanitization (XSS)",
+  "rule_description": "## Description\n\nManually sanitizing HTML is prone to mistakes and can lead to Cross-Site Scripting (XSS) vulnerabilities. This occurs when user input is not properly sanitized, allowing attackers to inject malicious scripts into web pages viewed by other users.\n\n## Remediations\n\n- **Do not** manually escape HTML to sanitize user input. This method is unreliable and can easily miss certain exploits.\n  ```javascript\n  const sanitizedUserInput = user.Input\n    .replaceAll('<', '&lt;')\n    .replaceAll('>', '&gt;'); // unsafe\n  const html = `<strong>${sanitizedUserInput}</strong>`;\n  ```\n- **Do** use a trusted HTML sanitization library to handle user input safely. Libraries designed for sanitization are more reliable as they cover a wide range of XSS attack vectors.\n  ```javascript\n  import sanitizeHtml from 'sanitize-html';\n\n  const html = sanitizeHtml(`<strong>${user.Input}</strong>`);\n  ```\n\n## References\n\n- [OWASP XSS explained](https://owasp.org/www-community/attacks/xss/)",
+  "language": "typescript",
+  "file": "app.ts",
+  "line": 21,
+  "vulnerable_code": "export const redirectAllowlist = new Set([\n  'https://github.com/juice-shop/juice-shop',\n  'https://blockchain.info/address/1AbKfgvw9psQ41NbLi8kufDQTezwG8DRZm',\n  'https://explorer.dash.org/address/Xr556RzuwX6hg5EGpkybbv5RanJoZN17kW',\n  'https://etherscan.io/address/0x0f933ab9fcaaa782d0279c300d73750e1311eae6',\n  'http://shop.spreadshirt.com/juiceshop',\n  'http://shop.spreadshirt.de/juiceshop',\n  'https://www.stickeryou.com/products/owasp-juice-shop/794',\n  'http://leanpub.com/juice-shop'\n])\n\nexport const isRedirectAllowed = (url: string) => {\n  let allowed = false\n  for (const allowedUrl of redirectAllowlist) {\n    allowed = allowed || url.includes(escapeHTML(allowedUrl))\n  }\n  return allowed\n}\n\nconst escapeHTML = str => {\n  return str.replace(/[&<>'\"]/g,\n    tag => {\n      return ({\n        '&': '&amp;',\n        '<': '&lt;',\n        '>': '&gt;',\n        \"'\": '&#39;',\n        '\"': '&quot;'\n      }[tag])\n    })\n}\n",
+  "source": {
+    "corpus": "juice-shop",
+    "url": "https://github.com/juice-shop/juice-shop",
+    "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+    "path": "data/static/codefixes/redirectChallenge_3.ts",
+    "license": "MIT"
+  }
+}

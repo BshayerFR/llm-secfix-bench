@@ -1,0 +1,18 @@
+{
+  "case_id": "TRIVY-096",
+  "scanner": "Trivy",
+  "rule_id": "CVE-2023-22102:mysql:mysql-connector-java",
+  "rule_name": "CVE-2023-22102 in mysql:mysql-connector-java",
+  "rule_description": "mysql-connector-java: Connector/J unspecified vulnerability (CPU October 2023) in mysql:mysql-connector-java. Installed 8.0.16, fixed in none.",
+  "language": "xml",
+  "file": "pom.xml",
+  "line": 1,
+  "vulnerable_code": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\n         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\n    <modelVersion>4.0.0</modelVersion>\n\n    <groupId>com.company</groupId>\n    <artifactId>project</artifactId>\n    <version>1.0-SNAPSHOT</version>\n\n    <build>\n        <plugins>\n            <plugin>\n                <groupId>org.apache.maven.plugins</groupId>\n                <artifactId>maven-compiler-plugin</artifactId>\n                <configuration>\n                    <source>8</source>\n                    <target>8</target>\n                </configuration>\n            </plugin>\n            <plugin>\n                <artifactId>maven-assembly-plugin</artifactId>\n                <configuration>\n                    <archive>\n                        <manifest>\n                            <mainClass>App</mainClass>\n                        </manifest>\n                    </archive>\n                    <descriptorRefs>\n                        <descriptorRef>jar-with-dependencies</descriptorRef>\n                    </descriptorRefs>\n                    <finalName>app</finalName>\n                    <appendAssemblyId>false</appendAssemblyId>\n                </configuration>\n            </plugin>\n        </plugins>\n    </build>\n\n    <dependencies>\n        <dependency>\n            <groupId>com.sparkjava</groupId>\n            <artifactId>spark-core</artifactId>\n            <version>2.9.2</version>\n        </dependency>\n\n        <dependency>\n            <groupId>mysql</groupId>\n            <artifactId>mysql-connector-java</artifactId>\n            <version>8.0.16</version>\n        </dependency>\n        <dependency>\n            <groupId>com.google.code.gson</groupId>\n            <artifactId>gson</artifactId>\n            <version>2.8.4</version>\n        </dependency>\n\n    </dependencies>\n\n</project>\n",
+  "source": {
+    "corpus": "awesome-compose",
+    "url": "https://github.com/docker/awesome-compose",
+    "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+    "path": "sparkjava-mysql/backend/pom.xml",
+    "license": "CC0, see LICENSE"
+  }
+}

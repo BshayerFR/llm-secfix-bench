@@ -1,0 +1,869 @@
+{
+  "seed": 42,
+  "max_lines": 400,
+  "per_rule_cap": 15,
+  "corpora": {
+    "juice-shop": {
+      "url": "https://github.com/juice-shop/juice-shop",
+      "license": "MIT"
+    },
+    "WebGoat": {
+      "url": "https://github.com/WebGoat/WebGoat",
+      "license": "GPL-2.0-or-later"
+    },
+    "microservices-demo": {
+      "url": "https://github.com/GoogleCloudPlatform/microservices-demo",
+      "license": "Apache-2.0"
+    },
+    "pygoat": {
+      "url": "https://github.com/adeyosemanputra/pygoat",
+      "license": "MIT"
+    },
+    "terragoat": {
+      "url": "https://github.com/bridgecrewio/terragoat",
+      "license": "Apache-2.0"
+    },
+    "vulpy": {
+      "url": "https://github.com/fportantier/vulpy",
+      "license": "MIT"
+    },
+    "VAmPI": {
+      "url": "https://github.com/erev0s/VAmPI",
+      "license": "MIT"
+    },
+    "dvpwa": {
+      "url": "https://github.com/anxolerd/dvpwa",
+      "license": "MIT-style, see LICENSE"
+    },
+    "awesome-compose": {
+      "url": "https://github.com/docker/awesome-compose",
+      "license": "CC0, see LICENSE"
+    },
+    "example-voting-app": {
+      "url": "https://github.com/dockersamples/example-voting-app",
+      "license": "Apache-2.0"
+    },
+    "python-docs-samples": {
+      "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+      "license": "Apache-2.0"
+    }
+  },
+  "scanners": {
+    "semgrep": {
+      "version": "1.187.0",
+      "files_staged": 1388,
+      "candidates": 223,
+      "selected": 100,
+      "distinct_rules": 64,
+      "corpus_commits": {
+        "juice-shop": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+        "WebGoat": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+        "microservices-demo": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+        "pygoat": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+        "terragoat": "729f8da62c6a85ce4af5ad3d123de97776d954c4"
+      }
+    }
+  },
+  "cases": [
+    {
+      "case_id": "SEMGREP-001",
+      "rule_id": "python.flask.security.injection.subprocess-injection.subprocess-injection",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/command_injection_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "354454b4be5fcde23b2e2e74725ca124aca968077e8bcd660421f0385169cc13"
+    },
+    {
+      "case_id": "SEMGREP-002",
+      "rule_id": "javascript.lang.security.audit.path-traversal.path-join-resolve-traversal.path-join-resolve-traversal",
+      "corpus": "juice-shop",
+      "path": "lib/antiCheat.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "1bbd807df90253fdcbfce0a222c045b7cdd8870aaa1268e1fb3ee04196f775af"
+    },
+    {
+      "case_id": "SEMGREP-003",
+      "rule_id": "python.lang.security.audit.eval-detected.eval-detected",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/command_injection_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "ac212d6f5286cd102804658c9d253f069de59c954c109a66b54b9a3a04a0c93d"
+    },
+    {
+      "case_id": "SEMGREP-004",
+      "rule_id": "java.servlets.security.cookie-issecure-false.cookie-issecure-false",
+      "corpus": "WebGoat",
+      "path": "src/test/java/org/owasp/webgoat/lessons/spoofcookie/SpoofCookieAssignmentTest.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "d2238198499a6009135a19bf69aac88def5283f74acbc1520e57e2569731197d"
+    },
+    {
+      "case_id": "SEMGREP-005",
+      "rule_id": "go.lang.security.audit.crypto.math_random.math-random-used",
+      "corpus": "microservices-demo",
+      "path": "src/shippingservice/tracker.go",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "ead1ab2ff41d7743a1cccb0d9f59aea98b26905c2f4022159dc0f12fe38b6ade"
+    },
+    {
+      "case_id": "SEMGREP-006",
+      "rule_id": "go.grpc.security.grpc-server-insecure-connection.grpc-server-insecure-connection",
+      "corpus": "microservices-demo",
+      "path": "src/shippingservice/main.go",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "7832755499c087dea6822c0c8be0e4dfbbc9ac587738de8158b8c3b6d969f8b6"
+    },
+    {
+      "case_id": "SEMGREP-007",
+      "rule_id": "java.lang.security.audit.crypto.weak-random.weak-random",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/challenges/challenge1/ImageServlet.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "f3c9d7be6931f74761dd8ab9141d2761d3c2c06cb425c7a5c3cbdb998c4db7e3"
+    },
+    {
+      "case_id": "SEMGREP-008",
+      "rule_id": "python.sqlalchemy.security.sqlalchemy-execute-raw-query.sqlalchemy-execute-raw-query",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/sql_injection_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "1b260d49394fb8c1ec07cd90b54a8f53fc9123d76b0e3f6850230c3d688974c0"
+    },
+    {
+      "case_id": "SEMGREP-009",
+      "rule_id": "java.lang.security.audit.crypto.use-of-md5.use-of-md5",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/cryptography/HashingAssignment.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "432fb19b9922caa5d34b0ceab1d54d0b06694a0ea00287c21b3fa6f67a72c26e"
+    },
+    {
+      "case_id": "SEMGREP-010",
+      "rule_id": "java.spring.security.injection.tainted-sql-string.tainted-sql-string",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/challenges/challenge5/Assignment5.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "c5303ba9524041008366cdcf2a407010f83dd7bfd1182518711c7cf821995bee"
+    },
+    {
+      "case_id": "SEMGREP-011",
+      "rule_id": "python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-sha1",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/crypto_failure_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "574fa41d8e1473da3064648f442a2bff54bde0e366ed10f71ab9ce6cfce6da55"
+    },
+    {
+      "case_id": "SEMGREP-012",
+      "rule_id": "python.lang.security.deserialization.pickle.avoid-pickle",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/insec_des_lab/main.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "c50ca199025ab0c1404ae0bd08f178eb69894bf6871963668e0a2d70834e50c6"
+    },
+    {
+      "case_id": "SEMGREP-013",
+      "rule_id": "python.flask.security.insecure-deserialization.insecure-deserialization",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/a9_uckv_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "13dc77c0e73048981503b97d80812ec79079422d2c31868a868efa2233b44a5b"
+    },
+    {
+      "case_id": "SEMGREP-014",
+      "rule_id": "javascript.express.security.audit.express-res-sendfile.express-res-sendfile",
+      "corpus": "juice-shop",
+      "path": "routes/fileServer.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "2d04cdd852dc58d2b6444c1899228f68c85a805425197d89c225dd25465eca91"
+    },
+    {
+      "case_id": "SEMGREP-015",
+      "rule_id": "python.flask.security.injection.ssrf-requests.ssrf-requests",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/ssrf_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "bc47ea3294527574c3e8daca02d0e6cf842833cabeca43f28786180b46d32e54"
+    },
+    {
+      "case_id": "SEMGREP-016",
+      "rule_id": "javascript.browser.security.eval-detected.eval-detected",
+      "corpus": "juice-shop",
+      "path": "routes/userProfile.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "4d770d8103310ea2471191f696a6e30d9766a651cbf3a963c6dc091cb1bcf8f8"
+    },
+    {
+      "case_id": "SEMGREP-017",
+      "rule_id": "generic.secrets.security.detected-jwt-token.detected-jwt-token",
+      "corpus": "WebGoat",
+      "path": "src/test/java/org/owasp/webgoat/lessons/jwt/JWTRefreshEndpointTest.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "08eb948678367121e2dbb4989819c305216545f92b0ee76e0cf6d315142932fb"
+    },
+    {
+      "case_id": "SEMGREP-018",
+      "rule_id": "java.spring.security.injection.tainted-url-host.tainted-url-host",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/jwt/claimmisuse/JWTHeaderJKUEndpoint.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "95958d43a287b253cab7af360babaddd171bcc14e0a4b663743f8265d06a3668"
+    },
+    {
+      "case_id": "SEMGREP-019",
+      "rule_id": "generic.secrets.security.detected-generic-secret.detected-generic-secret",
+      "corpus": "juice-shop",
+      "path": "test/cypress/e2e/totpSetup.spec.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "08039113ff2ba29f3154a523dfcbcb38b7b75eddd7d7922c49f47f7911b2e1b8"
+    },
+    {
+      "case_id": "SEMGREP-020",
+      "rule_id": "python.flask.security.audit.debug-enabled.debug-enabled",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/insufficient_logging_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "e0a37fd243700bfe839a529baf72524ecbd810ac66f8940d205c14bbe11c2015"
+    },
+    {
+      "case_id": "SEMGREP-021",
+      "rule_id": "python.lang.security.audit.md5-used-as-password.md5-used-as-password",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/crypto_failure_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "a4883e55403dffd15fa7ebc1da07a59d2069a04a95678e3a7034e09c2d3cea42"
+    },
+    {
+      "case_id": "SEMGREP-022",
+      "rule_id": "javascript.lang.security.audit.unknown-value-with-script-tag.unknown-value-with-script-tag",
+      "corpus": "juice-shop",
+      "path": "routes/videoHandler.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "cfaf800d746ceac1b71f569bcfb4e7081b29b4c7a3bc46666f771ec11c44b695"
+    },
+    {
+      "case_id": "SEMGREP-023",
+      "rule_id": "generic.secrets.security.detected-stripe-api-key.detected-stripe-api-key",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/sec_misconfig/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "fe03252c02fa65c2a50e096a299be07340f0f17fcc8871b5c69ce756d445e15d"
+    },
+    {
+      "case_id": "SEMGREP-024",
+      "rule_id": "python.django.security.injection.tainted-sql-string.tainted-sql-string",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/sql_injection_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "9aa46553d4f3af55cf7d548f11dd730c64dbb2ef7db6c50f22a6b63233e5f723"
+    },
+    {
+      "case_id": "SEMGREP-025",
+      "rule_id": "java.lang.security.audit.formatted-sql-string.formatted-sql-string",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/sqlinjection/introduction/SqlInjectionLesson5b.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "336b81afbfb1711162929c531e86fedcf59fe21df244bc77bf14737ce1721a95"
+    },
+    {
+      "case_id": "SEMGREP-026",
+      "rule_id": "javascript.express.security.audit.remote-property-injection.remote-property-injection",
+      "corpus": "juice-shop",
+      "path": "routes/currentUser.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "38a67d1bbfb4d0f9be8165e295b04a8a9ce95ad0658d02d824385ba7a0b8c2c3"
+    },
+    {
+      "case_id": "SEMGREP-027",
+      "rule_id": "javascript.lang.security.audit.hardcoded-hmac-key.hardcoded-hmac-key",
+      "corpus": "juice-shop",
+      "path": "lib/insecurity.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "25c1f8702e6dc214187ac0082940597328f36247c049e7684ebde3a2a7221761"
+    },
+    {
+      "case_id": "SEMGREP-028",
+      "rule_id": "python.django.security.injection.code.user-eval.user-eval",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/command_injection_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "0ea57e80e3162a7c016e91210026cf24c2bb21d88002b1aaaf1ff7b4ab784209"
+    },
+    {
+      "case_id": "SEMGREP-029",
+      "rule_id": "python.flask.security.audit.secure-set-cookie.secure-set-cookie",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/software_integrity_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "f7585e89b7f29b6abc6934a5c49f7788fb076ed3864f4f5f90b3df7be56f1568"
+    },
+    {
+      "case_id": "SEMGREP-030",
+      "rule_id": "java.spring.security.injection.tainted-file-path.tainted-file-path",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/webwolf/FileServer.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "807163583c07d5ee6700d46df69284bc07bd15feec333d1e2fa5a4afeaada0d6"
+    },
+    {
+      "case_id": "SEMGREP-031",
+      "rule_id": "python.flask.security.injection.nan-injection.nan-injection",
+      "corpus": "pygoat",
+      "path": "challenge/labs/security_headers_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "98435b477da09ec365ca0ef6450d93e41afd37c59f7caa3fc98fc3b7f38e6476"
+    },
+    {
+      "case_id": "SEMGREP-032",
+      "rule_id": "python.django.security.injection.ssrf.ssrf-injection-requests.ssrf-injection-requests",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/ssrf_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "82ed7b225ab26e90cda86bcb0992b3cd19e36a31c8ddef5b0f7133709f45e8e0"
+    },
+    {
+      "case_id": "SEMGREP-033",
+      "rule_id": "java.spring.security.audit.spring-unvalidated-redirect.spring-unvalidated-redirect",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/openredirect/OpenRedirectRealRedirect.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "8c2a26575113ba81c7db621fb79f33deab41e65a73a0ae8a84c81e46a90941cf"
+    },
+    {
+      "case_id": "SEMGREP-034",
+      "rule_id": "java.jjwt.security.jwt-none-alg.jjwt-none-alg",
+      "corpus": "WebGoat",
+      "path": "src/test/java/org/owasp/webgoat/lessons/jwt/JWTVotesEndpointTest.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "202603895d177d97f601ab3a331194f4f69f3390b90b740369139dd32d3b77b9"
+    },
+    {
+      "case_id": "SEMGREP-035",
+      "rule_id": "java.lang.security.audit.cookie-missing-secure-flag.cookie-missing-secure-flag",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/jwt/JWTVotesEndpoint.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "41e173553bd91d0f738ee13d3ea388e53597875e0a43a1475dec85a48ce7944a"
+    },
+    {
+      "case_id": "SEMGREP-036",
+      "rule_id": "javascript.lang.security.audit.prototype-pollution.prototype-pollution-loop.prototype-pollution-loop",
+      "corpus": "WebGoat",
+      "path": "src/main/resources/webgoat/static/js/libs/underscore-min.js",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "605e36ed3528f539cdf7f29e72645fbee0cccdb57631a3d3bbd59fb2c49e1ed1"
+    },
+    {
+      "case_id": "SEMGREP-037",
+      "rule_id": "java.lang.security.audit.xxe.documentbuilderfactory-disallow-doctype-decl-missing.documentbuilderfactory-disallow-doctype-decl-missing",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/challenges/challenge2/ChainedXmlService.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "d474168c569d0f77f80c9160f442ece938ab28a114852469a0d88fc7085d0ab8"
+    },
+    {
+      "case_id": "SEMGREP-038",
+      "rule_id": "go.lang.security.audit.net.cookie-missing-httponly.cookie-missing-httponly",
+      "corpus": "microservices-demo",
+      "path": "src/frontend/middleware.go",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "ffdd834150219dc9de8e892edc40e349cc25c4f5061713032c0eefdf3511e623"
+    },
+    {
+      "case_id": "SEMGREP-039",
+      "rule_id": "javascript.sequelize.security.audit.sequelize-injection-express.express-sequelize-injection",
+      "corpus": "juice-shop",
+      "path": "data/static/codefixes/dbSchemaChallenge_1.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "adfe796f8efc68c9294a0639d5c8bed69a85cc93aecec0e7b114c881733fc5cf"
+    },
+    {
+      "case_id": "SEMGREP-040",
+      "rule_id": "java.lang.security.audit.cookie-missing-httponly.cookie-missing-httponly",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/spoofcookie/SpoofCookieAssignment.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "ea24c915aac167b271ee12684f1911d13546f88d4b9a3f6a31d2b7e9829fcdad"
+    },
+    {
+      "case_id": "SEMGREP-041",
+      "rule_id": "javascript.grpc.security.grpc-nodejs-insecure-connection.grpc-nodejs-insecure-connection",
+      "corpus": "microservices-demo",
+      "path": "src/currencyservice/client.js",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "b00667a8eb39eedf2eee9353a2109ddccca93325e54c4466008ab1da46464bce"
+    },
+    {
+      "case_id": "SEMGREP-042",
+      "rule_id": "python.lang.security.audit.formatted-sql-query.formatted-sql-query",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/sql_injection_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "fbade9f41e6d58e215fd2a3e4e9bd365fd3075bc556c4672568c6b06d3064a03"
+    },
+    {
+      "case_id": "SEMGREP-043",
+      "rule_id": "python.flask.security.xss.audit.direct-use-of-jinja2.direct-use-of-jinja2",
+      "corpus": "microservices-demo",
+      "path": "src/emailservice/email_server.py",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "5bbf0bb82d06fccc9a2670ddcab8c838439bf685c60b05fd94f9763f8e9f1d55"
+    },
+    {
+      "case_id": "SEMGREP-044",
+      "rule_id": "javascript.express.security.audit.express-open-redirect.express-open-redirect",
+      "corpus": "juice-shop",
+      "path": "routes/redirect.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "d3631e9bfcbcd5e513a4782ee2fe4836f3d29022227f019b250c64916ad56f58"
+    },
+    {
+      "case_id": "SEMGREP-045",
+      "rule_id": "java.lang.security.audit.command-injection-process-builder.command-injection-process-builder",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/commandinjection/CommandExecutionService.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "d5aacec836f306c0f45a2ad62dc6db47f1fc2d7dfe59bbf4a0792d9f70e5a6f5"
+    },
+    {
+      "case_id": "SEMGREP-046",
+      "rule_id": "java.spring.security.unrestricted-request-mapping.unrestricted-request-mapping",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/jwt/JWTSecretKeyEndpoint.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "224d6e0ea3a4bf8adce6dc38938eba4f61fbeeebbae5ac0abba34f35dee3e2ec"
+    },
+    {
+      "case_id": "SEMGREP-047",
+      "rule_id": "java.lang.security.audit.tainted-session-from-http-request.tainted-session-from-http-request",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/cryptography/EncodingAssignment.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "9fcb967fed542a3eff5d58ad0ddb29332d691a6253faa5561df81b5ee61d9d7e"
+    },
+    {
+      "case_id": "SEMGREP-048",
+      "rule_id": "java.lang.security.httpservlet-path-traversal.httpservlet-path-traversal",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/pathtraversal/ProfileUploadRetrieval.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "1cebb41389f7c2f20f93fd09ae7cfbcebfc36c7ff169983b4590baf56276c143"
+    },
+    {
+      "case_id": "SEMGREP-049",
+      "rule_id": "python.django.security.audit.csrf-exempt.no-csrf-exempt",
+      "corpus": "pygoat",
+      "path": "introduction/views.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "8792a80485a8ddb9dff2ba8b7d689ca9a0bf230af81d02c2a37341c60720087f"
+    },
+    {
+      "case_id": "SEMGREP-050",
+      "rule_id": "python.lang.security.deserialization.avoid-pyyaml-load.avoid-pyyaml-load",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/a9_uckv_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "908d939310115fa51662dbeec8f7d86839ea2bd4de705dd61b78151aa93395a7"
+    },
+    {
+      "case_id": "SEMGREP-051",
+      "rule_id": "java.lang.security.audit.sqli.jdbc-sqli.jdbc-sqli",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/sqlinjection/introduction/SqlInjectionLesson8.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "eb77dd7b2f6c4d38e73ec30915888343a9fd4095f5df0c9811281241e69f5ef4"
+    },
+    {
+      "case_id": "SEMGREP-052",
+      "rule_id": "javascript.lang.security.audit.code-string-concat.code-string-concat",
+      "corpus": "juice-shop",
+      "path": "routes/userProfile.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "9c9c623e93ddb7820c3758f40e85714766b4dd51cce6f5222939aae5c393d98e"
+    },
+    {
+      "case_id": "SEMGREP-053",
+      "rule_id": "python.flask.security.open-redirect.open-redirect",
+      "corpus": "pygoat",
+      "path": "challenge/labs/security_headers_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "f6b43274a3fd2a69c21cec7469c722dee16c57557ee5112b2ba6dead718c6992"
+    },
+    {
+      "case_id": "SEMGREP-054",
+      "rule_id": "go.lang.security.audit.net.cookie-missing-secure.cookie-missing-secure",
+      "corpus": "microservices-demo",
+      "path": "src/frontend/middleware.go",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "538477503611ac28bfd247ba0e9a3924aab2d580f495a13897207bde925b24a5"
+    },
+    {
+      "case_id": "SEMGREP-055",
+      "rule_id": "python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+      "corpus": "pygoat",
+      "path": "challenge/labs/security_headers_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "28b154826df296a68a2d8b039540c52d120eef23f2b74a77eca23c804b31d3b4"
+    },
+    {
+      "case_id": "SEMGREP-056",
+      "rule_id": "generic.secrets.security.detected-aws-access-key-id-value.detected-aws-access-key-id-value",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/sec_misconfig/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "35fa4a4f4b45f243f4833184c3cd39e972812235cdab02d0a7dadda5cda4c892"
+    },
+    {
+      "case_id": "SEMGREP-057",
+      "rule_id": "javascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp",
+      "corpus": "juice-shop",
+      "path": "lib/codingChallenges.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "005862050a1695588e02a688a59ebdd4dbae526423394ca7c884e56d7bed2852"
+    },
+    {
+      "case_id": "SEMGREP-058",
+      "rule_id": "java.lang.security.audit.object-deserialization.object-deserialization",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/deserialization/InsecureDeserializationTask.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "6736e59f7efae2ccf4f920f65d30bdf750dc0c1a038f40c017fb52e92aef5476"
+    },
+    {
+      "case_id": "SEMGREP-059",
+      "rule_id": "javascript.jsonwebtoken.security.jwt-hardcode.hardcoded-jwt-secret",
+      "corpus": "juice-shop",
+      "path": "lib/insecurity.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "fe98384ca81467aedca3a6aa45f2a3f9093e9863d91d74c2129c42caaa966762"
+    },
+    {
+      "case_id": "SEMGREP-060",
+      "rule_id": "python.jwt.security.jwt-hardcode.jwt-python-hardcoded-secret",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/sec_misconfig/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "08824328c8914e5c1952b8292375819edf017d4896490b82b437ff2cda662b9d"
+    },
+    {
+      "case_id": "SEMGREP-061",
+      "rule_id": "python.flask.security.audit.hardcoded-config.avoid_hardcoded_config_DEBUG",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/sde/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "1a870390424bf9ba9131bcb752917b999cd3e854c4d455791ac87460538b5af7"
+    },
+    {
+      "case_id": "SEMGREP-062",
+      "rule_id": "python.flask.security.audit.hardcoded-config.avoid_hardcoded_config_SECRET_KEY",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/dependency_attack_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "570eb85b5b152c46663383d9f39ff58a04a0d635ea8edbc3922c85396bf2a25e"
+    },
+    {
+      "case_id": "SEMGREP-063",
+      "rule_id": "go.lang.security.audit.net.use-tls.use-tls",
+      "corpus": "microservices-demo",
+      "path": "src/frontend/main.go",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "501156abad72d462b61341e7281c2b969a1cc3e71a1bb8c5d70a73dc5709b172"
+    },
+    {
+      "case_id": "SEMGREP-064",
+      "rule_id": "java.lang.security.audit.xxe.documentbuilderfactory-external-general-entities-true.documentbuilderfactory-external-general-entities-true",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/challenges/challenge2/ChainedXmlService.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "562b06052b1c35523df13922c2160e6e753f977863b4bcb2f30fb408ded1cb8f"
+    },
+    {
+      "case_id": "SEMGREP-065",
+      "rule_id": "javascript.lang.security.audit.path-traversal.path-join-resolve-traversal.path-join-resolve-traversal",
+      "corpus": "microservices-demo",
+      "path": "src/paymentservice/server.js",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "f046141664aa914b4c3af1931553c7c829f2c5e6048f1b3078bdf5be09fc77aa"
+    },
+    {
+      "case_id": "SEMGREP-066",
+      "rule_id": "java.servlets.security.cookie-issecure-false.cookie-issecure-false",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/spoofcookie/SpoofCookieAssignment.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "62f5d53d8014a7ab61bd58ef0259d862fd0fc8afe95952726f46b9b836f515ce"
+    },
+    {
+      "case_id": "SEMGREP-067",
+      "rule_id": "java.lang.security.audit.crypto.weak-random.weak-random",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/jwt/JWTSecretKeyEndpoint.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "94fb07ab7b13591d304186ce8e564eb5a990a6c7592bf68c87d5cae08bdc6509"
+    },
+    {
+      "case_id": "SEMGREP-068",
+      "rule_id": "java.spring.security.injection.tainted-sql-string.tainted-sql-string",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/sqlinjection/mitigation/Servers.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "62a31c833643ddc3ba03f16df2f75fc8166da234274f859835206da9670a3585"
+    },
+    {
+      "case_id": "SEMGREP-069",
+      "rule_id": "python.lang.security.deserialization.pickle.avoid-pickle",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/software_integrity_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "ff5caff2ce87bb16131b56d0ed809ab4719ab4ee8c6d257a30bb42b402e79cdd"
+    },
+    {
+      "case_id": "SEMGREP-070",
+      "rule_id": "python.flask.security.insecure-deserialization.insecure-deserialization",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/software_integrity_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "a15669115486150d43cc1a1be352f1acf51fe1630cd2a7b960741ed20e1d02b7"
+    },
+    {
+      "case_id": "SEMGREP-071",
+      "rule_id": "javascript.express.security.audit.express-res-sendfile.express-res-sendfile",
+      "corpus": "juice-shop",
+      "path": "routes/keyServer.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "6b7896cdbd194a5c700513cfbeffac9885d05dbc016fb6b3b5a4cc2d70f72915"
+    },
+    {
+      "case_id": "SEMGREP-072",
+      "rule_id": "javascript.browser.security.eval-detected.eval-detected",
+      "corpus": "WebGoat",
+      "path": "src/main/resources/webgoat/static/js/libs/require.min.js",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "6b60b6a956b7e20f57adff9139e4aca17b0278126a0c46326ccdcbe76f2d54ed"
+    },
+    {
+      "case_id": "SEMGREP-073",
+      "rule_id": "generic.secrets.security.detected-jwt-token.detected-jwt-token",
+      "corpus": "WebGoat",
+      "path": "src/it/java/org/owasp/webgoat/playwright/webwolf/JwtUITest.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "b8a07be352b662ec83436d6aba34e24faac059451cd3afb394ecd5c4f60e25c1"
+    },
+    {
+      "case_id": "SEMGREP-074",
+      "rule_id": "python.flask.security.audit.debug-enabled.debug-enabled",
+      "corpus": "pygoat",
+      "path": "challenge/labs/business_logic_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "af13a1469e94dc2e34543003c1a8794ef99149adcd595488e42e0f91eff4e582"
+    },
+    {
+      "case_id": "SEMGREP-075",
+      "rule_id": "java.lang.security.audit.formatted-sql-string.formatted-sql-string",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/sqlinjection/introduction/SqlInjectionLesson9.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "0ab8c954b0275ed5b64547a7c00072fc21999168d7fdef52ae0f4887d4f6f4bc"
+    },
+    {
+      "case_id": "SEMGREP-076",
+      "rule_id": "python.flask.security.audit.secure-set-cookie.secure-set-cookie",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/crypto_failure_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "4a93c3311ba8b3bd921e2b2b9a1f2f443cf6dcd3aeb7715a6ab0bbb1927d49e4"
+    },
+    {
+      "case_id": "SEMGREP-077",
+      "rule_id": "java.jjwt.security.jwt-none-alg.jjwt-none-alg",
+      "corpus": "WebGoat",
+      "path": "src/test/java/org/owasp/webgoat/lessons/jwt/JWTRefreshEndpointTest.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "f0583b7a745096716ec044d3873e6b37ec4c0fc55b80a38fe8bb3e3886274e4e"
+    },
+    {
+      "case_id": "SEMGREP-078",
+      "rule_id": "java.lang.security.audit.cookie-missing-secure-flag.cookie-missing-secure-flag",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/spoofcookie/SpoofCookieAssignment.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "906633a5efa4084d76dcf742d1980b0e734b9df1080092d097cb25f4d097489f"
+    },
+    {
+      "case_id": "SEMGREP-079",
+      "rule_id": "javascript.lang.security.audit.prototype-pollution.prototype-pollution-loop.prototype-pollution-loop",
+      "corpus": "juice-shop",
+      "path": "frontend/src/hacking-instructor/helpers/helpers.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "3183a184938eceef1ea6904c1227a50f31f1fb029266221da736950095e20822"
+    },
+    {
+      "case_id": "SEMGREP-080",
+      "rule_id": "javascript.sequelize.security.audit.sequelize-injection-express.express-sequelize-injection",
+      "corpus": "juice-shop",
+      "path": "data/static/codefixes/dbSchemaChallenge_3.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "67720f9f0dec77a0cfb3550fbeffcd0591f941b60ab51bab6adcda2852fbf3ae"
+    },
+    {
+      "case_id": "SEMGREP-081",
+      "rule_id": "java.lang.security.audit.cookie-missing-httponly.cookie-missing-httponly",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/jwt/JWTVotesEndpoint.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "d993c851d3c4b8f570e83c35ee0d58a5a7165ee25b1a5d935134354d67ac1431"
+    },
+    {
+      "case_id": "SEMGREP-082",
+      "rule_id": "java.spring.security.unrestricted-request-mapping.unrestricted-request-mapping",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/container/service/LabelDebugService.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "a49688882b9f56afa595c360de486122e7bad3b0c34a74c180b64d9d8b44d9a0"
+    },
+    {
+      "case_id": "SEMGREP-083",
+      "rule_id": "java.lang.security.audit.sqli.jdbc-sqli.jdbc-sqli",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/sqlinjection/introduction/SqlInjectionLesson2.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "64de1bd5c63f1f90ae13dbcd471c157471beec0c5d4adc5ddf37cc351c6e4707"
+    },
+    {
+      "case_id": "SEMGREP-084",
+      "rule_id": "python.flask.security.open-redirect.open-redirect",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/xss_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "e82e0b9d4ca1a002fddbc033671a4cbc2637f1e878e25c1ba9a5cf32fd943de8"
+    },
+    {
+      "case_id": "SEMGREP-085",
+      "rule_id": "python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/insecure_design_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "2ff00b049f4894162e36d0bbbe9b94917000587dd6bdd60a573951765c3cd6ee"
+    },
+    {
+      "case_id": "SEMGREP-086",
+      "rule_id": "javascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp",
+      "corpus": "juice-shop",
+      "path": "lib/utils.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "4b6c13977c5118b919fd5707dc6e8f9f4c0e39c21992cf4379c21153e713cb8e"
+    },
+    {
+      "case_id": "SEMGREP-087",
+      "rule_id": "java.lang.security.audit.object-deserialization.object-deserialization",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/deserialization/SerializationHelper.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "aca8be87b05b28eb8828ad8eda4d7db6bf40495e524fdd5d2d4beb8724ea559f"
+    },
+    {
+      "case_id": "SEMGREP-088",
+      "rule_id": "python.flask.security.audit.hardcoded-config.avoid_hardcoded_config_SECRET_KEY",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/open_source_library_attack_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "3aa27dbd2922560e367a8eb664322572527f290326991e47fda459725c149fef"
+    },
+    {
+      "case_id": "SEMGREP-089",
+      "rule_id": "java.servlets.security.cookie-issecure-false.cookie-issecure-false",
+      "corpus": "WebGoat",
+      "path": "src/test/java/org/owasp/webgoat/lessons/hijacksession/HijackSessionAssignmentTest.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "3a0527716a57371bcb3973c9d0fa84beab637e0f594f2b80512051ced92d004f"
+    },
+    {
+      "case_id": "SEMGREP-090",
+      "rule_id": "java.lang.security.audit.crypto.weak-random.weak-random",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/hijacksession/cas/HijackSessionAuthenticationProvider.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "f9d285b3e54e95f369f33f2b98ca9e852109f6273069e75c1f167dc33f8a61cc"
+    },
+    {
+      "case_id": "SEMGREP-091",
+      "rule_id": "java.spring.security.injection.tainted-sql-string.tainted-sql-string",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/sqlinjection/advanced/SqlInjectionChallenge.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "92f0070fa51c1154b23da09e33f9f0497f4f4996041fbf4bd57a0ab4ef416c5f"
+    },
+    {
+      "case_id": "SEMGREP-092",
+      "rule_id": "python.flask.security.insecure-deserialization.insecure-deserialization",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/insec_des_lab/main.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "76358bb595ddd811d4601b60db29e7256ae2b587ddf79e25538f5ac32aeeb752"
+    },
+    {
+      "case_id": "SEMGREP-093",
+      "rule_id": "javascript.express.security.audit.express-res-sendfile.express-res-sendfile",
+      "corpus": "juice-shop",
+      "path": "routes/quarantineServer.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "8ac33ff6cf0dad21c8be97306b52962fec5bf83fa2e415bfdcd93f6637023155"
+    },
+    {
+      "case_id": "SEMGREP-094",
+      "rule_id": "javascript.browser.security.eval-detected.eval-detected",
+      "corpus": "juice-shop",
+      "path": "routes/captcha.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "ada71b9092154aac4a3ad00707515453db8ea24b78abbef0b46c55133b4bd4fc"
+    },
+    {
+      "case_id": "SEMGREP-095",
+      "rule_id": "generic.secrets.security.detected-jwt-token.detected-jwt-token",
+      "corpus": "juice-shop",
+      "path": "frontend/src/app/last-login-ip/last-login-ip.component.spec.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "b582786137534ecf26124dd15bcd0e6d3d5294c4c9464298fa4f9f6ca9b543c8"
+    },
+    {
+      "case_id": "SEMGREP-096",
+      "rule_id": "python.flask.security.audit.debug-enabled.debug-enabled",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/template_injection_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "d7c2bc99e327dffb318b1823b64bc94fee8fa2d9a52a778e043ded57bd129ff0"
+    },
+    {
+      "case_id": "SEMGREP-097",
+      "rule_id": "java.lang.security.audit.formatted-sql-string.formatted-sql-string",
+      "corpus": "WebGoat",
+      "path": "src/main/java/org/owasp/webgoat/lessons/challenges/challenge5/Assignment5.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "a0f13b2f5b6409d373ade410b8ff1bd7f0839d958cb42130e49de6cf6edaf062"
+    },
+    {
+      "case_id": "SEMGREP-098",
+      "rule_id": "python.flask.security.audit.secure-set-cookie.secure-set-cookie",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/broken_auth_lab/app.py",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "aab2e90e95f36c6169342758d45a82191e30297b5a8987557244fe1be8fe4e12"
+    },
+    {
+      "case_id": "SEMGREP-099",
+      "rule_id": "java.jjwt.security.jwt-none-alg.jjwt-none-alg",
+      "corpus": "WebGoat",
+      "path": "src/test/java/org/owasp/webgoat/lessons/jwt/JWTSecretKeyEndpointTest.java",
+      "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+      "sha256": "9637d5ebfb03d01a3d1c4e62516050bf45ba69847c861ff30b652d7f38b3dea7"
+    },
+    {
+      "case_id": "SEMGREP-100",
+      "rule_id": "javascript.sequelize.security.audit.sequelize-injection-express.express-sequelize-injection",
+      "corpus": "juice-shop",
+      "path": "data/static/codefixes/unionSqlInjectionChallenge_1.ts",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "96939da577463603fa24c84d1f667f33a0541d750d38c132d17f4304676904e0"
+    }
+  ]
+}

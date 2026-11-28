@@ -1,0 +1,18 @@
+{
+  "case_id": "KICS-044",
+  "scanner": "KICS",
+  "rule_id": "e576ce44-dd03-4022-a8c0-3906acca2ab4",
+  "rule_name": "BigQuery Dataset Is Public",
+  "rule_description": "BigQuery dataset is anonymously or publicly accessible",
+  "language": "terraform",
+  "file": "main.tf",
+  "line": 24,
+  "vulnerable_code": "resource \"google_sql_database_instance\" \"master_instance\" {\n  name             = \"terragoat-${var.environment}-master\"\n  database_version = \"POSTGRES_11\"\n  region           = var.region\n\n  settings {\n    tier = \"db-f1-micro\"\n    ip_configuration {\n      ipv4_enabled = true\n      authorized_networks {\n        name  = \"WWW\"\n        value = \"0.0.0.0/0\"\n      }\n    }\n    backup_configuration {\n      enabled = false\n    }\n  }\n}\n\nresource \"google_bigquery_dataset\" \"dataset\" {\n  dataset_id = \"terragoat_${var.environment}_dataset\"\n  access {\n    special_group = \"allAuthenticatedUsers\"\n    role          = \"READER\"\n  }\n  labels = {\n    git_commit           = \"2bdc0871a5f4505be58244029cc6485d45d7bb8e\"\n    git_file             = \"terraform__gcp__big_data_tf\"\n    git_last_modified_at = \"2022-01-19-17-02-27\"\n    git_last_modified_by = \"jameswoolfenden\"\n    git_modifiers        = \"jameswoolfenden__nimrodkor\"\n    git_org              = \"bridgecrewio\"\n    git_repo             = \"terragoat\"\n    yor_trace            = \"2560d883-bc3a-4cb6-b9fc-fb666edf626e\"\n  }\n}\n",
+  "source": {
+    "corpus": "terragoat",
+    "url": "https://github.com/bridgecrewio/terragoat",
+    "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+    "path": "terraform/gcp/big_data.tf",
+    "license": "Apache-2.0"
+  }
+}

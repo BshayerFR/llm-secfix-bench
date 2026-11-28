@@ -1,0 +1,18 @@
+{
+  "case_id": "BEARER-099",
+  "scanner": "Bearer",
+  "rule_id": "javascript_lang_observable_timing",
+  "rule_name": "Observable Timing Discrepancy",
+  "rule_description": "## Description\n\nObservable Timing Discrepancy occurs when the time it takes for certain operations to complete can be measured and observed by attackers. This vulnerability is particularly concerning when operations involve sensitive information, such as password checks or secret comparisons. If attackers can analyze how long these operations take, they might be able to deduce confidential details, putting your data at risk.\n\n## Remediations\n\n- **Do** implement algorithms that process sensitive information in constant time. This approach helps prevent attackers from guessing secrets based on the duration of operations.\n- **Do** use built-in security features and cryptographic libraries that offer functions safe from timing attacks for comparing secret values.\n- **Do not** use direct string comparisons for sensitive information, as this can lead to early termination of the function if a mismatch is found, revealing timing information.\n  ```javascript\n    if (apiToken === \"zDE9ET!TDq2uZx2oM!FD2\") { // unsafe\n      ...\n    }\n  ```\n- **Do not** design application logic that changes execution paths in a manner that could introduce timing discrepancies based on user input or secret values.\n\n## References\n\n- [OWASP Guide to Cryptography](https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html)\n- [MDN Web Docs on SubtleCrypto API](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto)",
+  "language": "typescript",
+  "file": "app.ts",
+  "line": 19,
+  "vulnerable_code": "export function login () {\n  function afterLogin (user: User, res: Response, next: NextFunction) {\n    BasketModel.findOrCreate({ where: { UserId: user.id } })\n      .then(([basket]: [BasketModel, boolean]) => {\n        const authenticatedUser = { data: user, bid: basket.id } // keep track of original basket\n        const token = security.authorize(authenticatedUser)\n        security.authenticatedUsers.put(token, authenticatedUser)\n        res.json({ authentication: { token, bid: basket.id, umail: user.email } })\n      }).catch((error: Error) => {\n        next(error)\n      })\n  }\n\n  return (req: Request, res: Response, next: NextFunction) => {\n    models.sequelize.query(`SELECT * FROM Users WHERE email = :mail AND password = '${security.hash(req.body.password || '')}' AND deletedAt IS NULL`,\n      { replacements: { mail: req.body.email }, model: models.User, plain: true })\n      .then((authenticatedUser) => {\n        const user = utils.queryResultToJson(authenticatedUser)\n        if (user.data?.id && user.data.totpSecret !== '') {\n          res.status(401).json({\n            status: 'totp_token_required',\n            data: {\n              tmpToken: security.authorize({\n                userId: user.data.id,\n                type: 'password_valid_needs_second_factor_token'\n              })\n            }\n          })\n        } else if (user.data?.id) {\n          afterLogin(user.data, res, next)\n        } else {\n          res.status(401).send(res.__('Invalid email or password.'))\n        }\n      }).catch((error: Error) => {\n        next(error)\n      })\n  }\n",
+  "source": {
+    "corpus": "juice-shop",
+    "url": "https://github.com/juice-shop/juice-shop",
+    "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+    "path": "data/static/codefixes/loginBenderChallenge_3.ts",
+    "license": "MIT"
+  }
+}

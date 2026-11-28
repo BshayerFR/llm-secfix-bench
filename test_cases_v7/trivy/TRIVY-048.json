@@ -1,0 +1,18 @@
+{
+  "case_id": "TRIVY-048",
+  "scanner": "Trivy",
+  "rule_id": "CVE-2014-0481:django",
+  "rule_name": "CVE-2014-0481 in django",
+  "rule_description": "Django: file upload denial of service in django. Installed 1.2, fixed in 1.4.14, 1.5.9, 1.6.6.",
+  "language": "text",
+  "file": "requirements.txt",
+  "line": 1,
+  "vulnerable_code": "django==1.2\n",
+  "source": {
+    "corpus": "terragoat",
+    "url": "https://github.com/bridgecrewio/terragoat",
+    "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+    "path": "packages/sub/.hidden/requirements.txt",
+    "license": "Apache-2.0"
+  }
+}

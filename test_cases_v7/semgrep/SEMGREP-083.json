@@ -1,0 +1,18 @@
+{
+  "case_id": "SEMGREP-083",
+  "scanner": "Semgrep",
+  "rule_id": "java.lang.security.audit.sqli.jdbc-sqli.jdbc-sqli",
+  "rule_name": "jdbc-sqli",
+  "rule_description": "Detected a formatted string in a SQL statement. This could lead to SQL injection if variables in the SQL statement are not properly sanitized. Use a prepared statements (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using 'connection.prepareStatement'.",
+  "language": "java",
+  "file": "Main.java",
+  "line": 49,
+  "vulnerable_code": "/*\n * SPDX-FileCopyrightText: Copyright © 2014 WebGoat authors\n * SPDX-License-Identifier: GPL-2.0-or-later\n */\npackage org.owasp.webgoat.lessons.sqlinjection.introduction;\n\nimport static java.sql.ResultSet.CONCUR_READ_ONLY;\nimport static java.sql.ResultSet.TYPE_SCROLL_INSENSITIVE;\nimport static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;\nimport static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;\n\nimport java.sql.ResultSet;\nimport java.sql.SQLException;\nimport java.sql.Statement;\nimport org.owasp.webgoat.container.LessonDataSource;\nimport org.owasp.webgoat.container.assignments.AssignmentEndpoint;\nimport org.owasp.webgoat.container.assignments.AssignmentHints;\nimport org.owasp.webgoat.container.assignments.AttackResult;\nimport org.springframework.web.bind.annotation.PostMapping;\nimport org.springframework.web.bind.annotation.RequestParam;\nimport org.springframework.web.bind.annotation.ResponseBody;\nimport org.springframework.web.bind.annotation.RestController;\n\n@RestController\n@AssignmentHints(\n    value = {\n      \"SqlStringInjectionHint2-1\",\n      \"SqlStringInjectionHint2-2\",\n      \"SqlStringInjectionHint2-3\",\n      \"SqlStringInjectionHint2-4\"\n    })\npublic class SqlInjectionLesson2 implements AssignmentEndpoint {\n\n  private final LessonDataSource dataSource;\n\n  public SqlInjectionLesson2(LessonDataSource dataSource) {\n    this.dataSource = dataSource;\n  }\n\n  @PostMapping(\"/SqlInjection/attack2\")\n  @ResponseBody\n  public AttackResult completed(@RequestParam String query) {\n    return injectableQuery(query);\n  }\n\n  protected AttackResult injectableQuery(String query) {\n    try (var connection = dataSource.getConnection()) {\n      Statement statement = connection.createStatement(TYPE_SCROLL_INSENSITIVE, CONCUR_READ_ONLY);\n      ResultSet results = statement.executeQuery(query);\n      StringBuilder output = new StringBuilder();\n\n      if(!results.first()) {\n          return failed(this).feedback(\"sql-injection.2.failed\").build();\n      }\n\n      if (\"Marketing\".equals(results.getString(\"department\"))) {\n        output.append(\"<span class='feedback-positive'>\")\n                .append(query)\n                .append(\"</span>\");\n        output.append(SqlInjectionLesson8.generateTable(results));\n        return success(this).feedback(\"sql-injection.2.success\").output(output.toString()).build();\n      } else {\n        return failed(this).feedback(\"sql-injection.2.failed\").output(output.toString()).build();\n      }\n    } catch (SQLException sqle) {\n      return failed(this).feedback(\"sql-injection.2.failed\").output(sqle.getMessage()).build();\n    }\n  }\n}\n",
+  "source": {
+    "corpus": "WebGoat",
+    "url": "https://github.com/WebGoat/WebGoat",
+    "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+    "path": "src/main/java/org/owasp/webgoat/lessons/sqlinjection/introduction/SqlInjectionLesson2.java",
+    "license": "GPL-2.0-or-later"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-097",
+  "scanner": "Bandit",
+  "rule_id": "B108",
+  "rule_name": "hardcoded_tmp_directory",
+  "rule_description": "Probable insecure usage of temp file/directory.",
+  "language": "python",
+  "file": "app.py",
+  "line": 31,
+  "vulnerable_code": "#!/usr/bin/env python3\n\nimport datetime\n\nfrom cryptography.hazmat.backends import default_backend\nfrom cryptography.hazmat.primitives.asymmetric import rsa\nfrom cryptography.hazmat.primitives import serialization\nfrom cryptography import x509\nfrom cryptography.x509.oid import NameOID\nfrom cryptography.hazmat.primitives import hashes\n\nprivate_key = rsa.generate_private_key(\n    public_exponent=65537,\n    key_size=2048,\n    backend=default_backend()\n)\n\npublic_key = private_key.public_key()\n\npem_private = private_key.private_bytes(\n    encoding=serialization.Encoding.PEM,\n    format=serialization.PrivateFormat.TraditionalOpenSSL,\n    encryption_algorithm=serialization.NoEncryption()\n)\n\npem_public = public_key.public_bytes(\n    encoding=serialization.Encoding.PEM,\n    format=serialization.PublicFormat.SubjectPublicKeyInfo\n)\n\nwith open('/tmp/ca.key', 'wb') as out:\n    out.write(pem_private)\n\nwith open('/tmp/ca.pub', 'wb') as out:\n    out.write(pem_public)\n\nprint('Created files in /tmp/ca.key /tmp/ca.pub /tmp/ca.cert')\n\n# Various details about who we are. For a self-signed certificate the\n# subject and issuer are always the same.\nsubject = issuer = x509.Name([\n    x509.NameAttribute(NameOID.COUNTRY_NAME, \"AR\"),\n    x509.NameAttribute(NameOID.STATE_OR_PROVINCE_NAME, \"BA\"),\n    x509.NameAttribute(NameOID.LOCALITY_NAME, \"Buenos Aires\"),\n    x509.NameAttribute(NameOID.ORGANIZATION_NAME, \"Vulpy by Securetia\"),\n    x509.NameAttribute(NameOID.COMMON_NAME, \"www.securetia.com\"),\n])\n\ncert = x509.CertificateBuilder().subject_name(subject)\ncert = cert.issuer_name(issuer)\ncert = cert.public_key(public_key)\ncert = cert.serial_number(x509.random_serial_number())\ncert = cert.not_valid_before(datetime.datetime.utcnow())\ncert = cert.not_valid_after(datetime.datetime.utcnow() + datetime.timedelta(days=30))\ncert = cert.sign(private_key, hashes.SHA256(), default_backend())\n\n# Write our certificate out to disk.\nwith open('/tmp/ca.cert', 'wb') as out:\n    out.write(cert.public_bytes(serialization.Encoding.PEM))\n",
+  "source": {
+    "corpus": "vulpy",
+    "url": "https://github.com/fportantier/vulpy",
+    "commit": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+    "path": "utils/ca-create.py",
+    "license": "MIT"
+  }
+}

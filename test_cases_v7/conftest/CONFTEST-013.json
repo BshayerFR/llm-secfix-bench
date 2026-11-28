@@ -1,0 +1,18 @@
+{
+  "case_id": "CONFTEST-013",
+  "scanner": "Conftest",
+  "rule_id": "DF002",
+  "rule_name": "Base image without a fixed version",
+  "rule_description": "Base image \"gcr.io/distroless/nodejs24-debian13\" has no fixed version (tag or digest)",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 1,
+  "vulnerable_code": "FROM node:24 AS installer\nCOPY . /juice-shop\nWORKDIR /juice-shop\nRUN npm install -g typescript@^6.0.3\nRUN npm install --omit=dev\nRUN npm dedupe --omit=dev\nRUN rm -rf frontend/node_modules\nRUN rm -rf frontend/.angular\nRUN rm -rf frontend/src/assets\nRUN mkdir logs\nRUN chown -R 65532 logs\nRUN chgrp -R 0 ftp/ frontend/dist/ logs/ data/ i18n/\nRUN chmod -R g=u ftp/ frontend/dist/ logs/ data/ i18n/\nRUN rm ftp/legal.md || true\nRUN rm i18n/*.json || true\n\n# keep version in sync with package.json\nARG CYCLONEDX_NPM_VERSION='^2.0.0||^3.0.0||^4.0.0'\nRUN npm install -g @cyclonedx/cyclonedx-npm@$CYCLONEDX_NPM_VERSION\nRUN npm run sbom\n\nFROM gcr.io/distroless/nodejs24-debian13\nARG BUILD_DATE\nARG VCS_REF\nLABEL maintainer=\"Bjoern Kimminich <bjoern.kimminich@owasp.org>\" \\\n    org.opencontainers.image.title=\"OWASP Juice Shop\" \\\n    org.opencontainers.image.description=\"Probably the most modern and sophisticated insecure web application\" \\\n    org.opencontainers.image.authors=\"Bjoern Kimminich <bjoern.kimminich@owasp.org>\" \\\n    org.opencontainers.image.vendor=\"Open Worldwide Application Security Project\" \\\n    org.opencontainers.image.documentation=\"https://help.owasp-juice.shop\" \\\n    org.opencontainers.image.licenses=\"MIT\" \\\n    org.opencontainers.image.version=\"20.4.0-SNAPSHOT\" \\\n    org.opencontainers.image.url=\"https://owasp-juice.shop\" \\\n    org.opencontainers.image.source=\"https://github.com/juice-shop/juice-shop\" \\\n    org.opencontainers.image.revision=$VCS_REF \\\n    org.opencontainers.image.created=$BUILD_DATE\nWORKDIR /juice-shop\nCOPY --from=installer --chown=65532:0 /juice-shop .\nUSER 65532\nEXPOSE 3000\nCMD [\"/juice-shop/build/app.js\"]\n",
+  "source": {
+    "corpus": "juice-shop",
+    "url": "https://github.com/juice-shop/juice-shop",
+    "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+    "path": "Dockerfile",
+    "license": "MIT"
+  }
+}

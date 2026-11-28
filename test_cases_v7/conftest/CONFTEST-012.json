@@ -1,0 +1,18 @@
+{
+  "case_id": "CONFTEST-012",
+  "scanner": "Conftest",
+  "rule_id": "DF001",
+  "rule_name": "Container runs as root",
+  "rule_description": "No USER instruction: the container runs as root",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 1,
+  "vulnerable_code": "# Copyright 2022 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#      http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n# NVIDIA CUDA container: https://catalog.ngc.nvidia.com/orgs/nvidia/containers/cuda\n# Supported NVIDIA images: https://gitlab.com/nvidia/container-images/cuda/blob/master/doc/supported-tags.md\n# TensorFlow/CUDA compatibility: https://www.tensorflow.org/install/source#gpu\nFROM nvcr.io/nvidia/cuda:12.5.1-cudnn-runtime-ubuntu22.04\n\nWORKDIR /pipeline\n\nCOPY requirements.txt .\nCOPY *.py ./\n\nRUN apt-get update \\\n    # Install Python and other system dependencies.\n    && apt-get install -y --no-install-recommends \\\n    && rm -rf /var/lib/apt/lists/* \\\n    && update-alternatives --install /usr/bin/python python /usr/bin/python3.13 10 \\\n    && curl https://bootstrap.pypa.io/get-pip.py | python \\\n    # Install the pipeline requirements.\n    && pip install --no-cache-dir -r requirements.txt \\\n    && pip check\n\n# Set the entrypoint to Apache Beam SDK worker launcher.\n# Check this matches the apache-beam version in the requirements.txt\nCOPY --from=apache/beam_python3.13_sdk:2.74.0 /opt/apache/beam /opt/apache/beam\nENTRYPOINT [ \"/opt/apache/beam/boot\" ]\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+    "path": "dataflow/gpu-examples/tensorflow-landsat-prime/Dockerfile",
+    "license": "Apache-2.0"
+  }
+}

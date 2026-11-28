@@ -1,0 +1,18 @@
+{
+  "case_id": "TRIVY-075",
+  "scanner": "Trivy",
+  "rule_id": "CVE-2026-102271:PyJWT",
+  "rule_name": "CVE-2026-102271 in PyJWT",
+  "rule_description": "pyjwt: PyJWT: Authentication bypass via acceptance of DER public keys as HMAC secrets in PyJWT. Installed 2.8.0, fixed in 2.14.0.",
+  "language": "text",
+  "file": "requirements.txt",
+  "line": 1,
+  "vulnerable_code": "Flask==2.2.5\nPyJWT==2.8.0\npython-dotenv==0.21.1\n",
+  "source": {
+    "corpus": "pygoat",
+    "url": "https://github.com/adeyosemanputra/pygoat",
+    "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+    "path": "dockerized_labs/sec_misconfig/requirements.txt",
+    "license": "MIT"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "HADOLINT-094",
+  "scanner": "Hadolint",
+  "rule_id": "DL3018",
+  "rule_name": "DL3018",
+  "rule_description": "Pin versions in apk add. Instead of `apk add <package>` use `apk add <package>=<version>`",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 22,
+  "vulnerable_code": "# Copyright 2020 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#      http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n# Define a default value so it's not empty if the builder fails to provide it\nARG BUILDPLATFORM=linux/amd64\n\nFROM --platform=$BUILDPLATFORM node:24.20.0-alpine@sha256:e67514e5d0f6c46656005e1b693b2ec9d52e80b641307de684d4a015ba7a4eaf AS builder\n\n# Some packages (e.g. @google-cloud/profiler) require additional\n# deps for post-install scripts\nRUN apk add --update --no-cache \\\n    python3 \\\n    make \\\n    g++\n\nWORKDIR /usr/src/app\n\nCOPY package*.json ./\n\nRUN npm install --only=production\n\nFROM alpine:3.24.1@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b\n\nRUN apk add --no-cache nodejs\n\nWORKDIR /usr/src/app\n\nCOPY --from=builder /usr/src/app/node_modules ./node_modules\n\nCOPY . .\n\nEXPOSE 7000\n\nENTRYPOINT [ \"node\", \"server.js\" ]\n",
+  "source": {
+    "corpus": "microservices-demo",
+    "url": "https://github.com/GoogleCloudPlatform/microservices-demo",
+    "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+    "path": "src/currencyservice/Dockerfile",
+    "license": "Apache-2.0"
+  }
+}

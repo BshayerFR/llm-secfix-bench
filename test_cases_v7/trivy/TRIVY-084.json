@@ -1,0 +1,18 @@
+{
+  "case_id": "TRIVY-084",
+  "scanner": "Trivy",
+  "rule_id": "CVE-2026-112390:pillow",
+  "rule_name": "CVE-2026-112390 in pillow",
+  "rule_description": "pillow: Pillow: Denial of Service via infinite loop during crafted MIC image parsing in pillow. Installed 12.3.0, fixed in 13.0.0.",
+  "language": "text",
+  "file": "requirements.txt",
+  "line": 1,
+  "vulnerable_code": "google-cloud-vision==3.8.1\npillow==12.3.0; python_version >= \"3.10\"\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+    "path": "vision/snippets/crop_hints/requirements.txt",
+    "license": "Apache-2.0"
+  }
+}

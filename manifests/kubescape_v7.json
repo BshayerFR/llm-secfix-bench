@@ -1,0 +1,653 @@
+{
+  "seed": 42,
+  "max_lines": 400,
+  "per_rule_cap": 15,
+  "corpora": {
+    "juice-shop": {
+      "url": "https://github.com/juice-shop/juice-shop",
+      "license": "MIT"
+    },
+    "WebGoat": {
+      "url": "https://github.com/WebGoat/WebGoat",
+      "license": "GPL-2.0-or-later"
+    },
+    "microservices-demo": {
+      "url": "https://github.com/GoogleCloudPlatform/microservices-demo",
+      "license": "Apache-2.0"
+    },
+    "pygoat": {
+      "url": "https://github.com/adeyosemanputra/pygoat",
+      "license": "MIT"
+    },
+    "terragoat": {
+      "url": "https://github.com/bridgecrewio/terragoat",
+      "license": "Apache-2.0"
+    },
+    "vulpy": {
+      "url": "https://github.com/fportantier/vulpy",
+      "license": "MIT"
+    },
+    "VAmPI": {
+      "url": "https://github.com/erev0s/VAmPI",
+      "license": "MIT"
+    },
+    "dvpwa": {
+      "url": "https://github.com/anxolerd/dvpwa",
+      "license": "MIT-style, see LICENSE"
+    },
+    "awesome-compose": {
+      "url": "https://github.com/docker/awesome-compose",
+      "license": "CC0, see LICENSE"
+    },
+    "example-voting-app": {
+      "url": "https://github.com/dockersamples/example-voting-app",
+      "license": "Apache-2.0"
+    },
+    "python-docs-samples": {
+      "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+      "license": "Apache-2.0"
+    }
+  },
+  "scanners": {
+    "kubescape": {
+      "version": "Error: unknown flag: --version",
+      "files_staged": 87,
+      "candidates": 194,
+      "selected": 73,
+      "distinct_rules": 13,
+      "corpus_commits": {
+        "juice-shop": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+        "WebGoat": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+        "microservices-demo": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+        "pygoat": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+        "terragoat": "729f8da62c6a85ce4af5ad3d123de97776d954c4"
+      }
+    }
+  },
+  "cases": [
+    {
+      "case_id": "KUBESCAPE-001",
+      "rule_id": "C-0190",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/recommendationservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "f91bf26e1e2319c1696553cf3eb85dda9671ffd308f46ae9a57c1a65757bc4f2"
+    },
+    {
+      "case_id": "KUBESCAPE-002",
+      "rule_id": "C-0237",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/frontend.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "cd3a54cce572cbd57a752b83c63f7b414285879de01929c17e64b75540eb3e07"
+    },
+    {
+      "case_id": "KUBESCAPE-003",
+      "rule_id": "C-0012",
+      "corpus": "microservices-demo",
+      "path": "kustomize/components/shopping-assistant/shoppingassistantservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "56414754a99d5ff3fe0c6884319126232d328b090c117f8f2477df5a23136860"
+    },
+    {
+      "case_id": "KUBESCAPE-004",
+      "rule_id": "C-0056",
+      "corpus": "microservices-demo",
+      "path": "kustomize/components/shopping-assistant/shoppingassistantservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "ac08d794c0a5b1a0d9853c7fe92ef4acd30dcdbdf28ba9af222f37607373e527"
+    },
+    {
+      "case_id": "KUBESCAPE-005",
+      "rule_id": "C-0210",
+      "corpus": "microservices-demo",
+      "path": "kustomize/components/google-cloud-operations/otel-collector.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "c6cbee4b6fb035b0ee0d131e991f80af8553818c11f9a9668094920b40acf389"
+    },
+    {
+      "case_id": "KUBESCAPE-006",
+      "rule_id": "C-0263",
+      "corpus": "microservices-demo",
+      "path": ".github/release-cluster/frontend-ingress.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "6d5276161ac42d4ed87e50281aa37c1d7eb4ab4447c83ffd5261873b5ef19323"
+    },
+    {
+      "case_id": "KUBESCAPE-007",
+      "rule_id": "C-0211",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/loadgenerator.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "6e95fd0f271f1501566a4db99f401b694f24d189547d53e72e302125168240fa"
+    },
+    {
+      "case_id": "KUBESCAPE-008",
+      "rule_id": "C-0009",
+      "corpus": "microservices-demo",
+      "path": "kustomize/components/google-cloud-operations/otel-collector.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "2d9b9cbd741e9fcc21ca5e86f1c2289d4cdbff77a026813a4ef912b8bc124df3"
+    },
+    {
+      "case_id": "KUBESCAPE-009",
+      "rule_id": "C-0236",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/currencyservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "312e5a84b88d9389faaaf969f64d7804d53148b598859084cb3a2e6960106299"
+    },
+    {
+      "case_id": "KUBESCAPE-010",
+      "rule_id": "C-0004",
+      "corpus": "microservices-demo",
+      "path": "kustomize/components/google-cloud-operations/otel-collector.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "77ced93897e28a48c91e9b7e3b2ece71ea7a035eb027fcbe52f098cd727936dd"
+    },
+    {
+      "case_id": "KUBESCAPE-011",
+      "rule_id": "C-0259",
+      "corpus": "microservices-demo",
+      "path": "kustomize/components/shopping-assistant/shoppingassistantservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "90ed4fb33fed9a6a7516defb270581ec15e36cc01cdec947ad7fab29b4ae1adc"
+    },
+    {
+      "case_id": "KUBESCAPE-012",
+      "rule_id": "C-0055",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/paymentservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "82d3da68d352a3e560c3e3100a2cb1b13cd4b4987cfc550dd686ff9bd3eed116"
+    },
+    {
+      "case_id": "KUBESCAPE-013",
+      "rule_id": "C-0034",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/recommendationservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "a6a51853560df1a3f4b98220c43cf87c53f63f27ffba622086b290d1a98d8ed7"
+    },
+    {
+      "case_id": "KUBESCAPE-014",
+      "rule_id": "C-0190",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/productcatalogservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "861e2f11d9eb7177479adfe892cb73423518eb773f7c08a7c9cf5dcb57f35bff"
+    },
+    {
+      "case_id": "KUBESCAPE-015",
+      "rule_id": "C-0237",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/currencyservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "e9800bb6b3b34f41973d5285546375910194475d5392397bd083e4062eb8f061"
+    },
+    {
+      "case_id": "KUBESCAPE-016",
+      "rule_id": "C-0056",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/loadgenerator.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "6ce80404d70026839631ad75e0ba4791cbe055a686fed679e38516d9c6ce9070"
+    },
+    {
+      "case_id": "KUBESCAPE-017",
+      "rule_id": "C-0210",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/shippingservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "d7d9d518874c4cade84fe5430e03eecee32d5745420cff40458ae4aedaa3a53a"
+    },
+    {
+      "case_id": "KUBESCAPE-018",
+      "rule_id": "C-0211",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/paymentservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "8b410ac93b3d91f24a63d18b16afe50fdd030e9604d6ffcf5620eac21c22c074"
+    },
+    {
+      "case_id": "KUBESCAPE-019",
+      "rule_id": "C-0236",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/emailservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "05928154538832780c6fab29c52558fb7927492f0131cf14e8b8943d125badb2"
+    },
+    {
+      "case_id": "KUBESCAPE-020",
+      "rule_id": "C-0055",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/productcatalogservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "164740b30341e861f1d7939c4fda2ad220ab9bf648363ad8884563294182f3ee"
+    },
+    {
+      "case_id": "KUBESCAPE-021",
+      "rule_id": "C-0034",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/currencyservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "5a9f2967afa94f9992c5d9bdc2a37038ddcf910c9e2691d677c6c59df96a19f1"
+    },
+    {
+      "case_id": "KUBESCAPE-022",
+      "rule_id": "C-0190",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/adservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "0ff14932e7b4c9b79b3df587692834cfd58af89cce5034a02a6fd29a3e17404d"
+    },
+    {
+      "case_id": "KUBESCAPE-023",
+      "rule_id": "C-0237",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/adservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "b84bda85b116d19d210786213a6c560fa0401f1da72317d1cf0af66985378e84"
+    },
+    {
+      "case_id": "KUBESCAPE-024",
+      "rule_id": "C-0056",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/loadgenerator.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "b3f90dba3a3dedb49bb7d1c4699a1da7708e7b23c38c01c22435bd90e2fad89b"
+    },
+    {
+      "case_id": "KUBESCAPE-025",
+      "rule_id": "C-0210",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/recommendationservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "5ad27d2e898f9f86d67587e0f61dbdf57bb437b2eefd3997f0c08a94963b2139"
+    },
+    {
+      "case_id": "KUBESCAPE-026",
+      "rule_id": "C-0211",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/shippingservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "175c0b199517ebff705cef1f3947d7719898be6b2532d884c7b8d0e609b30516"
+    },
+    {
+      "case_id": "KUBESCAPE-027",
+      "rule_id": "C-0236",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/frontend.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "9a5f55c0a3c1ccd771dee1db324f62669746c6f2bc7e0d0a68cfd50d6ba00df3"
+    },
+    {
+      "case_id": "KUBESCAPE-028",
+      "rule_id": "C-0055",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/adservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "5745c42d5456b1113537599cf5b4ceb942ae494bc4f75272e1ddd8c7358edf4b"
+    },
+    {
+      "case_id": "KUBESCAPE-029",
+      "rule_id": "C-0034",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/adservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "5197e4236e6835ce5d9a4cf94f04bef84b8906970a379de198828ea6b10f9a6f"
+    },
+    {
+      "case_id": "KUBESCAPE-030",
+      "rule_id": "C-0190",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/paymentservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "030643a02e2d1155ed1e45d507506fd67ae0dcc6c47e4dce8549c59f539627cd"
+    },
+    {
+      "case_id": "KUBESCAPE-031",
+      "rule_id": "C-0237",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/productcatalogservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "c3290c2fcb3cd1d86fc2d542801b5a862b19d3237c8aee772d8c6ef5a5907c7d"
+    },
+    {
+      "case_id": "KUBESCAPE-032",
+      "rule_id": "C-0210",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/checkoutservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "523c323a788ecfd889498ca84a808349ba9fae7b95b67f743c058acbaf95dec7"
+    },
+    {
+      "case_id": "KUBESCAPE-033",
+      "rule_id": "C-0211",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/emailservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "051f5ce3a367707742fff2335c70b1306958a1fa6df5ba7357e2009bed7308e4"
+    },
+    {
+      "case_id": "KUBESCAPE-034",
+      "rule_id": "C-0236",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/checkoutservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "b0bf9e230d5fe260026d5183a60453fb38a9f31f03ddba8bac8a21c7af04c89a"
+    },
+    {
+      "case_id": "KUBESCAPE-035",
+      "rule_id": "C-0055",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/frontend.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "65a407c304a35bd0a45b26177d8705d22a52e24dd1ecfef6ef936f89d09fbe08"
+    },
+    {
+      "case_id": "KUBESCAPE-036",
+      "rule_id": "C-0034",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/productcatalogservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "ee408286172dd8bd4388afebd4fc8b66759850cfd9d51128e0dc24749a48eb6d"
+    },
+    {
+      "case_id": "KUBESCAPE-037",
+      "rule_id": "C-0190",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/loadgenerator.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "986b1fec8b72a8783f42bedf69d97e83d1584deb4a7a542060c3ae2a0eb14e24"
+    },
+    {
+      "case_id": "KUBESCAPE-038",
+      "rule_id": "C-0237",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/frontend.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "ecd9683d54e2d0c1cd69f435dbc6ea1b8bf070be5a01208e888ec56bdbbe118c"
+    },
+    {
+      "case_id": "KUBESCAPE-039",
+      "rule_id": "C-0210",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/productcatalogservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "6e3564b4eb902401e58d91ca419a514f85d19285a6f9a8e7ce5f260b932ce339"
+    },
+    {
+      "case_id": "KUBESCAPE-040",
+      "rule_id": "C-0211",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/cartservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "17a7011fcd344701ce5aee1cd5640a2f77515c6cfe7fadd6e51bc1d5e32d5d27"
+    },
+    {
+      "case_id": "KUBESCAPE-041",
+      "rule_id": "C-0236",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/checkoutservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "1edb3576063f01e3a43e02fb95292ecd37f070d07cd4769ab5be094f5ea92dc7"
+    },
+    {
+      "case_id": "KUBESCAPE-042",
+      "rule_id": "C-0055",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/checkoutservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "76e6ba1ac594adeb96c78391a056da332daaaa3d344a1d67ad9209cfc9d0f53d"
+    },
+    {
+      "case_id": "KUBESCAPE-043",
+      "rule_id": "C-0034",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/paymentservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "3296e97bce0aff7ccf7a7b5787af7317a7e113c855a301a6456892436198b29f"
+    },
+    {
+      "case_id": "KUBESCAPE-044",
+      "rule_id": "C-0190",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/checkoutservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "598c456f4dd05e1484b1618e271cb8f8c775cae868b8576e9606037a2655aa66"
+    },
+    {
+      "case_id": "KUBESCAPE-045",
+      "rule_id": "C-0237",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/productcatalogservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "bfa3c1098f4e87bc7a5e55e26c0acdb62a82af03659c84c6247d060e844b219b"
+    },
+    {
+      "case_id": "KUBESCAPE-046",
+      "rule_id": "C-0210",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/loadgenerator.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "2704d9ba996a4506dfcadab1eec4ac13db171fdbe894b952b73b4e04d1020fff"
+    },
+    {
+      "case_id": "KUBESCAPE-047",
+      "rule_id": "C-0211",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/currencyservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "c7359aca288963488aa995b12abfe0b629a4416b10920d8f6a4086de23cbad26"
+    },
+    {
+      "case_id": "KUBESCAPE-048",
+      "rule_id": "C-0236",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/cartservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "e988272ed7877e6d92a1126ca9519ceeb11cdf12dab893865f209cb036abbdbe"
+    },
+    {
+      "case_id": "KUBESCAPE-049",
+      "rule_id": "C-0055",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/shippingservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "b5100222c8925b95cdf184566f035a9a81bb08536a301db8bad37ac495c5f2bf"
+    },
+    {
+      "case_id": "KUBESCAPE-050",
+      "rule_id": "C-0034",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/emailservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "cd32c9b4a79291b1b4c6b3932f387e0ccb53a7a5566d80048682cf866f9b1588"
+    },
+    {
+      "case_id": "KUBESCAPE-051",
+      "rule_id": "C-0190",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/cartservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "d57eb99cec553dd8848c5b808faf95410b5d58fb7f1932ee4c6a8a71411baf22"
+    },
+    {
+      "case_id": "KUBESCAPE-052",
+      "rule_id": "C-0237",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/currencyservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "ca32c921476ed7940febf6b9b28f7204fffa4efa084c1998aaa12d9a0421cda1"
+    },
+    {
+      "case_id": "KUBESCAPE-053",
+      "rule_id": "C-0210",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/paymentservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "ad74ff625f053cf7741eab9183373dfddb4640aa6f0da291c2f0e03a873f5988"
+    },
+    {
+      "case_id": "KUBESCAPE-054",
+      "rule_id": "C-0211",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/emailservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "44a807d104188b9e18576b435cef9758ba4a04c61108633c512a24f8cabc900b"
+    },
+    {
+      "case_id": "KUBESCAPE-055",
+      "rule_id": "C-0236",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/loadgenerator.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "040bfa2c3dc79dd7fa0b263a854d90a5c987d400fc73ed0676690f6605cda75c"
+    },
+    {
+      "case_id": "KUBESCAPE-056",
+      "rule_id": "C-0055",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/cartservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "6b8411c4b54537c72e3d61c1c6e08682df14f4a7650214b7970e5c66578c85a8"
+    },
+    {
+      "case_id": "KUBESCAPE-057",
+      "rule_id": "C-0034",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/recommendationservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "03b22944a5fcfd3413a59687ca49dd781d9ca023e8a6a70fc3fb5691d71a2c42"
+    },
+    {
+      "case_id": "KUBESCAPE-058",
+      "rule_id": "C-0190",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/paymentservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "9d0a3bd42d92e1b183f54830382493d10fec9b73ea83d121bf9c8a7b82771227"
+    },
+    {
+      "case_id": "KUBESCAPE-059",
+      "rule_id": "C-0237",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/recommendationservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "9e6f0bc49f243fcc898a30b77c67b80ae29abd8b8ace04d738ea5d0b8ee20d84"
+    },
+    {
+      "case_id": "KUBESCAPE-060",
+      "rule_id": "C-0210",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/frontend.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "0eb2254e699c0044f90ef24a83b013cd9473f72702acdc1874d0a0c250fdedb9"
+    },
+    {
+      "case_id": "KUBESCAPE-061",
+      "rule_id": "C-0211",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/adservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "2591152b036e37eebc3a189eb60457d3ccc05f4902d02167d97cec284a0bc36c"
+    },
+    {
+      "case_id": "KUBESCAPE-062",
+      "rule_id": "C-0236",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/currencyservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "182234a8adf5c855cab5f806e56df7dd34ba9a58bd157d21dcae1c0a3b4b6e82"
+    },
+    {
+      "case_id": "KUBESCAPE-063",
+      "rule_id": "C-0055",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/cartservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "bdbb4f064973acc4859ad58967ca6765cb1d67f00102eb779566780def4380f8"
+    },
+    {
+      "case_id": "KUBESCAPE-064",
+      "rule_id": "C-0034",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/shippingservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "c02cd40a3470f2e88e34e6ad71e9ebe3b4db71e3f865d3beb9f05df215d0a579"
+    },
+    {
+      "case_id": "KUBESCAPE-065",
+      "rule_id": "C-0190",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/recommendationservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "c51ef666de020ed38ea50e126bfad6419fb7af406e19ce13dda02bd9ea81b20e"
+    },
+    {
+      "case_id": "KUBESCAPE-066",
+      "rule_id": "C-0237",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/checkoutservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "0d5392cbe742af5e1f943cfb7c2a825a27918c5d1a3654158460a41f94a61ff4"
+    },
+    {
+      "case_id": "KUBESCAPE-067",
+      "rule_id": "C-0210",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/shippingservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "1b2f8fbf2bfe5f29f12f93e141fe61858820a9080f4d5cbe84c66550d7b87190"
+    },
+    {
+      "case_id": "KUBESCAPE-068",
+      "rule_id": "C-0211",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/frontend.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "8535bca7d3d19d0ffbbc7321e9ddda6f110a75f68960448828dbec660e5d1e13"
+    },
+    {
+      "case_id": "KUBESCAPE-069",
+      "rule_id": "C-0236",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/emailservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "4b4396302f98ada5f46a85a8c7ae2720ba62ee09f23d72811621484114f55e5e"
+    },
+    {
+      "case_id": "KUBESCAPE-070",
+      "rule_id": "C-0055",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/emailservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "caaf411504941d5f9cbd3abd2d696fc008886dc1ee4c6a03e8f6bfe943d5f72d"
+    },
+    {
+      "case_id": "KUBESCAPE-071",
+      "rule_id": "C-0034",
+      "corpus": "microservices-demo",
+      "path": "kubernetes-manifests/cartservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "41929844bdb5263a8a7f703cb5b5f38f1f24fee3fe75e377122e6ac840799fb2"
+    },
+    {
+      "case_id": "KUBESCAPE-072",
+      "rule_id": "C-0190",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/shippingservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "72657908de862d64ada1826be5ad4cc8cb129a451c5dde8ff71e85431930b9a7"
+    },
+    {
+      "case_id": "KUBESCAPE-073",
+      "rule_id": "C-0237",
+      "corpus": "microservices-demo",
+      "path": "kustomize/base/adservice.yaml",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "41b45b3dcbf803f0a531dafc97c5f2511dd60b5171bff48d2362fea6014488da"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "SEMGREP-015",
+  "scanner": "Semgrep",
+  "rule_id": "python.flask.security.injection.ssrf-requests.ssrf-requests",
+  "rule_name": "ssrf-requests",
+  "rule_description": "Data from request object is passed to a new server-side request. This could lead to a server-side request forgery (SSRF). To mitigate, ensure that schemes and hosts are validated against an allowlist, do not forward the response to the user, and ensure proper authentication and transport-layer security in the proxied request.",
+  "language": "python",
+  "file": "app.py",
+  "line": 37,
+  "vulnerable_code": "from flask import Flask, render_template, request, redirect, url_for, flash\nimport os\nimport requests\n\napp = Flask(__name__)\napp.secret_key = \"your_secret_key_here\"  # Required for flash messages\n\n\n@app.route(\"/\")\ndef index():\n    return render_template(\"index.html\")\n\n\n# Lab 1: File Reading SSRF\n@app.route(\"/lab1\", methods=[\"GET\", \"POST\"])\ndef lab1():\n    if request.method == \"POST\":\n        file = request.form.get(\"blog\")\n        try:\n            # Vulnerable implementation - allows directory traversal\n            file_path = os.path.join(os.path.dirname(__file__), file)\n            with open(file_path, \"r\") as f:\n                blog_content = f.read()\n            flash(\"Success! Keep exploring...\", \"success\")\n            return render_template(\"lab1.html\", blog=blog_content)\n        except:\n            return render_template(\"lab1.html\", blog=\"No blog found\")\n    return render_template(\"lab1.html\", blog=\"Read Blog About SSRF\")\n\n\n# Lab 2: URL SSRF with localhost check\n@app.route(\"/lab2\", methods=[\"GET\", \"POST\"])\ndef lab2():\n    if request.method == \"POST\":\n        url = request.form.get(\"url\")\n        try:\n            response = requests.get(url)\n            flash(\"Successfully fetched URL!\", \"success\")\n            return render_template(\"lab2.html\", response=response.text)\n        except:\n            return render_template(\"lab2.html\", error=\"Invalid URL\")\n    return render_template(\"lab2.html\")\n\n\ndef get_client_ip(request):\n    \"\"\"Get client IP from request\"\"\"\n    if \"X-Forwarded-For\" in request.headers:\n        return request.headers.get(\"X-Forwarded-For\").split(\",\")[0]\n    return request.remote_addr\n\n\n# Internal endpoint for Lab 2\n@app.route(\"/internal\")\ndef internal():\n    client_ip = get_client_ip(request)\n    if client_ip == \"127.0.0.1\":\n        return render_template(\"internal.html\")\n    return render_template(\"internal.html\", access_denied=True)\n\n@app.route(\"/health\")\ndef health_check():\n    return \"OK\", 200\n\nif __name__ == '__main__':\n    app.run(host='0.0.0.0', port=5000)\n",
+  "source": {
+    "corpus": "pygoat",
+    "url": "https://github.com/adeyosemanputra/pygoat",
+    "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+    "path": "dockerized_labs/ssrf_lab/app.py",
+    "license": "MIT"
+  }
+}

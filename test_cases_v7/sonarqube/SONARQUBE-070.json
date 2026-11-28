@@ -1,0 +1,18 @@
+{
+  "case_id": "SONARQUBE-070",
+  "scanner": "SonarQube",
+  "rule_id": "java:S2068",
+  "rule_name": "'password' detected in this expression, review this potentially hard-coded password.",
+  "rule_description": "'password' detected in this expression, review this potentially hard-coded password.",
+  "language": "java",
+  "file": "Main.java",
+  "line": 63,
+  "vulnerable_code": "/*\n * SPDX-FileCopyrightText: Copyright © 2014 WebGoat authors\n * SPDX-License-Identifier: GPL-2.0-or-later\n */\npackage org.owasp.webgoat.lessons.hijacksession;\n\nimport static org.hamcrest.Matchers.emptyString;\nimport static org.hamcrest.Matchers.not;\nimport static org.mockito.ArgumentMatchers.any;\nimport static org.mockito.Mockito.lenient;\nimport static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;\nimport static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;\n\nimport jakarta.servlet.http.Cookie;\nimport org.hamcrest.CoreMatchers;\nimport org.junit.jupiter.api.Test;\nimport org.owasp.webgoat.container.plugins.LessonTest;\nimport org.owasp.webgoat.lessons.hijacksession.cas.Authentication;\nimport org.owasp.webgoat.lessons.hijacksession.cas.HijackSessionAuthenticationProvider;\nimport org.springframework.test.context.bean.override.mockito.MockitoBean;\nimport org.springframework.test.web.servlet.ResultActions;\nimport org.springframework.test.web.servlet.request.MockMvcRequestBuilders;\n\nclass HijackSessionAssignmentTest extends LessonTest {\n\n  private static final String COOKIE_NAME = \"hijack_cookie\";\n  private static final String LOGIN_CONTEXT_PATH = \"/HijackSession/login\";\n\n  @MockitoBean\n  Authentication authenticationMock;\n\n  @MockitoBean HijackSessionAuthenticationProvider providerMock;\n\n  @Test\n  void testValidCookie() throws Exception {\n    lenient().when(authenticationMock.isAuthenticated()).thenReturn(true);\n    lenient()\n        .when(providerMock.authenticate(any(Authentication.class)))\n        .thenReturn(authenticationMock);\n\n    Cookie cookie = new Cookie(COOKIE_NAME, \"value\");\n\n    ResultActions result =\n        mockMvc.perform(\n            MockMvcRequestBuilders.post(LOGIN_CONTEXT_PATH)\n                .cookie(cookie)\n                .param(\"username\", \"\")\n                .param(\"password\", \"\"));\n\n    result.andExpect(jsonPath(\"$.lessonCompleted\", CoreMatchers.is(true)));\n  }\n\n  @Test\n  void testBlankCookie() throws Exception {\n    lenient().when(authenticationMock.isAuthenticated()).thenReturn(false);\n    lenient()\n        .when(providerMock.authenticate(any(Authentication.class)))\n        .thenReturn(authenticationMock);\n    ResultActions result =\n        mockMvc.perform(\n            MockMvcRequestBuilders.post(LOGIN_CONTEXT_PATH)\n                .param(\"username\", \"webgoat\")\n                .param(\"password\", \"webgoat\"));\n\n    result.andExpect(cookie().value(COOKIE_NAME, not(emptyString())));\n    result.andExpect(jsonPath(\"$.lessonCompleted\", CoreMatchers.is(false)));\n  }\n}\n",
+  "source": {
+    "corpus": "WebGoat",
+    "url": "https://github.com/WebGoat/WebGoat",
+    "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+    "path": "src/test/java/org/owasp/webgoat/lessons/hijacksession/HijackSessionAssignmentTest.java",
+    "license": "GPL-2.0-or-later"
+  }
+}

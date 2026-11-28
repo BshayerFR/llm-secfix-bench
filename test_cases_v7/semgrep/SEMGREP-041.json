@@ -1,0 +1,18 @@
+{
+  "case_id": "SEMGREP-041",
+  "scanner": "Semgrep",
+  "rule_id": "javascript.grpc.security.grpc-nodejs-insecure-connection.grpc-nodejs-insecure-connection",
+  "rule_name": "grpc-nodejs-insecure-connection",
+  "rule_description": "Found an insecure gRPC connection. This creates a connection without encryption to a gRPC client/server. A malicious attacker could tamper with the gRPC message, which could compromise the machine.",
+  "language": "javascript",
+  "file": "app.js",
+  "line": 21,
+  "vulnerable_code": "/*\n *\n * Copyright 2015 gRPC authors.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *     http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n *\n */\nrequire('@google-cloud/trace-agent').start();\n\nconst path = require('path');\nconst grpc = require('grpc');\nconst pino = require('pino');\n\nconst PROTO_PATH = path.join(__dirname, './proto/demo.proto');\nconst PORT = 7000;\n\nconst shopProto = grpc.load(PROTO_PATH).hipstershop;\nconst client = new shopProto.CurrencyService(`localhost:${PORT}`,\n  grpc.credentials.createInsecure());\n\nconst logger = pino({\n  name: 'currencyservice-client',\n  messageKey: 'message',\n  formatters: {\n    level (logLevelString, logLevelNum) {\n      return { severity: logLevelString }\n    }\n  }\n});\n\nconst request = {\n  from: {\n    currency_code: 'CHF',\n    units: 300,\n    nanos: 0\n  },\n  to_code: 'EUR'\n};\n\nfunction _moneyToString (m) {\n  return `${m.units}.${m.nanos.toString().padStart(9,'0')} ${m.currency_code}`;\n}\n\nclient.getSupportedCurrencies({}, (err, response) => {\n  if (err) {\n    logger.error(`Error in getSupportedCurrencies: ${err}`);\n  } else {\n    logger.info(`Currency codes: ${response.currency_codes}`);\n  }\n});\n\nclient.convert(request, (err, response) => {\n  if (err) {\n    logger.error(`Error in convert: ${err}`);\n  } else {\n    logger.log(`Convert: ${_moneyToString(request.from)} to ${_moneyToString(response)}`);\n  }\n});\n",
+  "source": {
+    "corpus": "microservices-demo",
+    "url": "https://github.com/GoogleCloudPlatform/microservices-demo",
+    "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+    "path": "src/currencyservice/client.js",
+    "license": "Apache-2.0"
+  }
+}

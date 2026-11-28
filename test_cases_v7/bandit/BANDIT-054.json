@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-054",
+  "scanner": "Bandit",
+  "rule_id": "B113",
+  "rule_name": "request_without_timeout",
+  "rule_description": "Call to requests without timeout",
+  "language": "python",
+  "file": "app.py",
+  "line": 22,
+  "vulnerable_code": "#!/usr/bin/env python3\n\nimport requests\n\nURL = 'http://127.0.1.1:5000/user/login'\n\nusername = 'admin'\n\npasswords = [\n    '1',\n    '12',\n    '123',\n    '1234',\n    '12345',\n    '123456',\n    '1234567',\n    '12345678',\n    'SuperSecret',\n]\n\nfor password in passwords:\n    response = requests.post(URL, data = {'username': username, 'password': password})\n    if 'HOME' in response.text:\n        print('cracked!', username, password)\n        break\n",
+  "source": {
+    "corpus": "vulpy",
+    "url": "https://github.com/fportantier/vulpy",
+    "commit": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+    "path": "good/httpbrute.py",
+    "license": "MIT"
+  }
+}

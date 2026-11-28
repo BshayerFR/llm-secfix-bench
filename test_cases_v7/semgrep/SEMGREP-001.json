@@ -1,0 +1,18 @@
+{
+  "case_id": "SEMGREP-001",
+  "scanner": "Semgrep",
+  "rule_id": "python.flask.security.injection.subprocess-injection.subprocess-injection",
+  "rule_name": "subprocess-injection",
+  "rule_description": "Detected user input entering a `subprocess` call unsafely. This could result in a command injection vulnerability. An attacker could use this vulnerability to execute arbitrary commands on the host, which allows them to download malware, scan sensitive data, or run any command they wish on the server. Do not let users choose the command to run. In general, prefer to use Python API versions of system commands. If you must use subprocess, use a dictionary to allowlist a set of commands.",
+  "language": "python",
+  "file": "app.py",
+  "line": 29,
+  "vulnerable_code": "from flask import Flask, render_template, request\nimport subprocess\nimport os\n\napp = Flask(__name__)\napp.config[\"SECRET_KEY\"] = \"your-secret-key-here\"\n\n\n@app.route(\"/\")\ndef index():\n    \"\"\"Main page with command injection lab description\"\"\"\n    return render_template(\"index.html\")\n\n\n@app.route(\"/lab1\", methods=[\"GET\", \"POST\"])\ndef lab1():\n    \"\"\"Lab 1: Name Server Lookup with Command Injection\"\"\"\n    if request.method == \"POST\":\n        domain = request.form.get(\"domain\", \"\")\n        os_type = request.form.get(\"os\", \"\")\n\n        if os_type == \"win\":\n            command = f\"nslookup {domain}\"\n        else:\n            command = f\"dig {domain}\"\n\n        try:\n            # Intentionally vulnerable command execution\n            process = subprocess.Popen(\n                command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE\n            )\n            stdout, stderr = process.communicate()\n            output = stdout.decode(\"utf-8\") + stderr.decode(\"utf-8\")\n        except Exception as e:\n            output = str(e)\n\n        return render_template(\"lab1.html\", output=output)\n\n    return render_template(\"lab1.html\")\n\n\n@app.route(\"/lab2\", methods=[\"GET\", \"POST\"])\ndef lab2():\n    \"\"\"Lab 2: Python eval() Code Execution\"\"\"\n    if request.method == \"POST\":\n        try:\n            # Intentionally vulnerable eval\n            expression = request.form.get(\"val\", \"\")\n            output = eval(expression)\n            return render_template(\"lab2.html\", output=str(output))\n        except Exception as e:\n            return render_template(\"lab2.html\", output=str(e))\n    return render_template(\"lab2.html\")\n\n@app.route(\"/health\")\ndef health_check():\n    return \"OK\", 200\n\nif __name__ == '__main__':\n    app.run(host='0.0.0.0', port=5013, debug=True)\n",
+  "source": {
+    "corpus": "pygoat",
+    "url": "https://github.com/adeyosemanputra/pygoat",
+    "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+    "path": "dockerized_labs/command_injection_lab/app.py",
+    "license": "MIT"
+  }
+}

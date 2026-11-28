@@ -1,0 +1,18 @@
+{
+  "case_id": "SONARQUBE-009",
+  "scanner": "SonarQube",
+  "rule_id": "java:S2068",
+  "rule_name": "'PASSWORD' detected in this expression, review this potentially hard-coded password.",
+  "rule_description": "'PASSWORD' detected in this expression, review this potentially hard-coded password.",
+  "language": "java",
+  "file": "Main.java",
+  "line": 27,
+  "vulnerable_code": "/*\n * SPDX-FileCopyrightText: Copyright © 2025 WebGoat authors\n * SPDX-License-Identifier: GPL-2.0-or-later\n */\npackage org.owasp.webgoat.container.users;\n\nimport lombok.AllArgsConstructor;\nimport lombok.extern.slf4j.Slf4j;\nimport org.springframework.boot.ApplicationArguments;\nimport org.springframework.boot.ApplicationRunner;\nimport org.springframework.stereotype.Component;\n\n/**\n * Seeds default accounts on first startup so that the platform is immediately usable\n * without manual database intervention.\n *\n * <p>If the users already exist, their credentials are left untouched (for normal users)\n * or re-ensured (for admins), making this bean idempotent across restarts.\n */\n@Component\n@AllArgsConstructor\n@Slf4j\npublic class DefaultUserInitializer implements ApplicationRunner {\n\n  private static final String ADMIN_USERNAME = \"webgoat-admin\";\n  private static final String DEFAULT_USER_USERNAME = \"webgoat-user\";\n  private static final String DEFAULT_PASSWORD = \"webgoat\";\n\n  private final UserRepository userRepository;\n  private final UserService userService;\n\n  @Override\n  public void run(ApplicationArguments args) {\n    // 1. Seed the default admin\n    if (userRepository.existsByUsername(ADMIN_USERNAME)) {\n      // Always ensure the admin has the correct role AND the known demo password so that\n      // the credentials remain predictable after every restart regardless of mid-session resets.\n      userRepository.save(\n          new WebGoatUser(ADMIN_USERNAME, DEFAULT_PASSWORD, WebGoatUser.ROLE_ADMIN));\n      log.info(\n          \"Ensured '{}' account is WEBGOAT_ADMIN with the default demo password.\",\n          ADMIN_USERNAME);\n    } else {\n      userRepository.save(new WebGoatUser(ADMIN_USERNAME, DEFAULT_PASSWORD, WebGoatUser.ROLE_ADMIN));\n      log.info(\n          \"Created default admin account '{}' with role {}.\",\n          ADMIN_USERNAME,\n          WebGoatUser.ROLE_ADMIN);\n    }\n\n    // 2. Seed the default regular user\n    if (!userRepository.existsByUsername(DEFAULT_USER_USERNAME)) {\n      // Use UserService here because it properly provisions lessons and progress trackers\n      // for a normal user, which is required for them to actually play the game.\n      userService.addUser(DEFAULT_USER_USERNAME, DEFAULT_PASSWORD);\n      log.info(\"Created default regular user account '{}' and provisioned lessons.\", DEFAULT_USER_USERNAME);\n    } else {\n      log.info(\"Default regular user account '{}' already exists. Skipping initialization.\", DEFAULT_USER_USERNAME);\n    }\n  }\n}\n",
+  "source": {
+    "corpus": "WebGoat",
+    "url": "https://github.com/WebGoat/WebGoat",
+    "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+    "path": "src/main/java/org/owasp/webgoat/container/users/DefaultUserInitializer.java",
+    "license": "GPL-2.0-or-later"
+  }
+}

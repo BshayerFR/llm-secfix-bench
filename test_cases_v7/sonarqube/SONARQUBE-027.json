@@ -1,0 +1,18 @@
+{
+  "case_id": "SONARQUBE-027",
+  "scanner": "SonarQube",
+  "rule_id": "java:S2245",
+  "rule_name": "Make sure that using this pseudorandom number generator is safe here.",
+  "rule_description": "Make sure that using this pseudorandom number generator is safe here.",
+  "language": "java",
+  "file": "Main.java",
+  "line": 15,
+  "vulnerable_code": "/*\n * SPDX-FileCopyrightText: Copyright © 2017 WebGoat authors\n * SPDX-License-Identifier: GPL-2.0-or-later\n */\npackage org.owasp.webgoat.lessons.challenges.challenge7;\n\nimport java.util.Random;\n\n/**\n * WARNING: DO NOT CHANGE FILE WITHOUT CHANGING .git contents\n */\npublic class PasswordResetLink {\n\n  public String createPasswordReset(String username, String key) {\n    Random random = new Random();\n    if (username.equalsIgnoreCase(\"admin\")) {\n      // Admin has a fix reset link\n      random.setSeed(key.length());\n    }\n    return scramble(random, scramble(random, scramble(random, MD5.getHashString(username))));\n  }\n\n  public static String scramble(Random random, String inputString) {\n    char[] a = inputString.toCharArray();\n    for (int i = 0; i < a.length; i++) {\n      int j = random.nextInt(a.length);\n      char temp = a[i];\n      a[i] = a[j];\n      a[j] = temp;\n    }\n    return new String(a);\n  }\n\n  public static void main(String[] args) {\n    if (args == null || args.length != 2) {\n      System.out.println(\"Need a username and key\");\n      System.exit(1);\n    }\n    String username = args[0];\n    String key = args[1];\n    System.out.println(\"Generation password reset link for \" + username);\n    System.out.println(\n        \"Created password reset link: \"\n            + new PasswordResetLink().createPasswordReset(username, key));\n  }\n}\n",
+  "source": {
+    "corpus": "WebGoat",
+    "url": "https://github.com/WebGoat/WebGoat",
+    "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+    "path": "src/main/java/org/owasp/webgoat/lessons/challenges/challenge7/PasswordResetLink.java",
+    "license": "GPL-2.0-or-later"
+  }
+}

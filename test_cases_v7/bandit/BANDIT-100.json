@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-100",
+  "scanner": "Bandit",
+  "rule_id": "B608",
+  "rule_name": "hardcoded_sql_expressions",
+  "rule_description": "Possible SQL injection vector through string-based query construction.",
+  "language": "python",
+  "file": "app.py",
+  "line": 41,
+  "vulnerable_code": "# Copyright 2026 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#     https://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n# [START bigquery_multi_statement_transaction]\nfrom google.cloud import bigquery\n\n\ndef run_multi_statement_transaction(\n    project_id: str,\n    dataset_id: str,\n    source_table_id: str,\n    target_table_id: str,\n) -> None:\n    \"\"\"Executes a multi-statement SQL transaction with exception rollback handling.\n\n    Args:\n        project_id: Google Cloud project ID (for example, 'example-project').\n        dataset_id: BigQuery dataset ID containing the tables\n            (for example, 'example_dataset').\n        source_table_id: Source staging table ID to merge and clear\n            (for example, 'example_new_arrivals').\n        target_table_id: Target inventory table ID to update atomically\n            (for example, 'example_inventory').\n    \"\"\"\n    client = bigquery.Client(project=project_id)\n    source_ref = f\"{project_id}.{dataset_id}.{source_table_id}\"\n    target_ref = f\"{project_id}.{dataset_id}.{target_table_id}\"\n    # BigQuery scopes a multi-statement transaction to a single script query job, spawning child\n    # jobs for each statement and rolling back uncommitted changes on error.\n    transaction_sql = f\"\"\"\n        BEGIN\n          BEGIN TRANSACTION;\n          MERGE `{target_ref}` AS inv\n          USING `{source_ref}` AS src\n          ON inv.product = src.product\n          WHEN MATCHED THEN\n            UPDATE SET quantity = inv.quantity + src.quantity\n          WHEN NOT MATCHED THEN\n            INSERT (product, quantity) VALUES (src.product, src.quantity);\n          DELETE FROM `{source_ref}` WHERE TRUE;\n          COMMIT TRANSACTION;\n        EXCEPTION WHEN ERROR THEN\n          ROLLBACK TRANSACTION;\n          RAISE USING MESSAGE = @@error.message;\n        END;\n    \"\"\"\n    select_sql = f\"\"\"\n        SELECT\n          COUNT(*) AS inventory_rows\n        FROM `{target_ref}`;\n    \"\"\"\n\n    print(f\"Running multi-statement transaction into: {target_ref}\")\n    transaction_job = client.query(transaction_sql)\n    transaction_job.result()\n\n    count_job = client.query(select_sql)\n    rows = list(count_job.result())\n\n    inventory_rows = rows[0].inventory_rows if rows else 0\n    print(f\"Resource ID: {target_ref}\")\n    print(f\"Child Jobs: {transaction_job.num_child_jobs}\")\n    print(f\"Inventory Rows: {inventory_rows}\")\n    print(f\"Job ID: {transaction_job.job_id}\")\n    print(f\"Source Table: {source_ref}\")\n    print(\"Transaction State: COMMITTED\")\n\n\n# [END bigquery_multi_statement_transaction]\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+    "path": "bigquery/transactions/bigquery_multi_statement_transaction.py",
+    "license": "Apache-2.0"
+  }
+}

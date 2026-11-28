@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-035",
+  "scanner": "Bandit",
+  "rule_id": "B201",
+  "rule_name": "flask_debug_true",
+  "rule_description": "A Flask app appears to be run with debug=True, which exposes the Werkzeug debugger and allows the execution of arbitrary code.",
+  "language": "python",
+  "file": "app.py",
+  "line": 75,
+  "vulnerable_code": "# Copyright 2019 Google, LLC.\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#    http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\nimport json\nimport os\n\n\nfrom flask import Flask, request\n\n\napp = Flask(__name__)\n\n\n@app.route(\"/\", methods=[\"GET\"])\ndef index():\n    \"\"\"Example route to write structured log entries with request log\n    correlation.\n    \"\"\"\n    # This is set as a custom environment variable on deployment.\n    # To automatically detect the current project, use the metadata server.\n    # https://cloud.google.com/run/docs/reference/container-contract#metadata-server\n    PROJECT = os.environ[\"GOOGLE_CLOUD_PROJECT\"]\n\n    # [START cloudrun_manual_logging]\n    # Uncomment and populate this variable in your code:\n    # PROJECT = 'The project ID of your Cloud Run service';\n\n    # Build structured log messages as an object.\n    global_log_fields = {}\n\n    # Add log correlation to nest all log messages.\n    # This is only relevant in HTTP-based contexts, and is ignored elsewhere.\n    # (In particular, non-HTTP-based Cloud Functions.)\n    request_is_defined = \"request\" in globals() or \"request\" in locals()\n    if request_is_defined and request:\n        trace_header = request.headers.get(\"X-Cloud-Trace-Context\")\n\n        if trace_header and PROJECT:\n            trace = trace_header.split(\"/\")\n            global_log_fields[\n                \"logging.googleapis.com/trace\"\n            ] = f\"projects/{PROJECT}/traces/{trace[0]}\"\n\n    # Complete a structured log entry.\n    entry = dict(\n        severity=\"NOTICE\",\n        message=\"This is the default display field.\",\n        # Log viewer accesses 'component' as jsonPayload.component'.\n        component=\"arbitrary-property\",\n        **global_log_fields,\n    )\n\n    print(json.dumps(entry))\n    # [END cloudrun_manual_logging]\n\n    return \"Hello Logger!\"\n\n\nif __name__ == \"__main__\":\n    PORT = int(os.getenv(\"PORT\")) if os.getenv(\"PORT\") else 8080\n\n    # This is used when running locally. Gunicorn is used to run the\n    # application on Cloud Run. See entrypoint in Dockerfile.\n    app.run(host=\"127.0.0.1\", port=PORT, debug=True)\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+    "path": "run/logging-manual/main.py",
+    "license": "Apache-2.0"
+  }
+}

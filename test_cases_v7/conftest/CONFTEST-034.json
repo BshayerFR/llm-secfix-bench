@@ -1,0 +1,18 @@
+{
+  "case_id": "CONFTEST-034",
+  "scanner": "Conftest",
+  "rule_id": "DF001",
+  "rule_name": "Container runs as root",
+  "rule_description": "No USER instruction: the container runs as root",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 1,
+  "vulnerable_code": "FROM python:3.9-alpine\n\nWORKDIR /app\n\nCOPY requirements.txt .\nRUN pip install --no-cache-dir -r requirements.txt\n\nCOPY . .\n\nEXPOSE 5000\n\nCMD [\"python\", \"app.py\"]\n",
+  "source": {
+    "corpus": "pygoat",
+    "url": "https://github.com/adeyosemanputra/pygoat",
+    "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+    "path": "dockerized_labs/ssrf_lab/Dockerfile",
+    "license": "MIT"
+  }
+}

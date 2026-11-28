@@ -1,0 +1,18 @@
+{
+  "case_id": "HADOLINT-044",
+  "scanner": "Hadolint",
+  "rule_id": "DL3067",
+  "rule_name": "DL3067",
+  "rule_description": "Do not copy an entire filesystem from another stage",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 33,
+  "vulnerable_code": "# syntax=docker/dockerfile:1.4\nFROM --platform=$BUILDPLATFORM python:3.10-alpine AS builder\n\nWORKDIR /code\nCOPY requirements.txt /code\nRUN --mount=type=cache,target=/root/.cache/pip \\\n    pip3 install -r requirements.txt\n\nCOPY . .\n\nENV FLASK_APP hello.py\nENV FLASK_ENV development\nENV FLASK_RUN_PORT 8000\nENV FLASK_RUN_HOST 0.0.0.0\n\nEXPOSE 8000\n\nCMD [\"flask\", \"run\"]\n\nFROM builder AS dev-envs\n\nRUN <<EOF\napk update\napk add git\nEOF\n\nRUN <<EOF\naddgroup -S docker\nadduser -S --shell /bin/bash --ingroup docker vscode\nEOF\n\n# install Docker tools (cli, buildx, compose)\nCOPY --from=gloursdocker/docker / /\n\nCMD [\"flask\", \"run\"]\n",
+  "source": {
+    "corpus": "awesome-compose",
+    "url": "https://github.com/docker/awesome-compose",
+    "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+    "path": "nginx-flask-mysql/backend/Dockerfile",
+    "license": "CC0, see LICENSE"
+  }
+}

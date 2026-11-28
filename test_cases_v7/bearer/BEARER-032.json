@@ -1,0 +1,18 @@
+{
+  "case_id": "BEARER-032",
+  "scanner": "Bearer",
+  "rule_id": "java_lang_crlf_injection",
+  "rule_name": "Possible CLRF injection detected",
+  "rule_description": "## Description\n\nCRLF (Carriage Return Line Feed) injection vulnerability occurs when an attacker is able to insert a sequence of line termination characters into a log message. This can lead to forged log entries, compromising the integrity of log files.\n\n## Remediations\n\n- **Do** strip any carriage return and line feed characters from user input data before logging it. This prevents attackers from injecting malicious CRLF sequences.\n  ```java\n  logger.info(userInput.replaceAll(\"[\\r\\n]+\", \"\"));\n  ```\n\n## References\n\n- [OWASP CRLF Injection](https://owasp.org/www-community/vulnerabilities/CRLF_Injection)\n- [OWASP Logging Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html)",
+  "language": "java",
+  "file": "Main.java",
+  "line": 30,
+  "vulnerable_code": "/*\n * SPDX-FileCopyrightText: Copyright © 2017 WebGoat authors\n * SPDX-License-Identifier: GPL-2.0-or-later\n */\npackage org.owasp.webgoat.webwolf.requests;\n\nimport jakarta.servlet.http.HttpServletRequest;\nimport java.util.concurrent.Callable;\nimport lombok.extern.slf4j.Slf4j;\nimport org.springframework.http.ResponseEntity;\nimport org.springframework.stereotype.Controller;\nimport org.springframework.web.bind.annotation.RequestMapping;\nimport org.springframework.web.bind.annotation.RequestMethod;\n\n@Controller\n@Slf4j\n@RequestMapping(\"/landing/**\")\npublic class LandingPage {\n\n  @RequestMapping(\n      method = {\n        RequestMethod.POST,\n        RequestMethod.GET,\n        RequestMethod.DELETE,\n        RequestMethod.PATCH,\n        RequestMethod.PUT\n      })\n  public Callable<ResponseEntity<?>> ok(HttpServletRequest request) {\n    return () -> {\n      log.trace(\"Incoming request for: {}\", request.getRequestURL());\n      return ResponseEntity.ok().build();\n    };\n  }\n}\n",
+  "source": {
+    "corpus": "WebGoat",
+    "url": "https://github.com/WebGoat/WebGoat",
+    "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+    "path": "src/main/java/org/owasp/webgoat/webwolf/requests/LandingPage.java",
+    "license": "GPL-2.0-or-later"
+  }
+}

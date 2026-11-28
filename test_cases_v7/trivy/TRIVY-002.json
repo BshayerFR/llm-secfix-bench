@@ -1,0 +1,18 @@
+{
+  "case_id": "TRIVY-002",
+  "scanner": "Trivy",
+  "rule_id": "CVE-2024-34069:Werkzeug",
+  "rule_name": "CVE-2024-34069 in Werkzeug",
+  "rule_description": "python-werkzeug: user may execute code on a developer's machine in Werkzeug. Installed 2.2.2, fixed in 3.0.3.",
+  "language": "text",
+  "file": "requirements.txt",
+  "line": 1,
+  "vulnerable_code": "Flask==2.2.5\nFlask-SQLAlchemy==3.1.1\nFlask-Login==0.5.0\nWerkzeug==2.2.2\n",
+  "source": {
+    "corpus": "pygoat",
+    "url": "https://github.com/adeyosemanputra/pygoat",
+    "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+    "path": "dockerized_labs/insecure_design_lab/requirements.txt",
+    "license": "MIT"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "CHECKOV-085",
+  "scanner": "Checkov",
+  "rule_id": "CKV_AWS_41",
+  "rule_name": "Ensure no hard coded AWS access key and secret key exists in provider",
+  "rule_description": "Ensure no hard coded AWS access key and secret key exists in provider",
+  "language": "terraform",
+  "file": "main.tf",
+  "line": 7,
+  "vulnerable_code": "\nprovider \"aws\" {\n  profile = var.profile\n  region  = var.region\n}\n\nprovider \"aws\" {\n  alias      = \"plain_text_access_keys_provider\"\n  region     = \"us-west-1\"\n  access_key = \"AKIAIOSFODNN7EXAMPLE\"\n  secret_key = \"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY\"\n}\n\nterraform {\n  backend \"s3\" {\n    encrypt = true\n  }\n}\n",
+  "source": {
+    "corpus": "terragoat",
+    "url": "https://github.com/bridgecrewio/terragoat",
+    "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+    "path": "terraform/aws/providers.tf",
+    "license": "Apache-2.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "TRIVY-009",
+  "scanner": "Trivy",
+  "rule_id": "CVE-2023-31047:Django",
+  "rule_name": "CVE-2023-31047 in Django",
+  "rule_description": "python-django: Potential bypass of validation when uploading multiple files using one form field in Django. Installed 4.2, fixed in 3.2.19, 4.1.9, 4.2.1.",
+  "language": "text",
+  "file": "requirements.txt",
+  "line": 1,
+  "vulnerable_code": "argon2-cffi==21.3.0\nargon2-cffi-bindings==21.2.0\nasgiref==3.6.0\nblack==26.1.0\ncertifi==2022.12.7\ncffi==2.0.0\ncharset-normalizer==3.0.1\ncryptography==39.0.1\ncrispy-bootstrap4==2022.1\ndefusedxml==0.7.1\ndj-database-url==0.5.0\nDjango==4.2\ndjango-allauth==0.52.0\ndjango-crispy-forms==2.3\ngunicorn==23.0.0\nidna==3.4\noauthlib==3.2.2\nPillow==12.1.0\npre_commit==4.5.1\npycparser==2.21\nPyJWT==2.4.0\npython3-openid==3.2.0\npytz==2020.1\nPyYAML==5.1\nrequests==2.28.2\nrequests-oauthlib==1.3.1\nsqlparse==0.3.1\nurllib3==1.26.9\nWerkzeug==2.1.2\nwhitenoise==6.2.0\nzipp==3.8.0\ndocker==7.1.0\n",
+  "source": {
+    "corpus": "pygoat",
+    "url": "https://github.com/adeyosemanputra/pygoat",
+    "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+    "path": "requirements.txt",
+    "license": "MIT"
+  }
+}

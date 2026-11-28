@@ -1,0 +1,18 @@
+{
+  "case_id": "SONARQUBE-015",
+  "scanner": "SonarQube",
+  "rule_id": "java:S6418",
+  "rule_name": "'TOKEN' detected in this expression, review this potentially hard-coded secret.",
+  "rule_description": "'TOKEN' detected in this expression, review this potentially hard-coded secret.",
+  "language": "java",
+  "file": "Main.java",
+  "line": 25,
+  "vulnerable_code": "/*\n * SPDX-FileCopyrightText: Copyright © 2018 WebGoat authors\n * SPDX-License-Identifier: GPL-2.0-or-later\n */\npackage org.owasp.webgoat.lessons.jwt.claimmisuse;\n\nimport static org.hamcrest.Matchers.is;\nimport static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;\nimport static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;\n\nimport io.jsonwebtoken.Jwts;\nimport java.util.Date;\nimport java.util.HashMap;\nimport java.util.Map;\nimport java.util.concurrent.TimeUnit;\nimport org.hamcrest.CoreMatchers;\nimport org.junit.jupiter.api.BeforeEach;\nimport org.junit.jupiter.api.Test;\nimport org.owasp.webgoat.container.plugins.LessonTest;\nimport org.springframework.test.web.servlet.request.MockMvcRequestBuilders;\nimport org.springframework.test.web.servlet.setup.MockMvcBuilders;\n\npublic class JWTHeaderKIDEndpointTest extends LessonTest {\n\n  private static final String TOKEN_JERRY =\n      \"eyJraWQiOiJ3ZWJnb2F0X2tleSIsImFsZyI6IkhTNTEyIn0.eyJhdWQiOiJ3ZWJnb2F0Lm9yZyIsImVtYWlsIjoiamVycnlAd2ViZ29hdC5jb20iLCJ1c2VybmFtZSI6IkplcnJ5In0.xBc5FFwaOcuxjdr_VJ16n8Jb7vScuaZulNTl66F2MWF1aBe47QsUosvbjWGORNcMPiPNwnMu1Yb0WZVNrp2ZXA\";\n\n  @BeforeEach\n  public void setup() {\n    this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();\n  }\n\n  @Test\n  public void solveAssignment() throws Exception {\n    String key = \"deletingTom\";\n    Map<String, Object> claims = new HashMap<>();\n    claims.put(\"username\", \"Tom\");\n    String token =\n        Jwts.builder()\n            .setHeaderParam(\n                \"kid\", \"hacked' UNION select '\" + key + \"' from INFORMATION_SCHEMA.SYSTEM_USERS --\")\n            .setIssuedAt(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toDays(10)))\n            .setClaims(claims)\n            .signWith(io.jsonwebtoken.SignatureAlgorithm.HS512, key)\n            .compact();\n    mockMvc\n        .perform(MockMvcRequestBuilders.post(\"/JWT/kid/delete\").param(\"token\", token).content(\"\"))\n        .andExpect(status().isOk())\n        .andExpect(jsonPath(\"$.lessonCompleted\", is(true)));\n  }\n\n  @Test\n  public void withJerrysKeyShouldNotSolveAssignment() throws Exception {\n    mockMvc\n        .perform(\n            MockMvcRequestBuilders.post(\"/JWT/kid/delete\").param(\"token\", TOKEN_JERRY).content(\"\"))\n        .andExpect(status().isOk())\n        .andExpect(\n            jsonPath(\n                \"$.feedback\", CoreMatchers.is(messages.getMessage(\"jwt-final-jerry-account\"))));\n  }\n\n  @Test\n  public void shouldNotBeAbleToBypassWithSimpleToken() throws Exception {\n    mockMvc\n        .perform(\n            MockMvcRequestBuilders.post(\"/JWT/kid/delete\")\n                .param(\"token\", \".eyJ1c2VybmFtZSI6IlRvbSJ9.\")\n                .content(\"\"))\n        .andExpect(status().isOk())\n        .andExpect(\n            jsonPath(\"$.feedback\", CoreMatchers.is(messages.getMessage(\"jwt-invalid-token\"))));\n  }\n}\n",
+  "source": {
+    "corpus": "WebGoat",
+    "url": "https://github.com/WebGoat/WebGoat",
+    "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+    "path": "src/test/java/org/owasp/webgoat/lessons/jwt/claimmisuse/JWTHeaderKIDEndpointTest.java",
+    "license": "GPL-2.0-or-later"
+  }
+}

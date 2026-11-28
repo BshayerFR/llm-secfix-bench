@@ -1,0 +1,18 @@
+{
+  "case_id": "TRIVY-028",
+  "scanner": "Trivy",
+  "rule_id": "CVE-2011-0696:django",
+  "rule_name": "CVE-2011-0696 in django",
+  "rule_description": "Django 1.1.x before 1.1.4 and 1.2.x before 1.2.5 does not properly val ... in django. Installed 1.2, fixed in 1.1.4, 1.2.5.",
+  "language": "text",
+  "file": "requirements.txt",
+  "line": 1,
+  "vulnerable_code": "django==1.2 \n",
+  "source": {
+    "corpus": "terragoat",
+    "url": "https://github.com/bridgecrewio/terragoat",
+    "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+    "path": "packages/requirements.txt",
+    "license": "Apache-2.0"
+  }
+}

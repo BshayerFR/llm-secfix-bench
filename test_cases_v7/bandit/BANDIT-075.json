@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-075",
+  "scanner": "Bandit",
+  "rule_id": "B113",
+  "rule_name": "request_without_timeout",
+  "rule_description": "Call to requests without timeout",
+  "language": "python",
+  "file": "app.py",
+  "line": 27,
+  "vulnerable_code": "# Copyright 2026 Google LLC\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#    https://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n\ndef create_interaction() -> bool:\n    # [START googlegenaisdk_interactions_codeexecution_cropimage_with_txt_img]\n    import base64\n    import io\n    import requests\n    from PIL import Image\n    from google import genai\n    from google.genai.interactions import CodeExecution, ImageContent, TextContent\n\n    # Download the input image\n    image_path = \"https://storage.googleapis.com/cloud-samples-data/generative-ai/image/chips.jpeg\"\n    image_bytes = requests.get(image_path).content\n    b64_image = base64.b64encode(image_bytes).decode(\"utf-8\")\n\n    client = genai.Client()\n\n    interaction = client.interactions.create(\n        model=\"gemini-3.8-flash\",\n        input=[\n            ImageContent(data=b64_image, mime_type=\"image/jpeg\"),\n            TextContent(text=\"Locate the ESMT chip. What are the numbers on the chip?\"),\n        ],\n        tools=[CodeExecution()],\n    )\n\n    for step in interaction.steps:\n        if step.type == \"code_execution_call\":\n            print(\n                \"####################### 1. Generate Python Code #######################\"\n            )\n            print(step.arguments.code)\n        elif step.type == \"code_execution_result\":\n            print(\n                \"####################### 2. Executing Python Code #######################\"\n            )\n            if isinstance(step.result, str):\n                print(step.result)\n            else:\n                # The result can also be a list of content items.\n                for item in step.result:\n                    if item.type == \"text\":\n                        print(item.text)\n\n    if interaction.output_image:\n        print(\"####################### 3. Save Output #######################\")\n        image_data = base64.b64decode(interaction.output_image.data)\n        image = Image.open(io.BytesIO(image_data))\n        output_location = \"ESMT-chip-output.jpg\"\n        image.save(output_location)\n        print(f\"Output is saved to {output_location}\")\n\n    if interaction.output_text:\n        print(interaction.output_text)\n\n    # [END googlegenaisdk_interactions_codeexecution_cropimage_with_txt_img]\n    return True\n\n\nif __name__ == \"__main__\":\n    create_interaction()\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+    "path": "genai/code_execution/codeexecution_interactions_cropimage_with_txt_img.py",
+    "license": "Apache-2.0"
+  }
+}

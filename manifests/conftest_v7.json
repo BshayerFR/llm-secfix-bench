@@ -1,0 +1,347 @@
+{
+  "seed": 42,
+  "max_lines": 400,
+  "per_rule_cap": 15,
+  "corpora": {
+    "juice-shop": {
+      "url": "https://github.com/juice-shop/juice-shop",
+      "license": "MIT"
+    },
+    "WebGoat": {
+      "url": "https://github.com/WebGoat/WebGoat",
+      "license": "GPL-2.0-or-later"
+    },
+    "microservices-demo": {
+      "url": "https://github.com/GoogleCloudPlatform/microservices-demo",
+      "license": "Apache-2.0"
+    },
+    "pygoat": {
+      "url": "https://github.com/adeyosemanputra/pygoat",
+      "license": "MIT"
+    },
+    "terragoat": {
+      "url": "https://github.com/bridgecrewio/terragoat",
+      "license": "Apache-2.0"
+    },
+    "vulpy": {
+      "url": "https://github.com/fportantier/vulpy",
+      "license": "MIT"
+    },
+    "VAmPI": {
+      "url": "https://github.com/erev0s/VAmPI",
+      "license": "MIT"
+    },
+    "dvpwa": {
+      "url": "https://github.com/anxolerd/dvpwa",
+      "license": "MIT-style, see LICENSE"
+    },
+    "awesome-compose": {
+      "url": "https://github.com/docker/awesome-compose",
+      "license": "CC0, see LICENSE"
+    },
+    "example-voting-app": {
+      "url": "https://github.com/dockersamples/example-voting-app",
+      "license": "Apache-2.0"
+    },
+    "python-docs-samples": {
+      "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+      "license": "Apache-2.0"
+    }
+  },
+  "scanners": {
+    "conftest": {
+      "version": "Conftest: v0.71.1",
+      "files_staged": 219,
+      "candidates": 144,
+      "selected": 34,
+      "distinct_rules": 4,
+      "corpus_commits": {
+        "juice-shop": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+        "WebGoat": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+        "microservices-demo": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+        "pygoat": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+        "terragoat": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+        "vulpy": "5249cc8b05a1c37f6b2f757b1cf16a509c327122",
+        "VAmPI": "f16052dce83f05847133ec98f01c5193a41de7d8",
+        "dvpwa": "4a8f4a43fafcc1b304f1b97d0f0a8dea755a7756",
+        "awesome-compose": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+        "example-voting-app": "63e9150ca17af4ed05880d4245e486481f73fcb4",
+        "python-docs-samples": "3df3ff2ae7c8e1313456afa4e662244f6a275f65"
+      }
+    }
+  },
+  "cases": [
+    {
+      "case_id": "CONFTEST-001",
+      "rule_id": "DF002",
+      "corpus": "microservices-demo",
+      "path": "src/checkoutservice/Dockerfile",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "b19ef004cd24d42fd6411bff9f9b145d85098543a9a89321d401c80e698d55ba"
+    },
+    {
+      "case_id": "CONFTEST-002",
+      "rule_id": "DF001",
+      "corpus": "python-docs-samples",
+      "path": "appengine/flexible/tasks/Dockerfile",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "e8c97b9444a35fa0cc1d1840e1896d18ecc44bf4ba9b5667f7208207eb2beeb8"
+    },
+    {
+      "case_id": "CONFTEST-003",
+      "rule_id": "DF005",
+      "corpus": "python-docs-samples",
+      "path": ".kokoro/docker/Dockerfile",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "ffd416db1293f1ac95144a4aa1c649ad0fb6c382ae7d5546a711e8623eb28b76"
+    },
+    {
+      "case_id": "CONFTEST-004",
+      "rule_id": "DF004",
+      "corpus": "python-docs-samples",
+      "path": "alm/ui-examples/Dockerfile",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "2400e3f1385784b0def6ca7f10591a76c698af78b4180fd22ba70a6f19e330f7"
+    },
+    {
+      "case_id": "CONFTEST-005",
+      "rule_id": "DF002",
+      "corpus": "python-docs-samples",
+      "path": "endpoints/bookstore-grpc-transcoding/Dockerfile",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "1594300ccfe6ed5c29c651b929945616800020dd0a21c666bb026708ad125acd"
+    },
+    {
+      "case_id": "CONFTEST-006",
+      "rule_id": "DF001",
+      "corpus": "awesome-compose",
+      "path": "nginx-golang-mysql/backend/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "3848f8859f1c8ba71da2836947feeb6ab4ab990192a7c468bed5644ec07ad9f2"
+    },
+    {
+      "case_id": "CONFTEST-007",
+      "rule_id": "DF004",
+      "corpus": "awesome-compose",
+      "path": "wasmedge-mysql-nginx/backend/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "6638ad0a4891767eec335fe4527d71e6fe3aefa053775c8b86db2f6142c74aef"
+    },
+    {
+      "case_id": "CONFTEST-008",
+      "rule_id": "DF002",
+      "corpus": "python-docs-samples",
+      "path": "dataflow/flex-templates/streaming_beam/Dockerfile",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "73fc2c14d3ecff97380981d85b56b6c416586baa96de99c403c3be92df480dd3"
+    },
+    {
+      "case_id": "CONFTEST-009",
+      "rule_id": "DF001",
+      "corpus": "awesome-compose",
+      "path": "apache-php/app/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "635678522407862ac83671db5efc873c6a81f3cf2a736963f33e5449d77d1cc4"
+    },
+    {
+      "case_id": "CONFTEST-010",
+      "rule_id": "DF004",
+      "corpus": "awesome-compose",
+      "path": "wasmedge-kafka-mysql/etl/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "8c3c0f44a30451f9e4a2dea022f2338ac177cb07e203dc096391f6c3a5c29bb0"
+    },
+    {
+      "case_id": "CONFTEST-011",
+      "rule_id": "DF002",
+      "corpus": "juice-shop",
+      "path": "test/smoke/Dockerfile",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "b86b90b5069eefaf20aeb6c3a4b1d8a3c5e0bfe2a3c6fb3928487df1f470ce97"
+    },
+    {
+      "case_id": "CONFTEST-012",
+      "rule_id": "DF001",
+      "corpus": "python-docs-samples",
+      "path": "dataflow/gpu-examples/tensorflow-landsat-prime/Dockerfile",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "7db58dad9f449b138b8fd1d63a7a94285f5381c3c5523167a3af5ea0c79dd5d9"
+    },
+    {
+      "case_id": "CONFTEST-013",
+      "rule_id": "DF002",
+      "corpus": "juice-shop",
+      "path": "Dockerfile",
+      "commit": "c9f99228d9d56afb5f5ca7925376292f7fa44b13",
+      "sha256": "115a928ccdb81898e82bb18211293326598980f6a70d52db867b8dbbbc2c8945"
+    },
+    {
+      "case_id": "CONFTEST-014",
+      "rule_id": "DF001",
+      "corpus": "dvpwa",
+      "path": "Dockerfile.app",
+      "commit": "4a8f4a43fafcc1b304f1b97d0f0a8dea755a7756",
+      "sha256": "2b4e3b7e042e993c047607e81ae9067b08174681b6c3cc9efecba775243cbe5a"
+    },
+    {
+      "case_id": "CONFTEST-015",
+      "rule_id": "DF002",
+      "corpus": "python-docs-samples",
+      "path": "endpoints/getting-started/Dockerfile.custom",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "6759a1715191177e4fd0b8c56538b9de0b2092756b6d9b168f4884e68dc6406d"
+    },
+    {
+      "case_id": "CONFTEST-016",
+      "rule_id": "DF001",
+      "corpus": "awesome-compose",
+      "path": "traefik-golang/backend/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "97ea1ec53bf96f3acb3e98c99f4ce80df9f7d0ef8b3be4e9addf1132d62edec5"
+    },
+    {
+      "case_id": "CONFTEST-017",
+      "rule_id": "DF002",
+      "corpus": "python-docs-samples",
+      "path": "service_extensions/callouts/add_header/Dockerfile",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "bee092f552c23a2b383e43fe5b4bc9ee50062684209018eec79ca929ed9c2254"
+    },
+    {
+      "case_id": "CONFTEST-018",
+      "rule_id": "DF001",
+      "corpus": "awesome-compose",
+      "path": "sparkjava-mysql/backend/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "61517c2d59fa889ce163d46787bd81399c0409d2b054aa8658a205ceb4f0489e"
+    },
+    {
+      "case_id": "CONFTEST-019",
+      "rule_id": "DF002",
+      "corpus": "python-docs-samples",
+      "path": "memorystore/redis/gke_deployment/Dockerfile",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "b1e74bfbbc9249eaf51bd99ae0ce2c195e4493db079f174025f64f188becf655"
+    },
+    {
+      "case_id": "CONFTEST-020",
+      "rule_id": "DF001",
+      "corpus": "awesome-compose",
+      "path": "nginx-nodejs-redis/nginx/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "932342906a84934579ec0e3bacb6eeb420754c91f0d5a14179c5999e62d03823"
+    },
+    {
+      "case_id": "CONFTEST-021",
+      "rule_id": "DF002",
+      "corpus": "python-docs-samples",
+      "path": "dataflow/custom-containers/miniconda/Dockerfile",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "6b637d95ead5e2987796478655a5a32b04178bd84c805e30d1bea5dfb682155c"
+    },
+    {
+      "case_id": "CONFTEST-022",
+      "rule_id": "DF001",
+      "corpus": "python-docs-samples",
+      "path": "run/system-package/Dockerfile",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "e2830bc441ec5c560e8f561345a16b8c74db825900d21b0e5137faa858655cfc"
+    },
+    {
+      "case_id": "CONFTEST-023",
+      "rule_id": "DF002",
+      "corpus": "microservices-demo",
+      "path": "src/shippingservice/Dockerfile",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "9ba1bd22d507848c7dbee07b8c61146f2627656014a359ea67850c691e0ea948"
+    },
+    {
+      "case_id": "CONFTEST-024",
+      "rule_id": "DF001",
+      "corpus": "awesome-compose",
+      "path": "nginx-flask-mysql/proxy/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "6b0355ce2841aeb520c5b31620041458f28844c37c938dea8d76f4036895bf42"
+    },
+    {
+      "case_id": "CONFTEST-025",
+      "rule_id": "DF002",
+      "corpus": "microservices-demo",
+      "path": "src/frontend/Dockerfile",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "28d4fee477bd1dd4eef45b3f0a44d8f84b9e53f5061279991a0712f845805210"
+    },
+    {
+      "case_id": "CONFTEST-026",
+      "rule_id": "DF001",
+      "corpus": "python-docs-samples",
+      "path": "dataflow/custom-containers/miniconda/Dockerfile",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "a3d73fffa371c4c76bd44ac1d568a6769d41d31fd9075ca5c1121b1430696a3d"
+    },
+    {
+      "case_id": "CONFTEST-027",
+      "rule_id": "DF002",
+      "corpus": "python-docs-samples",
+      "path": "endpoints/getting-started-grpc/Dockerfile",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "3eabc488274029548d0d523b8ad0cf9eced04f9e3194c0a50551fd6ef61fc0f1"
+    },
+    {
+      "case_id": "CONFTEST-028",
+      "rule_id": "DF001",
+      "corpus": "python-docs-samples",
+      "path": "run/logging-manual/Dockerfile",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "1e75967e09b0ee8037876222d0609db60a5698916db52cf0d0160ad4e5e1df35"
+    },
+    {
+      "case_id": "CONFTEST-029",
+      "rule_id": "DF002",
+      "corpus": "python-docs-samples",
+      "path": "endpoints/bookstore-grpc/Dockerfile",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "6d80435b54b31ee7b4f7e6bd0545338d4ebb932cfd2f59902284f96915c85a4c"
+    },
+    {
+      "case_id": "CONFTEST-030",
+      "rule_id": "DF001",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/package_injection_lab/Dockerfile",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "120267bd2964d46c708a6e2d6dbc183b4b677372e212fe8bb6acde530dea3ac8"
+    },
+    {
+      "case_id": "CONFTEST-031",
+      "rule_id": "DF002",
+      "corpus": "python-docs-samples",
+      "path": "kubernetes_engine/django_tutorial/Dockerfile",
+      "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+      "sha256": "69615ae06929ae6f1e4dd1c065ddcbd8b4a9bc3ee03075243f3c5b681bcb5bf7"
+    },
+    {
+      "case_id": "CONFTEST-032",
+      "rule_id": "DF001",
+      "corpus": "awesome-compose",
+      "path": "nginx-flask-mongo/flask/Dockerfile",
+      "commit": "503c0dcef31b07fb77b2d4c5556bfafdf86f4f1a",
+      "sha256": "4e10db37ee5a430a5cf3bc04a1e68c82011b7cbc1df28c0f4fe9aa5c720876b8"
+    },
+    {
+      "case_id": "CONFTEST-033",
+      "rule_id": "DF002",
+      "corpus": "microservices-demo",
+      "path": "src/productcatalogservice/Dockerfile",
+      "commit": "c7cb6d5bfd6ea3aed768634ebbcb98cb7a523712",
+      "sha256": "35c69eb299e1d8ded328fffa77a6f398fe9032b680157e32a3ce51c13dacf91c"
+    },
+    {
+      "case_id": "CONFTEST-034",
+      "rule_id": "DF001",
+      "corpus": "pygoat",
+      "path": "dockerized_labs/ssrf_lab/Dockerfile",
+      "commit": "2aa4cc14f251e4a780e94e200aed6b36a5b15c21",
+      "sha256": "59d5ad986aba5cf6ed912e9cf25434d32cbf399a195302b527dcc147fd32e1da"
+    }
+  ]
+}

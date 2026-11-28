@@ -1,0 +1,18 @@
+{
+  "case_id": "HADOLINT-022",
+  "scanner": "Hadolint",
+  "rule_id": "DL3064",
+  "rule_name": "DL3064",
+  "rule_description": "Potentially sensitive data should not be used in the `ARG` or `ENV` commands",
+  "language": "dockerfile",
+  "file": "Dockerfile",
+  "line": 14,
+  "vulnerable_code": "FROM python:3.11-alpine as builder\nRUN apk --update add bash nano g++\nCOPY ./requirements.txt /vampi/requirements.txt\nWORKDIR /vampi\nRUN pip install -r requirements.txt\n\n# Build a fresh container, copying across files & compiled parts\nFROM python:3.11-alpine\nCOPY . /vampi\nWORKDIR /vampi\nCOPY --from=builder /usr/local/lib /usr/local/lib\nCOPY --from=builder /usr/local/bin /usr/local/bin\nENV vulnerable=1\nENV tokentimetolive=60\n\nENTRYPOINT [\"python\"]\nCMD [\"app.py\"]\n",
+  "source": {
+    "corpus": "VAmPI",
+    "url": "https://github.com/erev0s/VAmPI",
+    "commit": "f16052dce83f05847133ec98f01c5193a41de7d8",
+    "path": "Dockerfile",
+    "license": "MIT"
+  }
+}

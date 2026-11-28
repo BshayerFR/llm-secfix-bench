@@ -1,0 +1,18 @@
+{
+  "case_id": "BANDIT-048",
+  "scanner": "Bandit",
+  "rule_id": "B310",
+  "rule_name": "blacklist",
+  "rule_description": "Audit url open for permitted schemes. Allowing use of file:/ or custom schemes is often unexpected.",
+  "language": "python",
+  "file": "app.py",
+  "line": 45,
+  "vulnerable_code": "# Copyright 2020 Google, LLC.\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#    http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n# [START cloudrun_secure_request]\nimport os\nimport urllib\n\nimport google.auth.transport.requests\nimport google.oauth2.id_token\n\n\ndef new_request(data):\n    \"\"\"Creates a new HTTP request with IAM ID Token credential.\n\n    This token is automatically handled by private Cloud Run and Cloud Functions.\n\n    Args:\n        data: data for the authenticated request\n\n    Returns:\n        The response from the HTTP request\n    \"\"\"\n    url = os.environ.get(\"EDITOR_UPSTREAM_RENDER_URL\")\n    if not url:\n        raise Exception(\"EDITOR_UPSTREAM_RENDER_URL missing\")\n\n    req = urllib.request.Request(url, data=data.encode())\n    auth_req = google.auth.transport.requests.Request()\n    target_audience = url\n\n    id_token = google.oauth2.id_token.fetch_id_token(auth_req, target_audience)\n    req.add_header(\"Authorization\", f\"Bearer {id_token}\")\n\n    response = urllib.request.urlopen(req)\n    return response.read()\n\n\n# [END cloudrun_secure_request]\n",
+  "source": {
+    "corpus": "python-docs-samples",
+    "url": "https://github.com/GoogleCloudPlatform/python-docs-samples",
+    "commit": "3df3ff2ae7c8e1313456afa4e662244f6a275f65",
+    "path": "run/markdown-preview/editor/render.py",
+    "license": "Apache-2.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "SONARQUBE-005",
+  "scanner": "SonarQube",
+  "rule_id": "javascript:S2068",
+  "rule_name": "Review this potentially hard-coded password.",
+  "rule_description": "Review this potentially hard-coded password.",
+  "language": "javascript",
+  "file": "app.js",
+  "line": 10,
+  "vulnerable_code": "$(document).ready(function () {\n    login('Jerry');\n})\n\nfunction login(user) {\n    $.ajax({\n        type: 'POST',\n        url: 'JWT/refresh/login',\n        contentType: \"application/json\",\n        data: JSON.stringify({user: user, password: \"bm5nhSkxCXZkKRy4\"})\n    }).success(\n        function (response) {\n            localStorage.setItem('access_token', response['access_token']);\n            localStorage.setItem('refresh_token', response['refresh_token']);\n        }\n    )\n}\n\n//Dev comment: Pass token as header as we had an issue with tokens ending up in the access_log\nwebgoat.customjs.addBearerToken = function () {\n    var headers_to_set = {};\n    headers_to_set['Authorization'] = 'Bearer ' + localStorage.getItem('access_token');\n    return headers_to_set;\n}\n\n//Dev comment: Temporarily disabled from page we need to work out the refresh token flow but for now we can go live with the checkout page\nfunction newToken() {\n    localStorage.getItem('refreshToken');\n    $.ajax({\n        headers: {\n            'Authorization': 'Bearer ' + localStorage.getItem('access_token')\n        },\n        type: 'POST',\n        url: 'JWT/refresh/newToken',\n        data: JSON.stringify({refresh_token: localStorage.getItem('refresh_token')})\n    }).success(\n        function () {\n            localStorage.setItem('access_token', apiToken);\n            localStorage.setItem('refresh_token', refreshToken);\n        }\n    )\n}\n",
+  "source": {
+    "corpus": "WebGoat",
+    "url": "https://github.com/WebGoat/WebGoat",
+    "commit": "4e98f1cbbf896fdd06edcc9930515ebe0ade7c69",
+    "path": "src/main/resources/lessons/jwt/js/jwt-refresh.js",
+    "license": "GPL-2.0-or-later"
+  }
+}
